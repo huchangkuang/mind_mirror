@@ -15,6 +15,10 @@ const dbConfig = {
   port: parseInt(process.env.DATABASE_PORT || "3306", 10),
   user: process.env.DATABASE_USER || "root",
   password: process.env.DATABASE_PASSWORD || "",
+  // MariaDB/MySQL 认证插件兼容
+  authPlugins: {
+    mysql_native_password: () => () => Buffer.from(process.env.DATABASE_PASSWORD || ""),
+  },
   database: process.env.DATABASE_NAME || "mind_mirror",
   charset: "utf8mb4",
   // 连接超时配置
