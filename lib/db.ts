@@ -88,8 +88,8 @@ async function initializeDatabase() {
     );
     console.log(`[DB] Database '${dbConfig.database}' ensured`);
 
-    // Step 3: Use the database
-    await connection.execute(`USE ${dbConfig.database}`);
+    // Step 3: Use the database (use query() instead of execute() for USE command)
+    await connection.query(`USE ${dbConfig.database}`);
 
     // Step 4: Create tests table
     await connection.execute(`
