@@ -84,13 +84,13 @@ export const useMbtiStore = create<MbtiState>((set, get) => ({
     }
   },
 
-  submit() {
+  async submit() {
     const { questions, answers, meta } = get();
     if (!questions.length) return;
     const result = computeMbtiResult({ questions, answers });
     set({ result, isSubmitted: true });
     get().persist();
-    saveRecord({
+    await saveRecord({
       timestamp: Date.now(),
       type: result.type,
       dimensionStrength: result.dimensionStrength,

@@ -1,9 +1,9 @@
 /**
- * 本地历史记录读写（mbti-history-storage 规范）
+ * MBTI History Storage - API Based
+ * Replaces localStorage with MySQL-backed API
  */
 
-const HISTORY_KEY = "mbti-test-history";
-const MAX_HISTORY = 10;
+import { fetchHistory, saveHistory, type HistoryRecord as ApiHistoryRecord } from "@/lib/api/history";
 
 export interface HistoryRecord {
   timestamp: number;
@@ -12,30 +12,48 @@ export interface HistoryRecord {
   version?: string;
 }
 
-export function readHistory(): HistoryRecord[] {
-  if (typeof window === "undefined") return [];
+/**
+ * Read MBTI history records from API
+ * Converts API format to local format for backward compatibility
+ */
+export async function readHistory(): Promise<HistoryRecord[]> {
   try {
-    const raw = window.localStorage.getItem(HISTORY_KEY);
-    if (!raw) return [];
-    const list = JSON.parse(raw) as unknown[];
-    return Array.isArray(list) ? list.filter(isValidRecord) : [];
+    const records = await fetchHistory("mbti");
+    return records.map((record) => ({
+      timestamp: new Date(record.created_at).getTime(),
+      type: (record.result as { type?: string })?.type || "",
+      dimensionStrength: (record.result as { dimensionStrength?: Record<string, number> })?.dimensionStrength || {},
+      version: (record.result as { version?: string })?.version,
+    })).filter(isValidRecord);
   } catch {
     return [];
   }
 }
 
-export function saveRecord(record: HistoryRecord): void {
-  if (typeof window === "undefined") return;
+/**
+ * Save MBTI record to API
+ */
+export async function saveRecord(record: HistoryRecord): Promise<void> {
   try {
-    const list = readHistory();
-    list.unshift(record);
-    const trimmed = list.slice(0, MAX_HISTORY);
-    window.localStorage.setItem(HISTORY_KEY, JSON.stringify(trimmed));
+    await saveHistory({
+      test_id: "mbti",
+      result: {
+        type: record.type,
+        dimensionStrength: record.dimensionStrength,
+        version: record.version,
+      },
+      result_summary: record.type,
+    });
   } catch {
     // ignore
   }
 }
 
 function isValidRecord(r: unknown): r is HistoryRecord {
-  return !!r && typeof r === "object" && typeof (r as Record<string, unknown>).timestamp === "number" && typeof (r as Record<string, unknown>).type === "string";
+  return (
+    !!r &&
+    typeof r === "object" &&
+    typeof (r as Record<string, unknown>).timestamp === "number" &&
+    typeof (r as Record<string, unknown>).type === "string"
+  );
 }

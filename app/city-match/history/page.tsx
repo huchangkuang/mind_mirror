@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
+import { Loader2 } from "lucide-react";
 import { readHistory, clearHistory, type CityMatchHistoryRecord } from "@/lib/city-match/history-storage";
 import { getDimensionLabel, scoreToPercentage } from "@/lib/city-match/scoring";
 import type { DimensionScores } from "@/lib/city-match/types";
@@ -12,18 +13,61 @@ const DIMENSION_KEYS: Array<keyof DimensionScores> = ["lifestyle", "social", "en
 
 export default function CityMatchHistoryPage() {
   const [list, setList] = useState<CityMatchHistoryRecord[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
   useEffect(() => {
-    setList(readHistory().sort((a, b) => b.timestamp - a.timestamp));
+    async function loadHistory() {
+      try {
+        const history = await readHistory();
+        setList(history.sort((a, b) => b.timestamp - a.timestamp));
+      } catch (err) {
+        console.error("Error loading history:", err);
+        setError("加载历史记录失败");
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadHistory();
   }, []);
 
-  const handleClear = () => {
+  const handleClear = async () => {
     if (confirm("确定要清除所有历史记录吗？此操作不可恢复。")) {
-      clearHistory();
-      setList([]);
+      try {
+        await clearHistory();
+        setList([]);
+      } catch (err) {
+        console.error("Error clearing history:", err);
+        alert("清除历史记录失败");
+      }
     }
   };
+
+  if (loading) {
+    return (
+      <main className="min-h-screen p-6 max-w-2xl mx-auto flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="w-8 h-8 animate-spin text-emerald-500 mx-auto mb-4" />
+          <p className="text-gray-600 dark:text-gray-400">加载中...</p>
+        </div>
+      </main>
+    );
+  }
+
+  if (error) {
+    return (
+      <main className="min-h-screen p-6 max-w-2xl mx-auto">
+        <Card>
+          <p className="text-red-600 dark:text-red-400">{error}</p>
+          <Link href="/city-match" className="mt-4 inline-block">
+            <Button variant="secondary">返回首页</Button>
+          </Link>
+        </Card>
+      </main>
+    );
+  }
 
   return (
     <main className="min-h-screen p-6 max-w-2xl mx-auto">

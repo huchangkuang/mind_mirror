@@ -1,33 +1,97 @@
 "use client";
 
 import Link from "next/link";
-import { Brain, Building2, ArrowRight, Sparkles, Clock, Heart } from "lucide-react";
+import { useEffect, useState } from "react";
+import {
+  Brain,
+  Building2,
+  ArrowRight,
+  Sparkles,
+  Clock,
+  Heart,
+  Loader2,
+} from "lucide-react";
 
-// 测试项目数据
-const tests = [
-  {
-    id: "mbti",
-    title: "MBTI 人格测试",
-    description: "探索你的性格类型，了解自己的行为模式和独特优势",
-    icon: Brain,
-    duration: "5分钟",
-    featured: true,
-    href: "/mbti",
-    color: "from-blue-500 to-purple-600",
-  },
-  {
-    id: "city-match",
-    title: "性格匹配城市测试",
-    description: "发现最适合你性格的理想居住城市，开启全新生活篇章",
-    icon: Building2,
-    duration: "5分钟",
-    featured: false,
-    href: "/city-match",
-    color: "from-emerald-500 to-teal-600",
-  },
-];
+// Icon mapping from string name to component
+const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+  Brain,
+  Building2,
+};
+
+interface Test {
+  id: number;
+  test_id: string;
+  title: string;
+  description: string;
+  icon_name: string;
+  duration: string;
+  featured: boolean;
+  href: string;
+  color_from: string;
+  color_to: string;
+}
 
 export default function Home() {
+  const [tests, setTests] = useState<Test[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function fetchTests() {
+      try {
+        const response = await fetch("/api/tests");
+        if (!response.ok) {
+          throw new Error("Failed to fetch tests");
+        }
+        const data = await response.json();
+        setTests(data.tests || []);
+      } catch (err) {
+        console.error("Error fetching tests:", err);
+        setError("无法加载测试数据，请稍后重试");
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchTests();
+  }, []);
+
+  // Get icon component by name
+  const getIcon = (iconName: string) => {
+    return iconMap[iconName] || Brain;
+  };
+
+  // Build gradient color string
+  const getColor = (from: string, to: string) => {
+    return `${from} ${to}`;
+  };
+
+  if (loading) {
+    return (
+      <main className="min-h-screen bg-slate-50 dark:bg-slate-900 flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="w-10 h-10 animate-spin text-blue-500 mx-auto mb-4" />
+          <p className="text-slate-600 dark:text-slate-400">加载中...</p>
+        </div>
+      </main>
+    );
+  }
+
+  if (error) {
+    return (
+      <main className="min-h-screen bg-slate-50 dark:bg-slate-900 flex items-center justify-center">
+        <div className="text-center max-w-md mx-auto px-4">
+          <p className="text-red-600 dark:text-red-400 mb-4">{error}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            重新加载
+          </button>
+        </div>
+      </main>
+    );
+  }
   return (
     <main className="min-h-screen bg-slate-50 dark:bg-slate-900 overflow-x-hidden">
       {/* Hero Section */}
@@ -80,58 +144,63 @@ export default function Home() {
           </div>
 
           <div className="grid sm:grid-cols-2 gap-6 lg:gap-8 max-w-4xl mx-auto">
-            {tests.map((test) => (
-              <Link
-                key={test.id}
-                href={test.href}
-                className="group relative bg-white dark:bg-slate-800 rounded-3xl p-8 shadow-sm hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 overflow-hidden"
-              >
-                {/* Gradient Border on Hover */}
-                <div className={`absolute inset-0 rounded-3xl bg-gradient-to-r ${test.color} opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10 blur-sm`} />
-                <div className="absolute inset-[2px] rounded-3xl bg-white dark:bg-slate-800 -z-10" />
+            {tests.map((test) => {
+              const IconComponent = getIcon(test.icon_name);
+              const colorGradient = getColor(test.color_from, test.color_to);
 
-                {/* Featured Badge */}
-                {test.featured && (
-                  <div className="absolute top-4 right-4">
-                    <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-xs font-medium">
-                      <Sparkles className="w-3 h-3" />
-                      推荐
+              return (
+                <Link
+                  key={test.test_id}
+                  href={test.href}
+                  className="group relative bg-white dark:bg-slate-800 rounded-3xl p-8 shadow-sm hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 overflow-hidden"
+                >
+                  {/* Gradient Border on Hover */}
+                  <div className={`absolute inset-0 rounded-3xl bg-gradient-to-r ${colorGradient} opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10 blur-sm`} />
+                  <div className="absolute inset-[2px] rounded-3xl bg-white dark:bg-slate-800 -z-10" />
+
+                  {/* Featured Badge */}
+                  {test.featured && (
+                    <div className="absolute top-4 right-4">
+                      <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-xs font-medium">
+                        <Sparkles className="w-3 h-3" />
+                        推荐
+                      </span>
+                    </div>
+                  )}
+
+                  {/* Icon */}
+                  <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${colorGradient} flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                    <IconComponent className="w-8 h-8 text-white" />
+                  </div>
+
+                  {/* Content */}
+                  <h3 className="font-outfit text-2xl font-bold text-slate-900 dark:text-white mb-3">
+                    {test.title}
+                  </h3>
+                  <p className="text-slate-600 dark:text-slate-300 mb-6 leading-relaxed">
+                    {test.description}
+                  </p>
+
+                  {/* Meta & CTA */}
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-4 text-sm text-slate-500 dark:text-slate-400">
+                      <span className="flex items-center gap-1">
+                        <Clock className="w-4 h-4" />
+                        {test.duration}
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <Heart className="w-4 h-4" />
+                        免费
+                      </span>
+                    </div>
+                    <span className="inline-flex items-center gap-1 text-blue-600 dark:text-blue-400 font-medium group-hover:gap-2 transition-all">
+                      开始测试
+                      <ArrowRight className="w-4 h-4" />
                     </span>
                   </div>
-                )}
-
-                {/* Icon */}
-                <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${test.color} flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
-                  <test.icon className="w-8 h-8 text-white" />
-                </div>
-
-                {/* Content */}
-                <h3 className="font-outfit text-2xl font-bold text-slate-900 dark:text-white mb-3">
-                  {test.title}
-                </h3>
-                <p className="text-slate-600 dark:text-slate-300 mb-6 leading-relaxed">
-                  {test.description}
-                </p>
-
-                {/* Meta & CTA */}
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-4 text-sm text-slate-500 dark:text-slate-400">
-                    <span className="flex items-center gap-1">
-                      <Clock className="w-4 h-4" />
-                      {test.duration}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <Heart className="w-4 h-4" />
-                      免费
-                    </span>
-                  </div>
-                  <span className="inline-flex items-center gap-1 text-blue-600 dark:text-blue-400 font-medium group-hover:gap-2 transition-all">
-                    开始测试
-                    <ArrowRight className="w-4 h-4" />
-                  </span>
-                </div>
-              </Link>
-            ))}
+                </Link>
+              );
+            })}
           </div>
         </div>
       </section>

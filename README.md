@@ -1,6 +1,6 @@
-# Mind Mirror - MBTI 性格测试
+# Mind Mirror - 心理测试探索平台
 
-基于 Next.js + TypeScript + Tailwind CSS + Zustand 的 MBTI 性格测试网站。
+基于 Next.js + TypeScript + Tailwind CSS + Zustand + MySQL 的心理测试平台，支持 MBTI 人格测试和城市匹配测试。
 
 ## 技术栈
 
@@ -8,7 +8,9 @@
 - **TypeScript**
 - **Tailwind CSS**
 - **Zustand**（状态管理）
-- **Next.js API Routes**（`/api/mbti/questions`、`/api/mbti/submit`）
+- **MySQL**（数据持久化）
+- **mysql2**（数据库驱动）
+- **Next.js API Routes**（RESTful API）
 
 ## 项目结构
 
@@ -26,6 +28,32 @@
 └── openspec/               # OpenSpec 变更与规范
 ```
 
+## 数据库配置
+
+### 本地开发环境
+
+1. 确保本地 MySQL 已安装并运行
+2. 复制 `.env.local` 并配置数据库连接信息：
+   ```
+   DATABASE_HOST=localhost
+   DATABASE_PORT=3306
+   DATABASE_USER=root
+   DATABASE_PASSWORD=your-password
+   DATABASE_NAME=mind_mirror
+   ```
+3. 初始化数据库：
+   ```bash
+   mysql -u root -p < scripts/init-database.sql
+   ```
+
+### 生产环境 (ECS)
+
+1. 复制 `.env.production` 并填写实际配置
+2. 在 ECS 服务器上创建数据库和表结构：
+   ```bash
+   mysql -u your-user -p -h your-ecs-host < scripts/init-database.sql
+   ```
+
 ## 启动方式
 
 ```bash
@@ -42,7 +70,7 @@ npm run build
 npm start
 ```
 
-开发环境下访问 [http://localhost:3000](http://localhost:3000)，首页可进入 MBTI 测试。
+开发环境下访问 [http://localhost:3000](http://localhost:3000)，首页可进入 MBTI 测试或城市匹配测试。
 
 ## 测试
 
