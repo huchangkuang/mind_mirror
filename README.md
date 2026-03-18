@@ -30,6 +30,8 @@
 
 ## 数据库配置
 
+数据库会自动初始化，无需手动执行 SQL 脚本。
+
 ### 本地开发环境
 
 1. 确保本地 MySQL 已安装并运行
@@ -41,18 +43,13 @@
    DATABASE_PASSWORD=your-password
    DATABASE_NAME=mind_mirror
    ```
-3. 初始化数据库：
-   ```bash
-   mysql -u root -p < scripts/init-database.sql
-   ```
+3. 启动应用时会自动创建数据库、表和初始数据
 
 ### 生产环境 (ECS)
 
 1. 复制 `.env.production` 并填写实际配置
-2. 在 ECS 服务器上创建数据库和表结构：
-   ```bash
-   mysql -u your-user -p -h your-ecs-host < scripts/init-database.sql
-   ```
+2. 确保 ECS 服务器上的 MySQL 可访问
+3. 启动应用时会自动完成数据库初始化
 
 ## 启动方式
 
