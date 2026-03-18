@@ -1,0 +1,10 @@
+{
+  "/api/mbti/questions/route": "/api/mbti/questions",
+  "/api/mbti/submit/route": "/api/mbti/submit",
+  "/_not-found/page": "/_not-found",
+  "/mbti/history/page": "/mbti/history",
+  "/mbti/page": "/mbti",
+  "/mbti/result/page": "/mbti/result",
+  "/mbti/test/page": "/mbti/test",
+  "/page": "/"
+}
