@@ -16,10 +16,32 @@ const dbConfig = {
   user: process.env.DATABASE_USER || "root",
   password: process.env.DATABASE_PASSWORD || "",
   database: process.env.DATABASE_NAME || "mind_mirror",
+  charset: "utf8mb4",
+  // 连接超时配置
+  connectTimeout: 10000,        // 10秒连接超时
+  acquireTimeout: 10000,        // 获取连接超时
+  timeout: 10000,                 // 查询超时
+  // 连接池配置
+  connectionLimit: 5,
+  queueLimit: 0,
 };
 
 // Track if database has been initialized
 let isDatabaseInitialized = false;
+
+// 连接池实例
+let pool: mysql.Pool | null = null;
+
+/**
+ * Create a database connection pool
+ * @returns MySQL pool object
+ */
+function getPool() {
+  if (!pool) {
+    pool = mysql.createPool(dbConfig);
+  }
+  return pool;
+}
 
 /**
  * Create a database connection
@@ -33,15 +55,8 @@ export async function createConnection() {
       isDatabaseInitialized = true;
     }
 
-    const connection = await mysql.createConnection({
-      host: dbConfig.host,
-      port: dbConfig.port,
-      user: dbConfig.user,
-      password: dbConfig.password,
-      database: dbConfig.database,
-      charset: "utf8mb4",
-    });
-    return connection;
+    // 从连接池获取连接
+    return await getPool().getConnection();
   } catch (error) {
     console.error("Database connection error:", error);
     throw new Error("Failed to connect to database");
@@ -62,6 +77,8 @@ async function initializeDatabase() {
       port: dbConfig.port,
       user: dbConfig.user,
       password: dbConfig.password,
+      charset: "utf8mb4",
+      connectTimeout: 10000,
     });
 
     // Step 2: Create database if not exists
@@ -183,7 +200,7 @@ export async function query<T = unknown>(sql: string, params?: ExecuteValues[]):
     const [rows] = await connection.execute(sql, params);
     return rows as T[];
   } finally {
-    await connection.end();
+    connection.release();
   }
 }
 
@@ -210,7 +227,7 @@ export async function insert(sql: string, params?: ExecuteValues[]): Promise<num
     const [result] = await connection.execute(sql, params);
     return (result as mysql.OkPacket).insertId;
   } finally {
-    await connection.end();
+    connection.release();
   }
 }
 
@@ -226,6 +243,6 @@ export async function execute(sql: string, params?: ExecuteValues[]): Promise<nu
     const [result] = await connection.execute(sql, params);
     return (result as mysql.OkPacket).affectedRows;
   } finally {
-    await connection.end();
+    connection.release();
   }
 }
