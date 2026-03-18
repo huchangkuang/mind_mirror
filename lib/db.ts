@@ -6,6 +6,9 @@
 
 import mysql from "mysql2/promise";
 
+// Type for MySQL execute values
+type ExecuteValues = string | number | boolean | Date | Buffer | null;
+
 // Database configuration from environment variables
 const dbConfig = {
   host: process.env.DATABASE_HOST || "localhost",
@@ -174,7 +177,7 @@ async function seedInitialData(connection: mysql.Connection) {
  * @param params Query parameters
  * @returns Query results
  */
-export async function query<T = unknown>(sql: string, params?: unknown[]): Promise<T[]> {
+export async function query<T = unknown>(sql: string, params?: ExecuteValues[]): Promise<T[]> {
   const connection = await createConnection();
   try {
     const [rows] = await connection.execute(sql, params);
@@ -190,7 +193,7 @@ export async function query<T = unknown>(sql: string, params?: unknown[]): Promi
  * @param params Query parameters
  * @returns Single row result or null
  */
-export async function queryOne<T = unknown>(sql: string, params?: unknown[]): Promise<T | null> {
+export async function queryOne<T = unknown>(sql: string, params?: ExecuteValues[]): Promise<T | null> {
   const results = await query<T>(sql, params);
   return results.length > 0 ? results[0] : null;
 }
@@ -201,7 +204,7 @@ export async function queryOne<T = unknown>(sql: string, params?: unknown[]): Pr
  * @param params Query parameters
  * @returns Insert ID
  */
-export async function insert(sql: string, params?: unknown[]): Promise<number> {
+export async function insert(sql: string, params?: ExecuteValues[]): Promise<number> {
   const connection = await createConnection();
   try {
     const [result] = await connection.execute(sql, params);
@@ -217,7 +220,7 @@ export async function insert(sql: string, params?: unknown[]): Promise<number> {
  * @param params Query parameters
  * @returns Number of affected rows
  */
-export async function execute(sql: string, params?: unknown[]): Promise<number> {
+export async function execute(sql: string, params?: ExecuteValues[]): Promise<number> {
   const connection = await createConnection();
   try {
     const [result] = await connection.execute(sql, params);

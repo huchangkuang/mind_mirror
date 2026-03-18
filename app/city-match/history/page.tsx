@@ -5,9 +5,9 @@ import Link from "next/link";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Loader2 } from "lucide-react";
-import { readHistory, clearHistory, type CityMatchHistoryRecord } from "@/lib/city-match/history-storage";
+import { readHistory, clearHistory } from "@/lib/city-match/history-storage";
 import { getDimensionLabel, scoreToPercentage } from "@/lib/city-match/scoring";
-import type { DimensionScores } from "@/lib/city-match/types";
+import type { DimensionScores, CityMatchHistoryRecord } from "@/lib/city-match/types";
 
 const DIMENSION_KEYS: Array<keyof DimensionScores> = ["lifestyle", "social", "environment", "pace"];
 
