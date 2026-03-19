@@ -7,6 +7,7 @@ import type { AuthStatus, AuthUser } from "@/lib/auth/types";
 interface AuthState {
   status: AuthStatus;
   user: AuthUser | null;
+  isFeedbackModerator: boolean;
   error: string | null;
   bootstrapped: boolean;
   bootstrap: () => Promise<void>;
@@ -19,6 +20,7 @@ interface AuthState {
 export const useAuthStore = create<AuthState>((set, get) => ({
   status: "loading",
   user: null,
+  isFeedbackModerator: false,
   error: null,
   bootstrapped: false,
 
@@ -29,29 +31,36 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       const response = await fetchCurrentUser();
       set({
         user: response.user,
+        isFeedbackModerator: response.isFeedbackModerator,
         status: response.authenticated ? "authenticated" : "guest",
         bootstrapped: true,
       });
     } catch {
-      set({ user: null, status: "guest", bootstrapped: true });
+      set({ user: null, isFeedbackModerator: false, status: "guest", bootstrapped: true });
     }
   },
 
   async login(username, password) {
     set({ error: null });
-    const { user } = await loginAccount(username, password);
-    set({ user, status: "authenticated", bootstrapped: true });
+    const { user, isFeedbackModerator } = await loginAccount(username, password);
+    set({ user, isFeedbackModerator, status: "authenticated", bootstrapped: true });
   },
 
   async register(username, password) {
     set({ error: null });
-    const { user } = await registerAccount(username, password);
-    set({ user, status: "authenticated", bootstrapped: true });
+    const { user, isFeedbackModerator } = await registerAccount(username, password);
+    set({ user, isFeedbackModerator, status: "authenticated", bootstrapped: true });
   },
 
   async logout() {
     await logoutAccount();
-    set({ user: null, status: "guest", bootstrapped: true, error: null });
+    set({
+      user: null,
+      isFeedbackModerator: false,
+      status: "guest",
+      bootstrapped: true,
+      error: null,
+    });
   },
 
   clearError() {

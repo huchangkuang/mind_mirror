@@ -3,6 +3,7 @@ import { insert, queryOne } from "@/lib/db";
 import { hashPassword } from "@/lib/auth/password";
 import { createSession, setSessionCookie } from "@/lib/auth/session";
 import { normalizeUsername, validateCredentials } from "@/lib/auth/validation";
+import { isFeedbackModerator } from "@/lib/feedback/admin";
 
 interface UserRow {
   id: number;
@@ -34,7 +35,13 @@ export async function POST(request: Request) {
     ]);
 
     const token = await createSession(userId);
-    const response = NextResponse.json({ user: { id: userId, username } }, { status: 201 });
+    const response = NextResponse.json(
+      {
+        user: { id: userId, username },
+        isFeedbackModerator: isFeedbackModerator(username),
+      },
+      { status: 201 }
+    );
     setSessionCookie(response, token);
     return response;
   } catch (error) {

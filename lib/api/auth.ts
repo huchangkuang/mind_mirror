@@ -3,10 +3,12 @@ import type { AuthUser } from "@/lib/auth/types";
 interface AuthResponse {
   authenticated: boolean;
   user: AuthUser | null;
+  isFeedbackModerator: boolean;
 }
 
 interface AuthActionResponse {
   user: AuthUser;
+  isFeedbackModerator: boolean;
 }
 
 export async function fetchCurrentUser(): Promise<AuthResponse> {
@@ -14,7 +16,16 @@ export async function fetchCurrentUser(): Promise<AuthResponse> {
   if (!response.ok) {
     throw new Error("Failed to fetch auth state");
   }
-  return (await response.json()) as AuthResponse;
+  const data = (await response.json()) as {
+    authenticated?: boolean;
+    user?: AuthUser | null;
+    isFeedbackModerator?: boolean;
+  };
+  return {
+    authenticated: Boolean(data.authenticated),
+    user: data.user ?? null,
+    isFeedbackModerator: Boolean(data.isFeedbackModerator),
+  };
 }
 
 export async function registerAccount(username: string, password: string): Promise<AuthActionResponse> {
@@ -24,11 +35,15 @@ export async function registerAccount(username: string, password: string): Promi
     credentials: "include",
     body: JSON.stringify({ username, password }),
   });
-  const body = (await response.json()) as { message?: string; user?: AuthUser };
+  const body = (await response.json()) as {
+    message?: string;
+    user?: AuthUser;
+    isFeedbackModerator?: boolean;
+  };
   if (!response.ok || !body.user) {
     throw new Error(body.message || "注册失败");
   }
-  return { user: body.user };
+  return { user: body.user, isFeedbackModerator: Boolean(body.isFeedbackModerator) };
 }
 
 export async function loginAccount(username: string, password: string): Promise<AuthActionResponse> {
@@ -38,11 +53,15 @@ export async function loginAccount(username: string, password: string): Promise<
     credentials: "include",
     body: JSON.stringify({ username, password }),
   });
-  const body = (await response.json()) as { message?: string; user?: AuthUser };
+  const body = (await response.json()) as {
+    message?: string;
+    user?: AuthUser;
+    isFeedbackModerator?: boolean;
+  };
   if (!response.ok || !body.user) {
     throw new Error(body.message || "登录失败");
   }
-  return { user: body.user };
+  return { user: body.user, isFeedbackModerator: Boolean(body.isFeedbackModerator) };
 }
 
 export async function logoutAccount(): Promise<void> {

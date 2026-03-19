@@ -5,14 +5,15 @@
 @tailwind utilities;
 
 :root {
-  --background: #fafafa;
-  --foreground: #171717;
+  --background: #f8fafc;
+  --foreground: #0f172a;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    /* 深蓝灰底，避免纯黑「死区」感，与 Tailwind slate 系页面一致 */
+    --background: #0f172a;
+    --foreground: #f1f5f9;
   }
 }
 

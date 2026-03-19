@@ -70,6 +70,7 @@ describe("auth routes", () => {
 
     expect(res.status).toBe(201);
     expect(body.user).toEqual({ id: 1001, username: "new_user" });
+    expect(body.isFeedbackModerator).toBe(false);
     expect(mockedSetSessionCookie).toHaveBeenCalled();
   });
 
@@ -107,5 +108,17 @@ describe("auth routes", () => {
     expect(res.status).toBe(200);
     expect(body.authenticated).toBe(true);
     expect(body.user).toEqual({ id: 9, username: "alice" });
+    expect(body.isFeedbackModerator).toBe(false);
+  });
+
+  it("me marks feedback moderator for whitelist username", async () => {
+    mockedCleanExpiredSessions.mockResolvedValueOnce(undefined);
+    mockedGetAuthUserFromCookie.mockResolvedValueOnce({ id: 1, username: "15967537583" });
+
+    const res = await meGet();
+    const body = await res.json();
+
+    expect(res.status).toBe(200);
+    expect(body.isFeedbackModerator).toBe(true);
   });
 });

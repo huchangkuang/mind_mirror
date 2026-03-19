@@ -11,7 +11,7 @@ import {
   Heart,
   Loader2,
 } from "lucide-react";
-import { AuthStatusPanel } from "@/components/auth/AuthStatusPanel";
+import { SiteHeader } from "@/components/layout/SiteHeader";
 
 // Icon mapping from string name to component
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -69,10 +69,13 @@ export default function Home() {
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-slate-50 dark:bg-slate-900 flex items-center justify-center">
-        <div className="text-center">
-          <Loader2 className="w-10 h-10 animate-spin text-blue-500 mx-auto mb-4" />
-          <p className="text-slate-600 dark:text-slate-400">加载中...</p>
+      <main className="min-h-screen bg-slate-50 dark:bg-slate-900">
+        <SiteHeader returnTo="/" />
+        <div className="flex items-center justify-center min-h-[50vh]">
+          <div className="text-center">
+            <Loader2 className="w-10 h-10 animate-spin text-blue-500 mx-auto mb-4" />
+            <p className="text-slate-600 dark:text-slate-400">加载中...</p>
+          </div>
         </div>
       </main>
     );
@@ -80,22 +83,25 @@ export default function Home() {
 
   if (error) {
     return (
-      <main className="min-h-screen bg-slate-50 dark:bg-slate-900 flex items-center justify-center">
-        <div className="text-center max-w-md mx-auto px-4">
-          <p className="text-red-600 dark:text-red-400 mb-4">{error}</p>
-          <button
-            onClick={() => window.location.reload()}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-          >
-            重新加载
-          </button>
+      <main className="min-h-screen bg-slate-50 dark:bg-slate-900">
+        <SiteHeader returnTo="/" />
+        <div className="flex items-center justify-center min-h-[50vh] px-4">
+          <div className="text-center max-w-md mx-auto">
+            <p className="text-red-600 dark:text-red-400 mb-4">{error}</p>
+            <button
+              onClick={() => window.location.reload()}
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            >
+              重新加载
+            </button>
+          </div>
         </div>
       </main>
     );
   }
   return (
     <main className="min-h-screen bg-slate-50 dark:bg-slate-900 overflow-x-hidden">
-      {/* Hero Section */}
+      {/* Hero Section — 顶栏透明叠在渐变上 */}
       <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden">
         {/* Background Gradient */}
         <div className="absolute inset-0 gradient-hero" />
@@ -107,12 +113,10 @@ export default function Home() {
           <div className="absolute bottom-20 left-1/3 w-80 h-80 bg-blue-400/20 rounded-full blur-3xl animate-float" />
         </div>
 
-        <div className="absolute top-4 right-4 sm:top-6 sm:right-6 lg:top-8 lg:right-8 z-20">
-          <AuthStatusPanel />
-        </div>
+        <SiteHeader returnTo="/" variant="hero-overlay" />
 
         {/* Hero Content */}
-        <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
+        <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto pt-16 sm:pt-20">
           {/* Brand Badge */}
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-8 animate-fade-in-up">
             <Sparkles className="w-5 h-5 text-yellow-300" />

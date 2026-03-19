@@ -165,6 +165,45 @@ async function initializeDatabase() {
       "ALTER TABLE test_history ADD CONSTRAINT fk_test_history_user_id FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL"
     );
 
+    // Feedback & suggestions (comments, likes, moderation audit)
+    await connection.execute(`
+      CREATE TABLE IF NOT EXISTS feedback_comments (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        user_id INT NOT NULL,
+        body TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+        INDEX idx_feedback_comments_created_at (created_at)
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+    `);
+    console.log("[DB] Table 'feedback_comments' ensured");
+
+    await connection.execute(`
+      CREATE TABLE IF NOT EXISTS feedback_likes (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        comment_id INT NOT NULL,
+        user_id INT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        UNIQUE KEY uq_feedback_like (comment_id, user_id),
+        FOREIGN KEY (comment_id) REFERENCES feedback_comments(id) ON DELETE CASCADE,
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+        INDEX idx_feedback_likes_comment_id (comment_id)
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+    `);
+    console.log("[DB] Table 'feedback_likes' ensured");
+
+    await connection.execute(`
+      CREATE TABLE IF NOT EXISTS feedback_moderation_log (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        actor_user_id INT NOT NULL,
+        comment_id INT NOT NULL,
+        action VARCHAR(32) NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        INDEX idx_feedback_modlog_created_at (created_at)
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+    `);
+    console.log("[DB] Table 'feedback_moderation_log' ensured");
+
     // Step 8: Seed initial data
     await seedInitialData(connection);
 

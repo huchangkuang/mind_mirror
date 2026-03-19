@@ -69,13 +69,24 @@ npm start
 
 开发环境下访问 [http://localhost:3000](http://localhost:3000)，首页可进入 MBTI 测试或城市匹配测试。
 
+## 反馈与建议
+
+- 页面路径：`/feedback`。首页顶部 **Site Header** 可进入「反馈与建议」，并提供 **登录 / 注册**（透明白 + 毛玻璃风格，与原有登录按钮一致）。
+- **评论**：登录用户可发布；未登录点击发布或点赞会跳转到 `/auth?next=/feedback&mode=login`（登录成功后回跳）。
+- **排序**：默认按 **热度**（点赞数 + 时间衰减）；可切换 **最近**（按发布时间倒序）。
+- **实时列表**：页面每约 5 秒轮询刷新（仅在前台标签页时请求）；发布成功后立即刷新。
+- **点赞**：登录用户可点赞 / 取消；服务端保证同一用户对同一评论仅一条点赞记录。
+- **管理员删除**：用户名白名单见 `lib/feedback/admin.ts`（当前含 `15967537583`，与注册用户名一致）。白名单用户可在反馈页删除评论；删除前写入表 `feedback_moderation_log`，并输出一行结构化 `console.info` 审计日志。
+
+相关 API：`GET/POST /api/feedback/comments`，`POST /api/feedback/comments/[id]/like`，`DELETE /api/feedback/comments/[id]`（仅白名单）。
+
 ## 测试
 
 ```bash
 npm test
 ```
 
-覆盖题库加载、打分引擎、API 契约与历史存储等单元测试。
+覆盖题库加载、打分引擎、API 契约、认证路由与反馈模块等单元测试。
 
 ## 端到端自测建议
 
