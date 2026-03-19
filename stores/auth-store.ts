@@ -4,6 +4,9 @@ import { create } from "zustand";
 import { fetchCurrentUser, loginAccount, logoutAccount, registerAccount } from "@/lib/api/auth";
 import type { AuthStatus, AuthUser } from "@/lib/auth/types";
 
+let bootstrapRequestId = 0;
+let bootstrapAbort: AbortController | null = null;
+
 interface AuthState {
   status: AuthStatus;
   user: AuthUser | null;
@@ -25,17 +28,34 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   bootstrapped: false,
 
   async bootstrap() {
-    if (get().bootstrapped) return;
-    set({ status: "loading", error: null });
+    bootstrapAbort?.abort();
+    const controller = new AbortController();
+    bootstrapAbort = controller;
+    const signal = controller.signal;
+    const id = ++bootstrapRequestId;
+
+    const optimisticAuth = get().status === "authenticated" && get().user !== null;
+    if (!optimisticAuth) {
+      set({ status: "loading", error: null });
+    }
+
     try {
-      const response = await fetchCurrentUser();
+      const response = await fetchCurrentUser(signal);
+      if (id !== bootstrapRequestId) return;
       set({
         user: response.user,
         isFeedbackModerator: response.isFeedbackModerator,
         status: response.authenticated ? "authenticated" : "guest",
         bootstrapped: true,
       });
-    } catch {
+    } catch (e) {
+      if (id !== bootstrapRequestId) return;
+      if (e instanceof Error && e.name === "AbortError") return;
+      const prev = get();
+      if (prev.status === "authenticated" && prev.user) {
+        set({ bootstrapped: true });
+        return;
+      }
       set({ user: null, isFeedbackModerator: false, status: "guest", bootstrapped: true });
     }
   },

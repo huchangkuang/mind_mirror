@@ -11,8 +11,8 @@ interface AuthActionResponse {
   isFeedbackModerator: boolean;
 }
 
-export async function fetchCurrentUser(): Promise<AuthResponse> {
-  const response = await fetch("/api/auth/me", { credentials: "include" });
+export async function fetchCurrentUser(signal?: AbortSignal): Promise<AuthResponse> {
+  const response = await fetch("/api/auth/me", { credentials: "include", signal });
   if (!response.ok) {
     throw new Error("Failed to fetch auth state");
   }
