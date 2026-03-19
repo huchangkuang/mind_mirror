@@ -137,7 +137,7 @@ export default function Home() {
       </section>
 
       {/* Tests Grid Section */}
-      <section className="py-20 sm:py-32 px-4 sm:px-6 lg:px-8">
+      <section className="py-12 sm:py-32 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="font-outfit text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white mb-4">
@@ -211,7 +211,7 @@ export default function Home() {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 sm:py-32 px-4 sm:px-6 lg:px-8 bg-white dark:bg-slate-800/50">
+      <section className="py-12 sm:py-32 px-4 sm:px-6 lg:px-8 bg-white dark:bg-slate-800/50">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="font-outfit text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white mb-4">
@@ -248,7 +248,7 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 sm:py-32 px-4 sm:px-6 lg:px-8">
+      <section className="py-12 sm:py-32 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
           <div className="relative rounded-3xl overflow-hidden">
             {/* Background */}
