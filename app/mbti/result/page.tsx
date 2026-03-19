@@ -7,6 +7,7 @@ import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { getTypeDescription } from "@/lib/mbti/type-descriptions";
 import type { MbtiResult } from "@/lib/mbti/scoring";
+import { TestCompletionLoginPrompt } from "@/components/auth/TestCompletionLoginPrompt";
 
 const DIMENSION_LABELS: Record<string, string> = {
   EI: "外向 E ← → I 内向",
@@ -88,6 +89,8 @@ export default function MbtiResultPage() {
         <h2 className="text-lg font-semibold mb-2">类型说明</h2>
         <p className="text-gray-700 dark:text-gray-300">{desc.summary}</p>
       </Card>
+
+      <TestCompletionLoginPrompt testName="MBTI 测试" />
 
       <div className="rounded-lg bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 p-4 mb-8">
         <p className="text-sm text-amber-800 dark:text-amber-200">

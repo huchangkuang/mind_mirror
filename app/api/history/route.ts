@@ -8,10 +8,12 @@
 
 import { NextResponse } from "next/server";
 import { query, queryOne, insert, execute } from "@/lib/db";
+import { getAuthUserFromCookie } from "@/lib/auth/session";
 
 export interface HistoryRecord {
   id: number;
   test_id: string;
+  user_id: number | null;
   title: string;
   result: unknown;
   result_summary: string;
@@ -31,6 +33,14 @@ export interface CreateHistoryRequest {
  */
 export async function GET(request: Request) {
   try {
+    const user = await getAuthUserFromCookie();
+    if (!user) {
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 401 }
+      );
+    }
+
     const { searchParams } = new URL(request.url);
     const testId = searchParams.get("test_id");
 
@@ -38,6 +48,7 @@ export async function GET(request: Request) {
       SELECT 
         h.id,
         h.test_id,
+        h.user_id,
         t.title,
         h.result,
         h.result_summary,
@@ -45,10 +56,11 @@ export async function GET(request: Request) {
       FROM test_history h
       JOIN tests t ON h.test_id = t.test_id
     `;
-    const params: string[] = [];
+    const params: (string | number)[] = [user.id];
+    sql += " WHERE h.user_id = ?";
 
     if (testId) {
-      sql += " WHERE h.test_id = ?";
+      sql += " AND h.test_id = ?";
       params.push(testId);
     }
 
@@ -72,6 +84,14 @@ export async function GET(request: Request) {
  */
 export async function POST(request: Request) {
   try {
+    const user = await getAuthUserFromCookie();
+    if (!user) {
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 401 }
+      );
+    }
+
     const body = (await request.json()) as CreateHistoryRequest;
 
     // Validate required fields
@@ -97,8 +117,8 @@ export async function POST(request: Request) {
 
     // Insert history record
     const insertId = await insert(
-      "INSERT INTO test_history (test_id, result, result_summary) VALUES (?, ?, ?)",
-      [body.test_id, JSON.stringify(body.result), body.result_summary || null]
+      "INSERT INTO test_history (test_id, user_id, result, result_summary) VALUES (?, ?, ?, ?)",
+      [body.test_id, user.id, JSON.stringify(body.result), body.result_summary || null]
     );
 
     // Fetch the created record
@@ -107,6 +127,7 @@ export async function POST(request: Request) {
         SELECT 
           h.id,
           h.test_id,
+          h.user_id,
           t.title,
           h.result,
           h.result_summary,
@@ -135,14 +156,22 @@ export async function POST(request: Request) {
  */
 export async function DELETE(request: Request) {
   try {
+    const user = await getAuthUserFromCookie();
+    if (!user) {
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 401 }
+      );
+    }
+
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
 
     if (id) {
       // Delete specific record
       const affectedRows = await execute(
-        "DELETE FROM test_history WHERE id = ?",
-        [id]
+        "DELETE FROM test_history WHERE id = ? AND user_id = ?",
+        [id, user.id]
       );
 
       if (affectedRows === 0) {
@@ -156,7 +185,10 @@ export async function DELETE(request: Request) {
     }
 
     // Clear all records
-    const affectedRows = await execute("DELETE FROM test_history");
+    const affectedRows = await execute(
+      "DELETE FROM test_history WHERE user_id = ?",
+      [user.id]
+    );
 
     return NextResponse.json({
       message: "All history cleared",

@@ -1,5 +1,8 @@
 import type { CityMatchHistoryRecord, DimensionScores } from "./types";
-import { fetchHistory, saveHistory, clearAllHistory } from "@/lib/api/history";
+import { ApiRequestError, fetchHistory, saveHistory, clearAllHistory } from "@/lib/api/history";
+
+const LOCAL_STORAGE_KEY = "city-match-history-fallback";
+const MAX_LOCAL_RECORDS = 50;
 
 /**
  * 读取历史记录 (API Based)
@@ -7,14 +10,15 @@ import { fetchHistory, saveHistory, clearAllHistory } from "@/lib/api/history";
 export async function readHistory(): Promise<CityMatchHistoryRecord[]> {
   try {
     const records = await fetchHistory("city-match");
-    return records.map((record) => ({
+    const remote = records.map((record) => ({
       timestamp: new Date(record.created_at).getTime(),
       topCity: (record.result as { topCity?: string })?.topCity || "",
       dimensionScores: (record.result as { dimensionScores?: DimensionScores })?.dimensionScores || ({} as DimensionScores),
       version: (record.result as { version?: string })?.version,
     })).filter(isValidRecord);
+    return mergeRecords(remote, readLocalHistory());
   } catch {
-    return [];
+    return readLocalHistory();
   }
 }
 
@@ -32,8 +36,12 @@ export async function saveRecord(record: CityMatchHistoryRecord): Promise<void> 
       },
       result_summary: record.topCity,
     });
-  } catch {
-    // ignore
+  } catch (error) {
+    if (error instanceof ApiRequestError && error.status === 401) {
+      writeLocalRecord(record);
+      return;
+    }
+    writeLocalRecord(record);
   }
 }
 
@@ -59,8 +67,10 @@ export function createHistoryRecord(
 export async function clearHistory(): Promise<void> {
   try {
     await clearAllHistory();
-  } catch {
-    // ignore
+  } catch (error) {
+    if (error instanceof ApiRequestError && error.status !== 401) return;
+  } finally {
+    clearLocalHistory();
   }
 }
 
@@ -76,4 +86,55 @@ function isValidRecord(r: unknown): r is CityMatchHistoryRecord {
     !!(r as Record<string, unknown>).dimensionScores &&
     typeof (r as Record<string, unknown>).dimensionScores === "object"
   );
+}
+
+function readLocalHistory(): CityMatchHistoryRecord[] {
+  if (typeof window === "undefined") return [];
+  try {
+    const raw = window.localStorage.getItem(LOCAL_STORAGE_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw) as unknown[];
+    if (!Array.isArray(parsed)) return [];
+    return parsed.filter(isValidRecord).sort((a, b) => b.timestamp - a.timestamp);
+  } catch {
+    return [];
+  }
+}
+
+function writeLocalRecord(record: CityMatchHistoryRecord) {
+  if (typeof window === "undefined") return;
+  const current = readLocalHistory();
+  const merged = mergeRecords([record], current).slice(0, MAX_LOCAL_RECORDS);
+  try {
+    window.localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(merged));
+  } catch {
+    // ignore
+  }
+}
+
+function clearLocalHistory() {
+  if (typeof window === "undefined") return;
+  try {
+    window.localStorage.removeItem(LOCAL_STORAGE_KEY);
+  } catch {
+    // ignore
+  }
+}
+
+function mergeRecords(
+  primary: CityMatchHistoryRecord[],
+  secondary: CityMatchHistoryRecord[]
+): CityMatchHistoryRecord[] {
+  const map = new Map<string, CityMatchHistoryRecord>();
+  const append = (record: CityMatchHistoryRecord) => {
+    const signature = [
+      record.timestamp,
+      record.topCity,
+      JSON.stringify(record.dimensionScores),
+    ].join("|");
+    if (!map.has(signature)) map.set(signature, record);
+  };
+  primary.forEach(append);
+  secondary.forEach(append);
+  return Array.from(map.values()).sort((a, b) => b.timestamp - a.timestamp);
 }

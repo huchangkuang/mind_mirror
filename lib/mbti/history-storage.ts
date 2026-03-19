@@ -1,9 +1,4 @@
-/**
- * MBTI History Storage - API Based
- * Replaces localStorage with MySQL-backed API
- */
-
-import { fetchHistory, saveHistory } from "@/lib/api/history";
+import { ApiRequestError, fetchHistory, saveHistory } from "@/lib/api/history";
 import type { MbtiTestMode } from "./types";
 
 export interface HistoryRecord {
@@ -14,28 +9,25 @@ export interface HistoryRecord {
   mode?: MbtiTestMode;
 }
 
-/**
- * Read MBTI history records from API
- * Converts API format to local format for backward compatibility
- */
+const LOCAL_STORAGE_KEY = "mbti-history-fallback";
+const MAX_LOCAL_RECORDS = 50;
+
 export async function readHistory(): Promise<HistoryRecord[]> {
   try {
     const records = await fetchHistory("mbti");
-    return records.map((record) => ({
+    const remote = records.map((record) => ({
       timestamp: new Date(record.created_at).getTime(),
       type: (record.result as { type?: string })?.type || "",
       dimensionStrength: (record.result as { dimensionStrength?: Record<string, number> })?.dimensionStrength || {},
       version: (record.result as { version?: string })?.version,
       mode: normalizeMode((record.result as { mode?: unknown })?.mode),
     })).filter(isValidRecord);
+    return mergeRecords(remote, readLocalHistory());
   } catch {
-    return [];
+    return readLocalHistory();
   }
 }
 
-/**
- * Save MBTI record to API
- */
 export async function saveRecord(record: HistoryRecord): Promise<void> {
   try {
     await saveHistory({
@@ -48,8 +40,13 @@ export async function saveRecord(record: HistoryRecord): Promise<void> {
       },
       result_summary: record.type,
     });
-  } catch {
-    // ignore
+  } catch (error) {
+    // Guest users receive 401 and save to local fallback.
+    if (error instanceof ApiRequestError && error.status === 401) {
+      writeLocalRecord(record);
+      return;
+    }
+    writeLocalRecord(record);
   }
 }
 
@@ -64,4 +61,44 @@ function isValidRecord(r: unknown): r is HistoryRecord {
     typeof (r as Record<string, unknown>).timestamp === "number" &&
     typeof (r as Record<string, unknown>).type === "string"
   );
+}
+
+function readLocalHistory(): HistoryRecord[] {
+  if (typeof window === "undefined") return [];
+  try {
+    const raw = window.localStorage.getItem(LOCAL_STORAGE_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw) as unknown[];
+    if (!Array.isArray(parsed)) return [];
+    return parsed.filter(isValidRecord).sort((a, b) => b.timestamp - a.timestamp);
+  } catch {
+    return [];
+  }
+}
+
+function writeLocalRecord(record: HistoryRecord) {
+  if (typeof window === "undefined") return;
+  const current = readLocalHistory();
+  const deduped = mergeRecords([record], current).slice(0, MAX_LOCAL_RECORDS);
+  try {
+    window.localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(deduped));
+  } catch {
+    // ignore local storage write errors
+  }
+}
+
+function mergeRecords(primary: HistoryRecord[], secondary: HistoryRecord[]): HistoryRecord[] {
+  const map = new Map<string, HistoryRecord>();
+  const append = (record: HistoryRecord) => {
+    const signature = [
+      record.timestamp,
+      record.type,
+      record.mode ?? "quick",
+      JSON.stringify(record.dimensionStrength),
+    ].join("|");
+    if (!map.has(signature)) map.set(signature, record);
+  };
+  primary.forEach(append);
+  secondary.forEach(append);
+  return Array.from(map.values()).sort((a, b) => b.timestamp - a.timestamp);
 }

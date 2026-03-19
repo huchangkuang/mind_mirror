@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/Button";
 import { MapPin, Building2, ArrowRight } from "lucide-react";
 import type { CityMatchResult, DimensionScores } from "@/lib/city-match/types";
 import { getDimensionLabel, scoreToPercentage } from "@/lib/city-match/scoring";
+import { TestCompletionLoginPrompt } from "@/components/auth/TestCompletionLoginPrompt";
 
 const DIMENSION_KEYS: Array<keyof DimensionScores> = ["lifestyle", "social", "environment", "pace"];
 
@@ -152,6 +153,8 @@ export default function CityMatchResultPage() {
           })}
         </div>
       </Card>
+
+      <TestCompletionLoginPrompt testName="性格匹配城市测试" />
 
       {/* Disclaimer */}
       <div className="rounded-lg bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 p-4 mb-8">

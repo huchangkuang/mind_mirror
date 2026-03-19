@@ -4,7 +4,14 @@
  * Replaces localStorage-based storage with MySQL-backed API
  */
 
-import type { HistoryRecord as ApiHistoryRecord } from "@/app/api/history/route";
+export class ApiRequestError extends Error {
+  status: number;
+  constructor(message: string, status: number) {
+    super(message);
+    this.name = "ApiRequestError";
+    this.status = status;
+  }
+}
 
 export interface HistoryRecord {
   id: number;
@@ -32,8 +39,8 @@ export async function fetchHistory(testId?: string): Promise<HistoryRecord[]> {
   const response = await fetch(url);
 
   if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.error || "Failed to fetch history");
+    const error = (await response.json().catch(() => ({}))) as { error?: string };
+    throw new ApiRequestError(error.error || "Failed to fetch history", response.status);
   }
 
   const data = await response.json();
@@ -53,8 +60,8 @@ export async function saveHistory(data: CreateHistoryData): Promise<HistoryRecor
   });
 
   if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.error || "Failed to save history");
+    const error = (await response.json().catch(() => ({}))) as { error?: string };
+    throw new ApiRequestError(error.error || "Failed to save history", response.status);
   }
 
   const result = await response.json();
@@ -70,8 +77,8 @@ export async function deleteHistoryItem(id: number): Promise<void> {
   });
 
   if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.error || "Failed to delete history");
+    const error = (await response.json().catch(() => ({}))) as { error?: string };
+    throw new ApiRequestError(error.error || "Failed to delete history", response.status);
   }
 }
 
@@ -84,8 +91,8 @@ export async function clearAllHistory(): Promise<{ deletedCount: number }> {
   });
 
   if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.error || "Failed to clear history");
+    const error = (await response.json().catch(() => ({}))) as { error?: string };
+    throw new ApiRequestError(error.error || "Failed to clear history", response.status);
   }
 
   return await response.json();

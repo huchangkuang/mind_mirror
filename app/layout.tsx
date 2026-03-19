@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { copy } from "@/lib/copy";
+import { AuthBootstrap } from "@/components/auth/AuthBootstrap";
 
 export const metadata: Metadata = {
   title: copy.app.title,
@@ -14,7 +15,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="zh-CN">
-      <body className="antialiased">{children}</body>
+      <body className="antialiased">
+        <AuthBootstrap />
+        {children}
+      </body>
     </html>
   );
 }

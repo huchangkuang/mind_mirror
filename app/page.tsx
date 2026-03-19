@@ -11,6 +11,7 @@ import {
   Heart,
   Loader2,
 } from "lucide-react";
+import { AuthStatusPanel } from "@/components/auth/AuthStatusPanel";
 
 // Icon mapping from string name to component
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -104,6 +105,10 @@ export default function Home() {
           <div className="absolute top-20 left-10 w-64 h-64 bg-white/10 rounded-full blur-3xl animate-float" />
           <div className="absolute top-40 right-20 w-96 h-96 bg-purple-400/20 rounded-full blur-3xl animate-float-slow" />
           <div className="absolute bottom-20 left-1/3 w-80 h-80 bg-blue-400/20 rounded-full blur-3xl animate-float" />
+        </div>
+
+        <div className="absolute top-4 right-4 sm:top-6 sm:right-6 lg:top-8 lg:right-8 z-20">
+          <AuthStatusPanel />
         </div>
 
         {/* Hero Content */}

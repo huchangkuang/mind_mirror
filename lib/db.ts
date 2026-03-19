@@ -95,7 +95,34 @@ async function initializeDatabase() {
     // Step 3: Use the database (use query() instead of execute() for USE command)
     await connection.query(`USE ${dbConfig.database}`);
 
-    // Step 4: Create tests table
+    // Step 4: Create users table
+    await connection.execute(`
+      CREATE TABLE IF NOT EXISTS users (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        username VARCHAR(100) NOT NULL UNIQUE,
+        password_hash VARCHAR(255) NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+    `);
+    console.log("[DB] Table 'users' ensured");
+
+    // Step 5: Create user_sessions table
+    await connection.execute(`
+      CREATE TABLE IF NOT EXISTS user_sessions (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        user_id INT NOT NULL,
+        token VARCHAR(128) NOT NULL UNIQUE,
+        expires_at TIMESTAMP NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+        INDEX idx_user_sessions_user_id (user_id),
+        INDEX idx_user_sessions_expires_at (expires_at)
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+    `);
+    console.log("[DB] Table 'user_sessions' ensured");
+
+    // Step 6: Create tests table
     await connection.execute(`
       CREATE TABLE IF NOT EXISTS tests (
         id INT AUTO_INCREMENT PRIMARY KEY,
@@ -114,20 +141,31 @@ async function initializeDatabase() {
     `);
     console.log("[DB] Table 'tests' ensured");
 
-    // Step 5: Create test_history table
+    // Step 7: Create test_history table
     await connection.execute(`
       CREATE TABLE IF NOT EXISTS test_history (
         id INT AUTO_INCREMENT PRIMARY KEY,
         test_id VARCHAR(50) NOT NULL,
+        user_id INT NULL,
         result JSON,
         result_summary VARCHAR(200),
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY (test_id) REFERENCES tests(test_id) ON DELETE CASCADE
+        FOREIGN KEY (test_id) REFERENCES tests(test_id) ON DELETE CASCADE,
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL,
+        INDEX idx_test_history_user_id (user_id)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
     `);
     console.log("[DB] Table 'test_history' ensured");
 
-    // Step 6: Seed initial data
+    // Backward-compatible migration for already existing test_history tables.
+    await tryAlter(connection, "ALTER TABLE test_history ADD COLUMN user_id INT NULL AFTER test_id");
+    await tryAlter(connection, "ALTER TABLE test_history ADD INDEX idx_test_history_user_id (user_id)");
+    await tryAlter(
+      connection,
+      "ALTER TABLE test_history ADD CONSTRAINT fk_test_history_user_id FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL"
+    );
+
+    // Step 8: Seed initial data
     await seedInitialData(connection);
 
     await connection.end();
@@ -142,6 +180,14 @@ async function initializeDatabase() {
       }
     }
     throw error;
+  }
+}
+
+async function tryAlter(connection: mysql.Connection, sql: string) {
+  try {
+    await connection.execute(sql);
+  } catch {
+    // Ignore migration errors (e.g. duplicate column/index/constraint)
   }
 }
 

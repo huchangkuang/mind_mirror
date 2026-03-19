@@ -1,6 +1,11 @@
 {
   "version": 1,
   "skills": {
+    "openjung-api": {
+      "source": "openmbti/core",
+      "sourceType": "github",
+      "computedHash": "33ebc514ec179aa5db7d3c931a33ddd476edace61fcf5c9ade1d1d5ad6f81adc"
+    },
     "ui-ux-pro-max": {
       "source": "nextlevelbuilder/ui-ux-pro-max-skill",
       "sourceType": "github",
