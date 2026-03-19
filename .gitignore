@@ -25,6 +25,10 @@
 # cursor skills
 .cursor/
 
+# agent skills
+.agents/
+.commandcode/
+
 # openspec archive
 openspec/changes/archive/
 
