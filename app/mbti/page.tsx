@@ -116,13 +116,20 @@ export default function MbtiLandingPage() {
             通过科学的 MBTI 人格测试，发现你的独特优势，理解自己的行为模式，开启自我认知的新篇章
           </p>
 
-          {/* CTA Button */}
-          <div className="animate-fade-in-up">
+          {/* CTA Buttons */}
+          <div className="animate-fade-in-up flex flex-col sm:flex-row items-center justify-center gap-3">
             <Link
-              href="/mbti/test"
+              href="/mbti/test?mode=quick"
               className="group inline-flex items-center gap-3 px-8 py-4 bg-white text-blue-600 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95"
             >
-              开始测试
+              快速版（2选1）
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </Link>
+            <Link
+              href="/mbti/test?mode=deep"
+              className="group inline-flex items-center gap-3 px-8 py-4 bg-blue-600 text-white rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95"
+            >
+              深度版（5级量表）
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
@@ -315,13 +322,22 @@ export default function MbtiLandingPage() {
                 只需几分钟，获取专业的 MBTI 人格类型分析，开启自我认知的新篇章
               </p>
 
-              <Link
-                href="/mbti/test"
-                className="group inline-flex items-center gap-3 px-8 py-4 bg-white text-blue-600 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95"
-              >
-                立即开始测试
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </Link>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+                <Link
+                  href="/mbti/test?mode=quick"
+                  className="group inline-flex items-center gap-3 px-8 py-4 bg-white text-blue-600 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95"
+                >
+                  快速版（2选1）
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </Link>
+                <Link
+                  href="/mbti/test?mode=deep"
+                  className="group inline-flex items-center gap-3 px-8 py-4 bg-blue-600 text-white rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95"
+                >
+                  深度版（5级量表）
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </div>
 
               <div className="flex flex-wrap justify-center gap-6 mt-8 text-white/70 text-sm">
                 <Link href="/" className="hover:text-white transition-colors flex items-center gap-1">

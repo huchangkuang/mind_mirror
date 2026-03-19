@@ -23,3 +23,24 @@
 - **WHEN** 用户在历史列表中点击某一条记录
 - **THEN** 系统 SHALL 显示该次测试的详细信息（如四维度分布、类型说明摘要）
 - **THEN** 用户 SHALL 能够从详情页返回到历史列表页
+
+### Requirement: 历史记录必须存储测试模式
+系统 MUST 在每条 MBTI 测试记录中保存测试模式字段，以支持结果解释与后续筛选。
+
+#### Scenario: 保存 quick 模式记录
+- **WHEN** 用户完成 quick 模式测试并保存记录
+- **THEN** 系统 SHALL 在记录中写入 `mode=quick`
+- **THEN** 历史列表 SHALL 可展示"快速版（2选1）"标签
+
+#### Scenario: 保存 deep 模式记录
+- **WHEN** 用户完成 deep 模式测试并保存记录
+- **THEN** 系统 SHALL 在记录中写入 `mode=deep`
+- **THEN** 历史列表 SHALL 可展示"深度版（5级量表）"标签
+
+### Requirement: 旧记录读取必须向后兼容
+系统 MUST 对历史中缺失模式字段的旧记录提供默认回退，避免读取失败。
+
+#### Scenario: 读取旧格式历史记录
+- **WHEN** 历史数据中记录不包含 `mode` 字段
+- **THEN** 系统 SHALL 使用默认值（如 `quick`）回填并继续展示
+- **THEN** 系统 SHALL 不因字段缺失导致历史页报错

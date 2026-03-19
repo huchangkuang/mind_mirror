@@ -3,13 +3,15 @@
  * Replaces localStorage with MySQL-backed API
  */
 
-import { fetchHistory, saveHistory, type HistoryRecord as ApiHistoryRecord } from "@/lib/api/history";
+import { fetchHistory, saveHistory } from "@/lib/api/history";
+import type { MbtiTestMode } from "./types";
 
 export interface HistoryRecord {
   timestamp: number;
   type: string;
   dimensionStrength: Record<string, number>;
   version?: string;
+  mode?: MbtiTestMode;
 }
 
 /**
@@ -24,6 +26,7 @@ export async function readHistory(): Promise<HistoryRecord[]> {
       type: (record.result as { type?: string })?.type || "",
       dimensionStrength: (record.result as { dimensionStrength?: Record<string, number> })?.dimensionStrength || {},
       version: (record.result as { version?: string })?.version,
+      mode: normalizeMode((record.result as { mode?: unknown })?.mode),
     })).filter(isValidRecord);
   } catch {
     return [];
@@ -41,12 +44,17 @@ export async function saveRecord(record: HistoryRecord): Promise<void> {
         type: record.type,
         dimensionStrength: record.dimensionStrength,
         version: record.version,
+        mode: normalizeMode(record.mode),
       },
       result_summary: record.type,
     });
   } catch {
     // ignore
   }
+}
+
+function normalizeMode(mode: unknown): MbtiTestMode {
+  return mode === "deep" ? "deep" : "quick";
 }
 
 function isValidRecord(r: unknown): r is HistoryRecord {

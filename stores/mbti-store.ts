@@ -1,9 +1,8 @@
 "use client";
 
 import { create } from "zustand";
-import type { MbtiQuestion } from "@/lib/mbti/types";
+import type { MbtiQuestion, MbtiQuestionType, MbtiTestMode } from "@/lib/mbti/types";
 import type { MbtiResult } from "@/lib/mbti/scoring";
-import { computeMbtiResult } from "@/lib/mbti/scoring";
 import { saveRecord } from "@/lib/mbti/history-storage";
 
 const STORAGE_KEY = "mbti-test-session";
@@ -12,11 +11,14 @@ export interface QuestionBankMeta {
   version: string;
   questionCount: number;
   estimatedMinutes: number;
+  mode: MbtiTestMode;
+  questionType: MbtiQuestionType;
 }
 
 interface MbtiState {
   questions: MbtiQuestion[];
   meta: QuestionBankMeta | null;
+  mode: MbtiTestMode;
   currentIndex: number;
   answers: Record<string, string>;
   result: MbtiResult | null;
@@ -25,6 +27,7 @@ interface MbtiState {
   error: string | null;
 
   setQuestions: (questions: MbtiQuestion[], meta: QuestionBankMeta) => void;
+  setMode: (mode: MbtiTestMode) => void;
   setLoading: (loading: boolean) => void;
   setError: (error: string | null) => void;
   answer: (questionId: string, value: string) => void;
@@ -39,6 +42,7 @@ interface MbtiState {
 const defaultState = {
   questions: [],
   meta: null,
+  mode: "quick" as MbtiTestMode,
   currentIndex: 0,
   answers: {},
   result: null,
@@ -51,7 +55,12 @@ export const useMbtiStore = create<MbtiState>((set, get) => ({
   ...defaultState,
 
   setQuestions(questions, meta) {
-    set({ questions, meta, error: null });
+    set({ questions, meta, mode: meta.mode, error: null });
+    get().persist();
+  },
+
+  setMode(mode) {
+    set({ mode });
     get().persist();
   },
 
@@ -85,16 +94,37 @@ export const useMbtiStore = create<MbtiState>((set, get) => ({
   },
 
   async submit() {
-    const { questions, answers, meta } = get();
+    const { questions, answers, meta, mode } = get();
     if (!questions.length) return;
-    const result = computeMbtiResult({ questions, answers });
-    set({ result, isSubmitted: true });
+    if (!meta) return;
+    const payloadAnswers =
+      mode === "deep"
+        ? Object.fromEntries(
+            Object.entries(answers).map(([key, value]) => [key, Number(value)])
+          )
+        : answers;
+    const res = await fetch("/api/mbti/submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        version: meta.version,
+        mode,
+        answers: payloadAnswers,
+      }),
+    });
+    if (!res.ok) {
+      const body = (await res.json().catch(() => null)) as { message?: string } | null;
+      throw new Error(body?.message || "提交失败");
+    }
+    const result = (await res.json()) as MbtiResult;
+    set({ result, isSubmitted: true, error: null });
     get().persist();
     await saveRecord({
       timestamp: Date.now(),
       type: result.type,
       dimensionStrength: result.dimensionStrength,
       version: meta?.version,
+      mode,
     });
   },
 
@@ -105,9 +135,10 @@ export const useMbtiStore = create<MbtiState>((set, get) => ({
 
   persist() {
     if (typeof window === "undefined") return;
-    const { questions, meta, currentIndex, answers, isSubmitted, result } = get();
+    const { questions, meta, mode, currentIndex, answers, isSubmitted, result } = get();
     const payload = {
       v: meta?.version,
+      mode,
       currentIndex,
       answers,
       isSubmitted,
@@ -126,11 +157,12 @@ export const useMbtiStore = create<MbtiState>((set, get) => ({
     try {
       const raw = window.sessionStorage.getItem(STORAGE_KEY);
       if (!raw) return false;
-      const data = JSON.parse(raw) as { v?: string; currentIndex?: number; answers?: Record<string, string>; isSubmitted?: boolean; result?: MbtiResult; questionCount?: number };
-      const { meta, questions } = get();
+      const data = JSON.parse(raw) as { v?: string; mode?: MbtiTestMode; currentIndex?: number; answers?: Record<string, string>; isSubmitted?: boolean; result?: MbtiResult; questionCount?: number };
+      const { meta, questions, mode } = get();
       const versionMatch = !data.v || !meta?.version || data.v === meta.version;
       const countMatch = data.questionCount === questions.length;
-      if (!versionMatch || !countMatch) return false;
+      const modeMatch = !data.mode || data.mode === mode;
+      if (!versionMatch || !countMatch || !modeMatch) return false;
       set({
         currentIndex: Math.min(data.currentIndex ?? 0, Math.max(0, questions.length - 1)),
         answers: data.answers && typeof data.answers === "object" ? data.answers : {},

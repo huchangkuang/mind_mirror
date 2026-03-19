@@ -26,3 +26,27 @@
 - **THEN** 服务端 SHALL 返回 4xx 状态码
 - **THEN** 响应体 SHALL 至少包含 `errorCode` 和人类可读 `message` 字段
 - **THEN** 前端 SHALL 能根据 `errorCode` 进行针对性提示或重试逻辑
+
+### Requirement: 提交接口必须接收并校验测试模式
+`POST /api/mbti/submit` MUST 要求请求体包含 `mode` 字段，并执行与模式匹配的答案校验。
+
+#### Scenario: quick 模式提交合法
+- **WHEN** 请求体包含 `mode=quick` 且答案仅为 `A/B`
+- **THEN** 系统 SHALL 通过校验并返回 quick 模式计分结果
+
+#### Scenario: deep 模式提交合法
+- **WHEN** 请求体包含 `mode=deep` 且答案值位于 `1..5`
+- **THEN** 系统 SHALL 通过校验并返回 deep 模式计分结果
+
+#### Scenario: 模式与答案值域不匹配
+- **WHEN** `mode=quick` 但答案出现 `1..5`，或 `mode=deep` 但答案出现 `A/B`
+- **THEN** 系统 SHALL 返回参数错误响应
+- **THEN** 错误信息 SHALL 指明模式与答案值域不匹配
+
+### Requirement: 题目接口必须支持按模式拉取题库
+`GET /api/mbti/questions` MUST 支持传入模式参数并返回对应模式题目。
+
+#### Scenario: 缺失模式参数时的默认行为
+- **WHEN** 客户端未提供模式参数请求题目
+- **THEN** 系统 SHALL 按约定默认模式返回（建议 quick）
+- **THEN** 响应体 SHALL 明确返回实际使用的模式，避免前端歧义

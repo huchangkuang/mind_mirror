@@ -16,6 +16,7 @@ const DIMENSION_LABELS: Record<string, string> = {
 
 export default function MbtiHistoryPage() {
   const [list, setList] = useState<HistoryRecord[]>([]);
+  const [modeFilter, setModeFilter] = useState<"all" | "quick" | "deep">("all");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
@@ -63,6 +64,18 @@ export default function MbtiHistoryPage() {
   return (
     <main className="min-h-screen p-6 max-w-2xl mx-auto">
       <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">历史记录</h1>
+      <div className="mb-4 flex items-center gap-2">
+        <span className="text-sm text-gray-600 dark:text-gray-300">模式筛选</span>
+        <select
+          value={modeFilter}
+          onChange={(e) => setModeFilter(e.target.value as "all" | "quick" | "deep")}
+          className="text-sm border rounded-md px-2 py-1 bg-white dark:bg-slate-800 dark:border-slate-700"
+        >
+          <option value="all">全部</option>
+          <option value="quick">快速版（2选1）</option>
+          <option value="deep">深度版（5级量表）</option>
+        </select>
+      </div>
       {list.length === 0 ? (
         <Card>
           <p className="text-gray-600 dark:text-gray-400">暂无测试记录，完成一次测试后会自动保存到这里。</p>
@@ -72,7 +85,9 @@ export default function MbtiHistoryPage() {
         </Card>
       ) : (
         <ul className="space-y-3">
-          {list.map((record, index) => (
+          {list
+            .filter((record) => modeFilter === "all" || (record.mode ?? "quick") === modeFilter)
+            .map((record, index) => (
             <li key={`${record.timestamp}-${index}`}>
               <Card>
                 <button
@@ -81,9 +96,14 @@ export default function MbtiHistoryPage() {
                   onClick={() => setExpandedIndex(expandedIndex === index ? null : index)}
                 >
                   <span className="font-semibold text-lg text-blue-600 dark:text-blue-400">{record.type}</span>
-                  <span className="text-sm text-gray-500">
-                    {new Date(record.timestamp).toLocaleString("zh-CN")}
-                  </span>
+                  <div className="text-right">
+                    <span className="text-xs px-2 py-0.5 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 mr-2">
+                      {(record.mode ?? "quick") === "deep" ? "深度版" : "快速版"}
+                    </span>
+                    <span className="text-sm text-gray-500">
+                      {new Date(record.timestamp).toLocaleString("zh-CN")}
+                    </span>
+                  </div>
                 </button>
                 {expandedIndex === index && record.dimensionStrength && (
                   <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700 space-y-2">

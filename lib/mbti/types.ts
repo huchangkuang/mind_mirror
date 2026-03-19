@@ -4,6 +4,10 @@
  * 可选字段 category、tags 等便于扩展，消费方仅依赖必需字段。
  */
 export type DimensionKey = "EI" | "SN" | "TF" | "JP";
+export type MbtiTestMode = "quick" | "deep";
+export type MbtiQuestionType = "binary" | "likert5";
+export type QuickAnswerValue = "A" | "B";
+export type DeepAnswerValue = 1 | 2 | 3 | 4 | 5;
 
 export interface DimensionWeights {
   EI: number;
@@ -33,9 +37,27 @@ export interface QuestionBankMeta {
   version: string;
   questionCount: number;
   estimatedMinutes: number;
+  mode: MbtiTestMode;
+  questionType: MbtiQuestionType;
 }
 
 export interface QuestionBank {
   meta: QuestionBankMeta;
   questions: MbtiQuestion[];
+}
+
+export interface MultiModeQuestionBankFile {
+  meta: {
+    version: string;
+  };
+  modes: {
+    quick: {
+      estimatedMinutes: number;
+      questions: MbtiQuestion[];
+    };
+    deep: {
+      estimatedMinutes: number;
+      questions: MbtiQuestion[];
+    };
+  };
 }

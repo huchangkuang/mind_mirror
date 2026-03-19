@@ -16,7 +16,7 @@ const DIMENSION_LABELS: Record<string, string> = {
 };
 
 export default function MbtiResultPage() {
-  const { result, setQuestions, hydrate } = useMbtiStore();
+  const { result, mode, setQuestions, hydrate } = useMbtiStore();
   const [displayResult, setDisplayResult] = useState<MbtiResult | null>(result ?? null);
 
   useEffect(() => {
@@ -25,11 +25,17 @@ export default function MbtiResultPage() {
       setDisplayResult(state.result);
       return;
     }
-    fetch("/api/mbti/questions")
+    fetch(`/api/mbti/questions?mode=${state.mode}`)
       .then((r) => r.ok ? r.json() : null)
       .then((data) => {
         if (!data?.questions?.length) return;
-        setQuestions(data.questions, { version: data.version, questionCount: data.questionCount, estimatedMinutes: data.estimatedMinutes });
+        setQuestions(data.questions, {
+          version: data.version,
+          questionCount: data.questionCount,
+          estimatedMinutes: data.estimatedMinutes,
+          mode: data.mode,
+          questionType: data.questionType,
+        });
         const ok = hydrate();
         if (ok) setDisplayResult(useMbtiStore.getState().result ?? null);
       })
@@ -55,6 +61,9 @@ export default function MbtiResultPage() {
       <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">你的 MBTI 类型</h1>
       <p className="text-4xl font-bold text-blue-600 dark:text-blue-400 mb-1">{displayResult.type}</p>
       <p className="text-lg text-gray-600 dark:text-gray-400 mb-6">{desc.title}</p>
+      <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
+        测试模式：{mode === "deep" ? "深度版（5级量表）" : "快速版（2选1）"}
+      </p>
 
       <Card className="mb-6">
         <h2 className="text-lg font-semibold mb-4">维度分布</h2>

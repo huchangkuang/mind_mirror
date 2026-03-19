@@ -1,4 +1,4 @@
-import type { MbtiQuestion, DimensionWeights, DimensionKey } from "./types";
+import type { MbtiQuestion, DimensionKey, MbtiTestMode } from "./types";
 
 const DIMENSION_KEYS: DimensionKey[] = ["EI", "SN", "TF", "JP"];
 const POSITIVE_LETTERS = { EI: "E", SN: "S", TF: "T", JP: "J" } as const;
@@ -13,7 +13,8 @@ export interface MbtiResult {
 
 export interface ScoreInput {
   questions: MbtiQuestion[];
-  answers: Record<string, string>;
+  answers: Record<string, string | number>;
+  mode?: MbtiTestMode;
 }
 
 /**
@@ -27,7 +28,7 @@ export function computeMbtiResult(input: ScoreInput): MbtiResult {
   for (const q of questions) {
     const selectedValue = answers[q.id];
     if (selectedValue == null) continue;
-    const option = q.options.find((o) => o.value === selectedValue);
+    const option = q.options.find((o) => o.value === String(selectedValue));
     if (!option) continue;
     for (const key of DIMENSION_KEYS) {
       dimensionScores[key] += option.dimensionWeights[key];

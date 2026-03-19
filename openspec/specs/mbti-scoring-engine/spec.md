@@ -24,3 +24,24 @@
 - **WHEN** 使用同一题库版本和同一份答案请求提交结果多次
 - **THEN** 系统 SHALL 每次返回相同的 MBTI 类型和维度强度
 - **THEN** 单元测试 SHALL 能够对典型答案组合进行断言验证
+
+### Requirement: 打分引擎必须基于模式选择计分模型
+系统 MUST 根据 `mode` 选择对应计分模型，确保二选一与 5 级量表不会混用同一权重解释。
+
+#### Scenario: quick 模式使用二选一计分
+- **WHEN** 提交请求中的 `mode=quick`
+- **THEN** 系统 SHALL 按二选一权重规则累加维度得分
+- **THEN** 系统 SHALL 产出四维分数、强度与 MBTI 类型
+
+#### Scenario: deep 模式使用 5 级量表计分
+- **WHEN** 提交请求中的 `mode=deep`
+- **THEN** 系统 SHALL 按 5 级量表映射规则计算维度得分
+- **THEN** 系统 SHALL 对维度强度执行归一化后输出 MBTI 类型与强度
+
+### Requirement: 两种计分模型均必须保持可重复性
+在同一题库版本、同一模式、同一答案输入下，系统 MUST 始终输出一致结果。
+
+#### Scenario: deep 模式重复提交得到一致结果
+- **WHEN** 使用同一份 deep 模式答案重复提交多次
+- **THEN** 系统 SHALL 返回完全一致的类型与维度强度
+- **THEN** 自动化测试 SHALL 覆盖 quick 与 deep 两种模式的确定性验证

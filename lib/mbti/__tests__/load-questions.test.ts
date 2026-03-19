@@ -3,19 +3,34 @@ import * as fs from "fs/promises";
 import * as path from "path";
 
 describe("load-questions", () => {
-  it("validates and parses question bank JSON with meta and questions", async () => {
+  it("validates and parses quick mode question bank", async () => {
     const filePath = path.join(process.cwd(), "data", "mbti", "questions.json");
     const raw = await fs.readFile(filePath, "utf-8");
     const data = JSON.parse(raw);
-    const bank = validateQuestionBank(data);
-    expect(bank.meta.version).toBe("1.0.0");
-    expect(bank.meta.questionCount).toBe(4);
-    expect(bank.meta.estimatedMinutes).toBe(2);
-    expect(bank.questions).toHaveLength(4);
+    const bank = validateQuestionBank(data, "quick");
+    expect(bank.meta.version).toEqual(expect.any(String));
+    expect(bank.meta.mode).toBe("quick");
+    expect(bank.meta.questionType).toBe("binary");
+    expect(bank.meta.questionCount).toBeGreaterThan(0);
+    expect(bank.questions).toHaveLength(bank.meta.questionCount);
     expect(bank.questions[0].id).toBe("q1");
-    expect(bank.questions[0].text).toBe("在聚会中，你通常更倾向于");
     expect(bank.questions[0].options).toHaveLength(2);
-    expect(bank.questions[0].options[0].dimensionWeights.EI).toBe(1);
+    const weights = bank.questions[0].options[0].dimensionWeights;
+    const absSum = Math.abs(weights.EI) + Math.abs(weights.SN) + Math.abs(weights.TF) + Math.abs(weights.JP);
+    expect(absSum).toBeGreaterThan(0);
+  });
+
+  it("builds deep mode question bank from same source", async () => {
+    const filePath = path.join(process.cwd(), "data", "mbti", "questions.json");
+    const raw = await fs.readFile(filePath, "utf-8");
+    const data = JSON.parse(raw);
+    const bank = validateQuestionBank(data, "deep");
+    expect(bank.meta.mode).toBe("deep");
+    expect(bank.meta.questionType).toBe("likert5");
+    expect(bank.questions.length).toBeGreaterThan(0);
+    expect(bank.questions[0].options).toHaveLength(5);
+    expect(bank.questions[0].options[0].value).toBe("1");
+    expect(bank.questions[0].options[4].value).toBe("5");
   });
 
   it("throws on invalid meta", () => {

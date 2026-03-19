@@ -5,18 +5,19 @@
 import { readHistory, saveRecord, type HistoryRecord } from "../history-storage";
 
 describe("history-storage", () => {
-  it("readHistory returns an array", () => {
-    const list = readHistory();
+  it("readHistory returns an array", async () => {
+    const list = await readHistory();
     expect(Array.isArray(list)).toBe(true);
   });
 
-  it("saveRecord does not throw", () => {
+  it("saveRecord does not throw", async () => {
     const record: HistoryRecord = {
       timestamp: Date.now(),
       type: "INFP",
       dimensionStrength: { EI: 30, SN: 50, TF: 40, JP: 60 },
       version: "1.0",
+      mode: "quick",
     };
-    expect(() => saveRecord(record)).not.toThrow();
+    await expect(saveRecord(record)).resolves.toBeUndefined();
   });
 });

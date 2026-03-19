@@ -1,45 +1,5794 @@
 {
   "meta": {
-    "version": "1.0.0",
-    "questionCount": 4,
-    "estimatedMinutes": 2
+    "version": "2.0.0-oejts-20260319",
+    "source": "codexTest-reference"
   },
-  "questions": [
-    {
-      "id": "q1",
-      "text": "在聚会中，你通常更倾向于",
-      "dimensionWeights": { "EI": 0, "SN": 0, "TF": 0, "JP": 0 },
-      "options": [
-        { "value": "A", "label": "与很多人交流，认识新朋友", "dimensionWeights": { "EI": 1, "SN": 0, "TF": 0, "JP": 0 } },
-        { "value": "B", "label": "与少数熟人深入交谈", "dimensionWeights": { "EI": -1, "SN": 0, "TF": 0, "JP": 0 } }
+  "modes": {
+    "quick": {
+      "estimatedMinutes": 8,
+      "questions": [
+        {
+          "id": "q1",
+          "text": "制定清单 vs 依靠记忆",
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "A",
+              "label": "制定清单",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 1
+              }
+            },
+            {
+              "value": "B",
+              "label": "依靠记忆",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": -1
+              }
+            }
+          ]
+        },
+        {
+          "id": "q2",
+          "text": "愿意相信 vs 持怀疑态度",
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "A",
+              "label": "愿意相信",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 1,
+                "JP": 0
+              }
+            },
+            {
+              "value": "B",
+              "label": "持怀疑态度",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": -1,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "q3",
+          "text": "独处时感到无聊 vs 需要独处时间",
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "A",
+              "label": "独处时感到无聊",
+              "dimensionWeights": {
+                "EI": 1,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "B",
+              "label": "需要独处时间",
+              "dimensionWeights": {
+                "EI": -1,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "q4",
+          "text": "接受事物的本来面目 vs 对现状不满足",
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "A",
+              "label": "接受事物的本来面目",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 1,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "B",
+              "label": "对现状不满足",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": -1,
+                "TF": 0,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "q5",
+          "text": "保持房间整洁 vs 随手放置东西",
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "A",
+              "label": "保持房间整洁",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 1
+              }
+            },
+            {
+              "value": "B",
+              "label": "随手放置东西",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": -1
+              }
+            }
+          ]
+        },
+        {
+          "id": "q6",
+          "text": "认为\"像机器人\"是侮辱 vs 追求机械般的思维",
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "A",
+              "label": "认为\"像机器人\"是侮辱",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 1,
+                "JP": 0
+              }
+            },
+            {
+              "value": "B",
+              "label": "追求机械般的思维",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": -1,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "q7",
+          "text": "精力充沛 vs 平静温和",
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "A",
+              "label": "精力充沛",
+              "dimensionWeights": {
+                "EI": 1,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "B",
+              "label": "平静温和",
+              "dimensionWeights": {
+                "EI": -1,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "q8",
+          "text": "喜欢选择题 vs 喜欢论述题",
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "A",
+              "label": "喜欢选择题",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 1,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "B",
+              "label": "喜欢论述题",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": -1,
+                "TF": 0,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "q9",
+          "text": "有条理 vs 随性混乱",
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "A",
+              "label": "有条理",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 1
+              }
+            },
+            {
+              "value": "B",
+              "label": "随性混乱",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": -1
+              }
+            }
+          ]
+        },
+        {
+          "id": "q10",
+          "text": "容易受伤 vs 脸皮厚",
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "A",
+              "label": "容易受伤",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 1,
+                "JP": 0
+              }
+            },
+            {
+              "value": "B",
+              "label": "脸皮厚",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": -1,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "q11",
+          "text": "在团队中表现最佳 vs 独自工作表现最佳",
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "A",
+              "label": "在团队中表现最佳",
+              "dimensionWeights": {
+                "EI": 1,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "B",
+              "label": "独自工作表现最佳",
+              "dimensionWeights": {
+                "EI": -1,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "q12",
+          "text": "关注过去 vs 关注未来",
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "A",
+              "label": "关注过去",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 1,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "B",
+              "label": "关注未来",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": -1,
+                "TF": 0,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "q13",
+          "text": "提前规划 vs 最后一刻才计划",
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "A",
+              "label": "提前规划",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 1
+              }
+            },
+            {
+              "value": "B",
+              "label": "最后一刻才计划",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": -1
+              }
+            }
+          ]
+        },
+        {
+          "id": "q14",
+          "text": "渴望他人的爱 vs 渴望他人的尊重",
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "A",
+              "label": "渴望他人的爱",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 1,
+                "JP": 0
+              }
+            },
+            {
+              "value": "B",
+              "label": "渴望他人的尊重",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": -1,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "q15",
+          "text": "因聚会而兴奋 vs 因聚会而疲惫",
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "A",
+              "label": "因聚会而兴奋",
+              "dimensionWeights": {
+                "EI": 1,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "B",
+              "label": "因聚会而疲惫",
+              "dimensionWeights": {
+                "EI": -1,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "q16",
+          "text": "融入群体 vs 与众不同",
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "A",
+              "label": "融入群体",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 1,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "B",
+              "label": "与众不同",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": -1,
+                "TF": 0,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "q17",
+          "text": "做出承诺 vs 保留选择",
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "A",
+              "label": "做出承诺",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 1
+              }
+            },
+            {
+              "value": "B",
+              "label": "保留选择",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": -1
+              }
+            }
+          ]
+        },
+        {
+          "id": "q18",
+          "text": "想擅长帮助他人 vs 想擅长修理事物",
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "A",
+              "label": "想擅长帮助他人",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 1,
+                "JP": 0
+              }
+            },
+            {
+              "value": "B",
+              "label": "想擅长修理事物",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": -1,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "q19",
+          "text": "话比较多 vs 更善于倾听",
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "A",
+              "label": "话比较多",
+              "dimensionWeights": {
+                "EI": 1,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "B",
+              "label": "更善于倾听",
+              "dimensionWeights": {
+                "EI": -1,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "q20",
+          "text": "描述发生了什么 vs 描述这意味着什么",
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "A",
+              "label": "描述发生了什么",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 1,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "B",
+              "label": "描述这意味着什么",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": -1,
+                "TF": 0,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "q21",
+          "text": "立即完成工作 vs 拖延",
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "A",
+              "label": "立即完成工作",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 1
+              }
+            },
+            {
+              "value": "B",
+              "label": "拖延",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": -1
+              }
+            }
+          ]
+        },
+        {
+          "id": "q22",
+          "text": "跟随内心 vs 跟随理性",
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "A",
+              "label": "跟随内心",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 1,
+                "JP": 0
+              }
+            },
+            {
+              "value": "B",
+              "label": "跟随理性",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": -1,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "q23",
+          "text": "喜欢外出活动 vs 喜欢待在家里",
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "A",
+              "label": "喜欢外出活动",
+              "dimensionWeights": {
+                "EI": 1,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "B",
+              "label": "喜欢待在家里",
+              "dimensionWeights": {
+                "EI": -1,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "q24",
+          "text": "想要细节 vs 想要大局观",
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "A",
+              "label": "想要细节",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 1,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "B",
+              "label": "想要大局观",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": -1,
+                "TF": 0,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "q25",
+          "text": "提前准备 vs 即兴发挥",
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "A",
+              "label": "提前准备",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 1
+              }
+            },
+            {
+              "value": "B",
+              "label": "即兴发挥",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": -1
+              }
+            }
+          ]
+        },
+        {
+          "id": "q26",
+          "text": "道德基于同情 vs 道德基于正义",
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "A",
+              "label": "道德基于同情",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 1,
+                "JP": 0
+              }
+            },
+            {
+              "value": "B",
+              "label": "道德基于正义",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": -1,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "q27",
+          "text": "自然而然大声说话 vs 很难大声喊叫",
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "A",
+              "label": "自然而然大声说话",
+              "dimensionWeights": {
+                "EI": 1,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "B",
+              "label": "很难大声喊叫",
+              "dimensionWeights": {
+                "EI": -1,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "q28",
+          "text": "经验主义 vs 理论主义",
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "A",
+              "label": "经验主义",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 1,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "B",
+              "label": "理论主义",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": -1,
+                "TF": 0,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "q29",
+          "text": "努力工作 vs 尽情玩乐",
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "A",
+              "label": "努力工作",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 1
+              }
+            },
+            {
+              "value": "B",
+              "label": "尽情玩乐",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": -1
+              }
+            }
+          ]
+        },
+        {
+          "id": "q30",
+          "text": "重视情感 vs 对情感感到不自在",
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "A",
+              "label": "重视情感",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 1,
+                "JP": 0
+              }
+            },
+            {
+              "value": "B",
+              "label": "对情感感到不自在",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": -1,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "q31",
+          "text": "喜欢表演 vs 避免公开演讲",
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "A",
+              "label": "喜欢表演",
+              "dimensionWeights": {
+                "EI": 1,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "B",
+              "label": "避免公开演讲",
+              "dimensionWeights": {
+                "EI": -1,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "q32",
+          "text": "想知道\"谁/什么/何时\" vs 想知道\"为什么\"",
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "A",
+              "label": "想知道\"谁/什么/何时\"",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 1,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "B",
+              "label": "想知道\"为什么\"",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": -1,
+                "TF": 0,
+                "JP": 0
+              }
+            }
+          ]
+        }
       ]
     },
-    {
-      "id": "q2",
-      "text": "做决定时，你更依赖",
-      "dimensionWeights": { "EI": 0, "SN": 0, "TF": 0, "JP": 0 },
-      "options": [
-        { "value": "A", "label": "逻辑与客观分析", "dimensionWeights": { "EI": 0, "SN": 0, "TF": 1, "JP": 0 } },
-        { "value": "B", "label": "感受与对他人影响", "dimensionWeights": { "EI": 0, "SN": 0, "TF": -1, "JP": 0 } }
-      ]
-    },
-    {
-      "id": "q3",
-      "text": "你更关注",
-      "dimensionWeights": { "EI": 0, "SN": 0, "TF": 0, "JP": 0 },
-      "options": [
-        { "value": "A", "label": "具体事实与细节", "dimensionWeights": { "EI": 0, "SN": 1, "TF": 0, "JP": 0 } },
-        { "value": "B", "label": "整体概念与可能性", "dimensionWeights": { "EI": 0, "SN": -1, "TF": 0, "JP": 0 } }
-      ]
-    },
-    {
-      "id": "q4",
-      "text": "你的生活节奏更偏向",
-      "dimensionWeights": { "EI": 0, "SN": 0, "TF": 0, "JP": 0 },
-      "options": [
-        { "value": "A", "label": "有计划、有条理", "dimensionWeights": { "EI": 0, "SN": 0, "TF": 0, "JP": 1 } },
-        { "value": "B", "label": "灵活、随性", "dimensionWeights": { "EI": 0, "SN": 0, "TF": 0, "JP": -1 } }
+    "deep": {
+      "estimatedMinutes": 8,
+      "questions": [
+        {
+          "id": "dq1",
+          "text": "我在刚认识的人面前通常愿意主动打开话题。",
+          "category": "EI",
+          "tags": [
+            "E"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 2,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 1,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": -1,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": -2,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq2",
+          "text": "我做判断时通常会先看已知事实和可验证的信息。",
+          "category": "SN",
+          "tags": [
+            "S"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 2,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 1,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": -1,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": -2,
+                "TF": 0,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq3",
+          "text": "做决定时，我通常先看逻辑是否站得住。",
+          "category": "TF",
+          "tags": [
+            "T"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 2,
+                "JP": 0
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 1,
+                "JP": 0
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": -1,
+                "JP": 0
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": -2,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq4",
+          "text": "我习惯提前规划时间，而不是把事情拖到最后。",
+          "category": "JP",
+          "tags": [
+            "J"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 2
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 1
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": -1
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": -2
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq5",
+          "text": "重要的想法我更愿意先自己想清楚，再表达给别人。",
+          "category": "EI",
+          "tags": [
+            "I"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": -2,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": -1,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 1,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 2,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq6",
+          "text": "我经常会从一个现象联想到更大的趋势或可能性。",
+          "category": "SN",
+          "tags": [
+            "N"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": -2,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": -1,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 1,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 2,
+                "TF": 0,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq7",
+          "text": "做选择时，我会认真考虑它会怎样影响他人的感受。",
+          "category": "TF",
+          "tags": [
+            "F"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": -2,
+                "JP": 0
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": -1,
+                "JP": 0
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 1,
+                "JP": 0
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 2,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq8",
+          "text": "我更喜欢保留选择空间，而不是太早把事情定死。",
+          "category": "JP",
+          "tags": [
+            "P"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": -2
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": -1
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 1
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 2
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq9",
+          "text": "别人说话时，我常会注意到字面之外的隐含意思。",
+          "category": "SN",
+          "tags": [
+            "N"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": -2,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": -1,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 1,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 2,
+                "TF": 0,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq10",
+          "text": "长时间社交后，我通常需要独处来恢复状态。",
+          "category": "EI",
+          "tags": [
+            "I"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": -2,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": -1,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 1,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 2,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq11",
+          "text": "临场变化对我来说不一定是麻烦，反而可能带来灵感。",
+          "category": "JP",
+          "tags": [
+            "P"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": -2
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": -1
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 1
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 2
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq12",
+          "text": "即使结论正确，我也会在意表达方式是否让人舒服。",
+          "category": "TF",
+          "tags": [
+            "F"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": -2,
+                "JP": 0
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": -1,
+                "JP": 0
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 1,
+                "JP": 0
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 2,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq13",
+          "text": "学习新内容时，我喜欢先掌握明确步骤和范例。",
+          "category": "SN",
+          "tags": [
+            "S"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 2,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 1,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": -1,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": -2,
+                "TF": 0,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq14",
+          "text": "参加多人活动时，我往往越互动越有精神。",
+          "category": "EI",
+          "tags": [
+            "E"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 2,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 1,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": -1,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": -2,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq15",
+          "text": "清晰的安排和进度，会让我更安心更高效。",
+          "category": "JP",
+          "tags": [
+            "J"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 2
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 1
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": -1
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": -2
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq16",
+          "text": "如果观点有漏洞，我会直接指出，即使气氛有点紧。",
+          "category": "TF",
+          "tags": [
+            "T"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 2,
+                "JP": 0
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 1,
+                "JP": 0
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": -1,
+                "JP": 0
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": -2,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq17",
+          "text": "我更容易被清晰的标准说服，而不是情绪化表达。",
+          "category": "TF",
+          "tags": [
+            "T"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 2,
+                "JP": 0
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 1,
+                "JP": 0
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": -1,
+                "JP": 0
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": -2,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq18",
+          "text": "出门旅行前，我通常会先把关键行程定好。",
+          "category": "JP",
+          "tags": [
+            "J"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 2
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 1
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": -1
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": -2
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq19",
+          "text": "遇到有趣的想法，我第一反应是说出来和别人讨论。",
+          "category": "EI",
+          "tags": [
+            "E"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 2,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 1,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": -1,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": -2,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq20",
+          "text": "相比未来设想，我更容易注意到眼前的细节问题。",
+          "category": "SN",
+          "tags": [
+            "S"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 2,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 1,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": -1,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": -2,
+                "TF": 0,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq21",
+          "text": "团队里有人情绪低落时，我通常会先察觉到。",
+          "category": "TF",
+          "tags": [
+            "F"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": -2,
+                "JP": 0
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": -1,
+                "JP": 0
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 1,
+                "JP": 0
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 2,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq22",
+          "text": "相比固定流程，我更愿意边做边调整方法。",
+          "category": "JP",
+          "tags": [
+            "P"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": -2
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": -1
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 1
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 2
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq23",
+          "text": "比起认识很多新朋友，我更享受和少数人深聊。",
+          "category": "EI",
+          "tags": [
+            "I"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": -2,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": -1,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 1,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 2,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq24",
+          "text": "重复且缺少变化的流程很容易让我失去兴趣。",
+          "category": "SN",
+          "tags": [
+            "N"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": -2,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": -1,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 1,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 2,
+                "TF": 0,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq25",
+          "text": "很多时候，我会在接近截止前进入最投入的状态。",
+          "category": "JP",
+          "tags": [
+            "P"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": -2
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": -1
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 1
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 2
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq26",
+          "text": "我常会为了维持关系和氛围，主动做一些缓冲。",
+          "category": "TF",
+          "tags": [
+            "F"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": -2,
+                "JP": 0
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": -1,
+                "JP": 0
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 1,
+                "JP": 0
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 2,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq27",
+          "text": "面对问题时，我会先想有没有更有创造性的路径。",
+          "category": "SN",
+          "tags": [
+            "N"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": -2,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": -1,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 1,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 2,
+                "TF": 0,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq28",
+          "text": "进入陌生群体时，我通常会先观察而不是立刻加入。",
+          "category": "EI",
+          "tags": [
+            "I"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": -2,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": -1,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 1,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 2,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq29",
+          "text": "完成一个阶段后，我喜欢立刻整理并关闭待办。",
+          "category": "JP",
+          "tags": [
+            "J"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 2
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 1
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": -1
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": -2
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq30",
+          "text": "处理分歧时，我倾向于先切开问题再谈感受。",
+          "category": "TF",
+          "tags": [
+            "T"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 2,
+                "JP": 0
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 1,
+                "JP": 0
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": -1,
+                "JP": 0
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": -2,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq31",
+          "text": "我更信任可靠经验，而不是尚未落地的灵感。",
+          "category": "SN",
+          "tags": [
+            "S"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 2,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 1,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": -1,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": -2,
+                "TF": 0,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq32",
+          "text": "团队场合里，我常自然承担带动气氛的角色。",
+          "category": "EI",
+          "tags": [
+            "E"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 2,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 1,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": -1,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": -2,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq33",
+          "text": "我常在安静环境里更容易进入专注和创造状态。",
+          "category": "EI",
+          "tags": [
+            "I"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": -2,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": -1,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 1,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 2,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq34",
+          "text": "如果连续几天没人交流，我会明显想找人说话。",
+          "category": "EI",
+          "tags": [
+            "E"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 2,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 1,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": -1,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": -2,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq35",
+          "text": "我喜欢讨论概念、模型和未来会发生什么。",
+          "category": "SN",
+          "tags": [
+            "N"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": -2,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": -1,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 1,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 2,
+                "TF": 0,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq36",
+          "text": "做事时我习惯先把具体条件、资源和限制列清楚。",
+          "category": "SN",
+          "tags": [
+            "S"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 2,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 1,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": -1,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": -2,
+                "TF": 0,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq37",
+          "text": "比起冷冰冰的标准，我更相信符合人性的处理方式。",
+          "category": "TF",
+          "tags": [
+            "F"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": -2,
+                "JP": 0
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": -1,
+                "JP": 0
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 1,
+                "JP": 0
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 2,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq38",
+          "text": "在压力情境下，我会优先追求判断的准确性。",
+          "category": "TF",
+          "tags": [
+            "T"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 2,
+                "JP": 0
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 1,
+                "JP": 0
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": -1,
+                "JP": 0
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": -2,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq39",
+          "text": "当新机会出现时，我愿意修改原计划去尝试。",
+          "category": "JP",
+          "tags": [
+            "P"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": -2
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": -1
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 1
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 2
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq40",
+          "text": "面对复杂任务时，我倾向于先建立结构再行动。",
+          "category": "JP",
+          "tags": [
+            "J"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 2
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 1
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": -1
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": -2
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq41",
+          "text": "如果计划反复被打断，我会想尽快让一切回到秩序。",
+          "category": "JP",
+          "tags": [
+            "J"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 2
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 1
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": -1
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": -2
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq42",
+          "text": "我不太喜欢被过早承诺绑住后续行动。",
+          "category": "JP",
+          "tags": [
+            "P"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": -2
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": -1
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 1
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 2
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq43",
+          "text": "如果一个方案没有明确执行细节，我会不太放心。",
+          "category": "SN",
+          "tags": [
+            "S"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 2,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 1,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": -1,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": -2,
+                "TF": 0,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq44",
+          "text": "一个点子即使暂时不现实，也值得先展开想象。",
+          "category": "SN",
+          "tags": [
+            "N"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": -2,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": -1,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 1,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 2,
+                "TF": 0,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq45",
+          "text": "我认为善意并不等于回避必要的批评。",
+          "category": "TF",
+          "tags": [
+            "T"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 2,
+                "JP": 0
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 1,
+                "JP": 0
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": -1,
+                "JP": 0
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": -2,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq46",
+          "text": "在冲突里，我希望每个人都被理解，而不是只分快慢对错。",
+          "category": "TF",
+          "tags": [
+            "F"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": -2,
+                "JP": 0
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": -1,
+                "JP": 0
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 1,
+                "JP": 0
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 2,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq47",
+          "text": "面对新环境，我通常先靠互动来熟悉节奏。",
+          "category": "EI",
+          "tags": [
+            "E"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 2,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 1,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": -1,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": -2,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq48",
+          "text": "即使活动很热闹，我也会刻意保留一点自己的空间。",
+          "category": "EI",
+          "tags": [
+            "I"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": -2,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": -1,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 1,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 2,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq49",
+          "text": "我通常更容易记住具体发生过什么，而不是模糊印象。",
+          "category": "SN",
+          "tags": [
+            "S"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 2,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 1,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": -1,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": -2,
+                "TF": 0,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq50",
+          "text": "评价一个方案时，我会先看它是否高效而一致。",
+          "category": "TF",
+          "tags": [
+            "T"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 2,
+                "JP": 0
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 1,
+                "JP": 0
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": -1,
+                "JP": 0
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": -2,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq51",
+          "text": "我喜欢把重要事项尽早定下来，这样心里更踏实。",
+          "category": "JP",
+          "tags": [
+            "J"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 2
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 1
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": -1
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": -2
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq52",
+          "text": "开会时，如果现场有点冷，我会想主动让讨论流动起来。",
+          "category": "EI",
+          "tags": [
+            "E"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 2,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 1,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": -1,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": -2,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq53",
+          "text": "我常会被新观点吸引，即使它暂时还没有直接用途。",
+          "category": "SN",
+          "tags": [
+            "N"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": -2,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": -1,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 1,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 2,
+                "TF": 0,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq54",
+          "text": "我需要先在心里形成完整看法，才会愿意公开表达。",
+          "category": "EI",
+          "tags": [
+            "I"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": -2,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": -1,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 1,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 2,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq55",
+          "text": "我不喜欢被过细的安排限制住发挥空间。",
+          "category": "JP",
+          "tags": [
+            "P"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": -2
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": -1
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 1
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 2
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq56",
+          "text": "我会在意一个决定是否尊重了每个人的处境。",
+          "category": "TF",
+          "tags": [
+            "F"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": -2,
+                "JP": 0
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": -1,
+                "JP": 0
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 1,
+                "JP": 0
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 2,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq57",
+          "text": "如果沟通方式太强硬，即使内容正确我也会不舒服。",
+          "category": "TF",
+          "tags": [
+            "F"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": -2,
+                "JP": 0
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": -1,
+                "JP": 0
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 1,
+                "JP": 0
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 2,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq58",
+          "text": "看到零散信息时，我会忍不住把它们串成一个整体图案。",
+          "category": "SN",
+          "tags": [
+            "N"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": -2,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": -1,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 1,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 2,
+                "TF": 0,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq59",
+          "text": "一个人待着时，我往往能更快恢复清晰和平静。",
+          "category": "EI",
+          "tags": [
+            "I"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": -2,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": -1,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 1,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 2,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq60",
+          "text": "对我来说，先行动再边走边看，常比先定满计划更自然。",
+          "category": "JP",
+          "tags": [
+            "P"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": -2
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": -1
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 1
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 2
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq61",
+          "text": "做决定前，我愿意先和别人聊聊，从对话里整理思路。",
+          "category": "EI",
+          "tags": [
+            "E"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 2,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 1,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": -1,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": -2,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq62",
+          "text": "完成任务后，我会有意识地收尾、归档和整理。",
+          "category": "JP",
+          "tags": [
+            "J"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 2
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 1
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": -1
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": -2
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq63",
+          "text": "我能接受短期不舒服，只要这能换来更合理的结果。",
+          "category": "TF",
+          "tags": [
+            "T"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 2,
+                "JP": 0
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 1,
+                "JP": 0
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": -1,
+                "JP": 0
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": -2,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq64",
+          "text": "如果建议听起来太抽象，我会先追问它怎么落地。",
+          "category": "SN",
+          "tags": [
+            "S"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 2,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 1,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": -1,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": -2,
+                "TF": 0,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq65",
+          "text": "如果途中出现更好的方案，我愿意立刻改道。",
+          "category": "JP",
+          "tags": [
+            "P"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": -2
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": -1
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 1
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 2
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq66",
+          "text": "我更愿意一步一步确认，而不是靠直觉跳到结论。",
+          "category": "SN",
+          "tags": [
+            "S"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 2,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 1,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": -1,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": -2,
+                "TF": 0,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq67",
+          "text": "我常会先感受到现场气氛的变化，再去分析原因。",
+          "category": "TF",
+          "tags": [
+            "F"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": -2,
+                "JP": 0
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": -1,
+                "JP": 0
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 1,
+                "JP": 0
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 2,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq68",
+          "text": "别人向我求助时，我常先想到解决方案而不是安慰的话。",
+          "category": "TF",
+          "tags": [
+            "T"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 2,
+                "JP": 0
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 1,
+                "JP": 0
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": -1,
+                "JP": 0
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": -2,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq69",
+          "text": "模糊和悬而未决的状态如果持续太久，会消耗我的精力。",
+          "category": "JP",
+          "tags": [
+            "J"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 2
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 1
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": -1
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": -2
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq70",
+          "text": "比起频繁分享近况，我更喜欢在有把握时再开口。",
+          "category": "EI",
+          "tags": [
+            "I"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": -2,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": -1,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 1,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 2,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq71",
+          "text": "我更享受打开方向的讨论，而不只是确认现有做法。",
+          "category": "SN",
+          "tags": [
+            "N"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": -2,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": -1,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 1,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 2,
+                "TF": 0,
+                "JP": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "dq72",
+          "text": "我通常不介意把自己的反应和热情直接表现出来。",
+          "category": "EI",
+          "tags": [
+            "E"
+          ],
+          "dimensionWeights": {
+            "EI": 0,
+            "SN": 0,
+            "TF": 0,
+            "JP": 0
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": "非常同意|很像平时的我",
+              "dimensionWeights": {
+                "EI": 2,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "2",
+              "label": "比较同意|多数时候符合",
+              "dimensionWeights": {
+                "EI": 1,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "3",
+              "label": "不确定|两边都差不多",
+              "dimensionWeights": {
+                "EI": 0,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "4",
+              "label": "比较不同意|多数时候不太像",
+              "dimensionWeights": {
+                "EI": -1,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            },
+            {
+              "value": "5",
+              "label": "非常不同意|明显不符合我",
+              "dimensionWeights": {
+                "EI": -2,
+                "SN": 0,
+                "TF": 0,
+                "JP": 0
+              }
+            }
+          ]
+        }
       ]
     }
-  ]
+  }
 }

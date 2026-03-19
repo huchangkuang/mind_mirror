@@ -1,48 +1,84 @@
-import type { QuestionBank, MbtiQuestion } from "./types";
+import type { QuestionBank, MbtiQuestion, MbtiTestMode } from "./types";
 import type { DimensionWeights } from "./types";
 
 const DEFAULT_BANK_PATH = "/data/mbti/questions.json";
+const DEFAULT_MODE: MbtiTestMode = "quick";
 
 /**
  * 从 API 或静态路径加载题库（客户端用 fetch）。
  * 返回带 meta 的完整题库，便于展示「共 N 题，预计 X 分钟」。
  */
-export async function fetchQuestionBank(baseUrl = ""): Promise<QuestionBank> {
-  const url = baseUrl ? `${baseUrl}${DEFAULT_BANK_PATH}` : DEFAULT_BANK_PATH;
+export async function fetchQuestionBank(baseUrl = "", mode: MbtiTestMode = DEFAULT_MODE): Promise<QuestionBank> {
+  const url = baseUrl ? `${baseUrl}${DEFAULT_BANK_PATH}?mode=${mode}` : `${DEFAULT_BANK_PATH}?mode=${mode}`;
   const res = await fetch(url);
   if (!res.ok) throw new Error(`Failed to load question bank: ${res.status}`);
   const data = await res.json();
-  return validateQuestionBank(data);
+  return validateQuestionBank(data, mode);
 }
 
 /**
  * 服务端从文件系统读取题库（用于 API Route）。
  */
-export async function loadQuestionBankFromFile(): Promise<QuestionBank> {
+export async function loadQuestionBankFromFile(mode: MbtiTestMode = DEFAULT_MODE): Promise<QuestionBank> {
   const path = await import("path");
   const fs = await import("fs/promises");
   const filePath = path.join(process.cwd(), "data", "mbti", "questions.json");
   const raw = await fs.readFile(filePath, "utf-8");
   const data = JSON.parse(raw) as unknown;
-  return validateQuestionBank(data);
+  return validateQuestionBank(data, mode);
 }
 
-export function validateQuestionBank(data: unknown): QuestionBank {
+export function validateQuestionBank(data: unknown, mode: MbtiTestMode = DEFAULT_MODE): QuestionBank {
   if (!data || typeof data !== "object") throw new Error("Invalid question bank");
   const o = data as Record<string, unknown>;
-  const meta = o.meta as Record<string, unknown> | undefined;
+  const legacyMeta = o.meta as Record<string, unknown> | undefined;
+
+  // New multi-mode format: { meta: { version }, modes: { quick, deep } }
+  if (o.modes && typeof o.modes === "object") {
+    const modes = o.modes as Record<string, unknown>;
+    const selected = modes[mode] as Record<string, unknown> | undefined;
+    if (!legacyMeta || typeof legacyMeta.version !== "string" || !selected) {
+      throw new Error("Invalid multi-mode question bank");
+    }
+    const questions = Array.isArray(selected.questions) ? selected.questions : [];
+    const estimatedMinutes = Number(selected.estimatedMinutes) || (mode === "deep" ? 12 : 8);
+    return {
+      meta: {
+        version: legacyMeta.version as string,
+        questionCount: questions.length,
+        estimatedMinutes,
+        mode,
+        questionType: mode === "deep" ? "likert5" : "binary",
+      },
+      questions: questions.map((q: unknown, i: number) => validateQuestion(q, i)),
+    };
+  }
+
+  // Legacy single-mode format.
   const questions = Array.isArray(o.questions) ? o.questions : [];
-  if (!meta || typeof meta.version !== "string" || typeof meta.questionCount !== "number" || typeof meta.estimatedMinutes !== "number") {
+  if (!legacyMeta || typeof legacyMeta.version !== "string") {
     throw new Error("Invalid question bank meta");
   }
-  const questionCount = questions.length;
+
+  const parsedQuestions = questions.map((q: unknown, i: number) => validateQuestion(q, i));
+  const selectedQuestions = mode === "deep" ? buildDeepQuestions(parsedQuestions) : parsedQuestions;
+
   return {
     meta: {
-      version: meta.version as string,
-      questionCount,
-      estimatedMinutes: meta.estimatedMinutes as number,
+      version: legacyMeta.version as string,
+      questionCount: selectedQuestions.length,
+      estimatedMinutes:
+        typeof legacyMeta.estimatedMinutes === "number"
+          ? mode === "deep"
+            ? Math.max(legacyMeta.estimatedMinutes, 10)
+            : legacyMeta.estimatedMinutes
+          : mode === "deep"
+            ? 10
+            : 5,
+      mode,
+      questionType: mode === "deep" ? "likert5" : "binary",
     },
-    questions: questions.map((q: unknown, i: number) => validateQuestion(q, i)),
+    questions: selectedQuestions,
   };
 }
 
@@ -78,5 +114,53 @@ function parseOption(opt: unknown, qIndex: number, oIndex: number): import("./ty
     value: String(o.value ?? "?"),
     label: String(o.label ?? ""),
     dimensionWeights: parseDimensionWeights(o.dimensionWeights),
+  };
+}
+
+function buildDeepQuestions(quickQuestions: MbtiQuestion[]): MbtiQuestion[] {
+  return quickQuestions.map((q) => {
+    const left = q.options.find((opt) => opt.value === "A") ?? q.options[0];
+    const right = q.options.find((opt) => opt.value === "B") ?? q.options[1];
+    const base = normalizeBaseWeights(left?.dimensionWeights ?? q.dimensionWeights);
+
+    return {
+      ...q,
+      options: [
+        buildLikertOption(1, "非常倾向左侧", base, 2),
+        buildLikertOption(2, "比较倾向左侧", base, 1),
+        buildLikertOption(3, "中立", base, 0),
+        buildLikertOption(4, "比较倾向右侧", base, -1),
+        buildLikertOption(5, "非常倾向右侧", base, -2),
+      ],
+      text: right?.label ? `${left?.label ?? q.text} / ${right.label}` : q.text,
+      dimensionWeights: { EI: 0, SN: 0, TF: 0, JP: 0 },
+    };
+  });
+}
+
+function normalizeBaseWeights(weights: DimensionWeights): DimensionWeights {
+  const normalized: DimensionWeights = { EI: 0, SN: 0, TF: 0, JP: 0 };
+  for (const key of ["EI", "SN", "TF", "JP"] as const) {
+    if (weights[key] > 0) normalized[key] = 1;
+    if (weights[key] < 0) normalized[key] = -1;
+  }
+  return normalized;
+}
+
+function buildLikertOption(
+  value: number,
+  label: string,
+  base: DimensionWeights,
+  factor: number
+): import("./types").QuestionOption {
+  return {
+    value: String(value),
+    label,
+    dimensionWeights: {
+      EI: base.EI * factor,
+      SN: base.SN * factor,
+      TF: base.TF * factor,
+      JP: base.JP * factor,
+    },
   };
 }
