@@ -7,6 +7,18 @@ import type { AuthUser } from "@/lib/auth/types";
 export const SESSION_COOKIE_NAME = "mm_session";
 const SESSION_TTL_DAYS = 30;
 
+/**
+ * 生产环境默认 `Secure` Cookie（仅 HTTPS 有效）。
+ * ECS/内网若用 HTTP 访问，浏览器会拒收或拒发 Cookie，表现为「刷新掉登录」。
+ * 此时设置环境变量：`COOKIE_SECURE=false`
+ */
+export function isSessionCookieSecure(): boolean {
+  const v = process.env.COOKIE_SECURE?.toLowerCase();
+  if (v === "false" || v === "0") return false;
+  if (v === "true" || v === "1") return true;
+  return process.env.NODE_ENV === "production";
+}
+
 interface UserSessionRow {
   user_id: number;
   username: string;
@@ -55,7 +67,7 @@ export function setSessionCookie(response: NextResponse, token: string) {
     value: token,
     httpOnly: true,
     sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
+    secure: isSessionCookieSecure(),
     path: "/",
     maxAge: SESSION_TTL_DAYS * 24 * 60 * 60,
   });
@@ -67,7 +79,7 @@ export function clearSessionCookie(response: NextResponse) {
     value: "",
     httpOnly: true,
     sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
+    secure: isSessionCookieSecure(),
     path: "/",
     maxAge: 0,
   });
