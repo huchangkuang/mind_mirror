@@ -9,12 +9,11 @@
   --foreground: #0f172a;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    /* 深蓝灰底，避免纯黑「死区」感，与 Tailwind slate 系页面一致 */
-    --background: #0f172a;
-    --foreground: #f1f5f9;
-  }
+/* 与 Tailwind `darkMode: 'class'` 一致：`html` 带 `dark` 类时生效（由主题脚本/Provider 设置） */
+:root.dark {
+  /* 深蓝灰底，避免纯黑「死区」感，与 Tailwind slate 系页面一致 */
+  --background: #0f172a;
+  --foreground: #f1f5f9;
 }
 
 body {

@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import "./globals.css";
 import { AuthBootstrap } from "@/components/auth/AuthBootstrap";
+import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { copy } from "@/lib/copy";
 import { getAuthServerSnapshot } from "@/lib/auth/server-snapshot";
+import { THEME_BOOT_SCRIPT } from "@/lib/theme/theme-boot-script";
 
 export const metadata: Metadata = {
   title: copy.app.title,
@@ -17,10 +20,15 @@ export default async function RootLayout({
   const snapshot = await getAuthServerSnapshot();
 
   return (
-    <html lang="zh-CN">
+    <html lang="zh-CN" suppressHydrationWarning>
       <body className="antialiased">
+        <Script
+          id="mind-mirror-theme-boot"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{ __html: THEME_BOOT_SCRIPT }}
+        />
         <AuthBootstrap snapshot={snapshot} />
-        {children}
+        <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
   );

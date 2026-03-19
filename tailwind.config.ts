@@ -1,8 +1,8 @@
 import type { Config } from "tailwindcss";
 
-/** 与 `globals.css` 中 `prefers-color-scheme` 一致：跟随系统浅色/深色，无手动主题开关 */
+/** 与 `globals.css` 中 `:root` / `:root.dark` 一致；`html` 的 `dark` 类由主题脚本与 ThemeProvider 维护 */
 const config: Config = {
-  darkMode: "media",
+  darkMode: "class",
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",

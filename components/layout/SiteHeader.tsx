@@ -1,12 +1,45 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { useTheme } from "@/components/theme/ThemeProvider";
+import { Switch } from "@/components/ui/Switch";
 import { useAuthStore } from "@/stores/auth-store";
 
 const AUTH_NEXT = (path: string) =>
   `/auth?next=${encodeURIComponent(path)}&mode=login`;
 const REGISTER_NEXT = (path: string) =>
   `/auth?next=${encodeURIComponent(path)}&mode=register`;
+
+function HeaderThemeSwitch({ isHero }: { isHero: boolean }) {
+  const { mode, setMode } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return (
+      <span
+        className="inline-block min-h-11 min-w-[3.25rem] shrink-0 rounded-full bg-transparent"
+        aria-hidden
+      />
+    );
+  }
+
+  const label = mode === "dark" ? "切换到浅色模式" : "切换到深色模式";
+
+  return (
+    <Switch
+      variant={isHero ? "hero" : "bar"}
+      checked={mode === "dark"}
+      onCheckedChange={(on) => setMode(on ? "dark" : "light")}
+      aria-label={label}
+      className="shrink-0"
+    />
+  );
+}
 
 interface SiteHeaderProps {
   /** 用于登录/注册回跳，例如 `/` 或 `/feedback` */
@@ -65,6 +98,8 @@ export function SiteHeader({ returnTo = "/", variant = "bar" }: SiteHeaderProps)
           <Link href="/feedback" className={feedbackMobileClass}>
             反馈
           </Link>
+
+          <HeaderThemeSwitch isHero={isHero} />
 
           {status === "loading" && (
             <span
