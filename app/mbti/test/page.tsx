@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useMbtiStore } from "@/stores/mbti-store";
@@ -14,7 +14,8 @@ function splitDeepLabel(label: string): { title: string; subtitle: string } {
   return { title: title ?? label, subtitle: subtitle ?? "" };
 }
 
-export default function MbtiTestPage() {
+// 使用useSearchParams的子组件
+function MbtiTestContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const requestedMode = searchParams.get("mode") === "deep" ? "deep" : "quick";
@@ -260,5 +261,18 @@ export default function MbtiTestPage() {
         </button>
       </div>
     </main>
+  );
+}
+
+// 导出默认组件，用Suspense包裹
+export default function MbtiTestPage() {
+  return (
+    <Suspense fallback={
+      <main className="min-h-screen p-6 max-w-3xl mx-auto flex items-center justify-center">
+        <p className="text-gray-500">加载中…</p>
+      </main>
+    }>
+      <MbtiTestContent />
+    </Suspense>
   );
 }
