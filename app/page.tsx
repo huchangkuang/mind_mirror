@@ -164,7 +164,7 @@ export default function Home() {
                   <div className="absolute inset-[2px] rounded-3xl bg-white dark:bg-slate-800 -z-10" />
 
                   {/* Featured Badge */}
-                  {test.featured && (
+                  {!!test.featured && (
                     <div className="absolute top-4 right-4">
                       <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-xs font-medium">
                         <Sparkles className="w-3 h-3" />
