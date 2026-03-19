@@ -23,7 +23,8 @@ export default function CityMatchResultPage() {
       return;
     }
 
-    fetch("/api/city-match/questions")
+    const currentMode = state.mode ?? "quick";
+    fetch(`/api/city-match/questions?mode=${currentMode}`)
       .then((r) => (r.ok ? r.json() : null))
       .then((data) => {
         if (!data?.questions?.length) return;
@@ -31,6 +32,7 @@ export default function CityMatchResultPage() {
           version: data.meta.version,
           questionCount: data.meta.questionCount,
           estimatedMinutes: data.meta.estimatedMinutes,
+          mode: data.meta.mode,
         });
         const ok = hydrate();
         if (ok) setDisplayResult(useCityMatchStore.getState().result ?? null);
@@ -43,7 +45,7 @@ export default function CityMatchResultPage() {
       <main className="min-h-screen p-6 max-w-2xl mx-auto">
         <Card>
           <p className="text-gray-600 dark:text-gray-400">暂无结果，请先完成测试。</p>
-          <Link href="/city-match/test" className="mt-4 inline-block">
+          <Link href="/city-match/test?mode=quick" className="mt-4 inline-block">
             <Button variant="primary">去测试</Button>
           </Link>
         </Card>
@@ -168,7 +170,7 @@ export default function CityMatchResultPage() {
         <Link href="/city-match">
           <Button variant="primary">返回首页</Button>
         </Link>
-        <Link href="/city-match/test">
+        <Link href="/city-match/test?mode=quick">
           <Button variant="secondary">重新测试</Button>
         </Link>
         <Link href="/city-match/history">

@@ -4,6 +4,7 @@
 
 // 四个维度
 export type DimensionKey = "lifestyle" | "social" | "environment" | "pace";
+export type CityMatchTestMode = "quick" | "full";
 
 // 维度权重
 export interface DimensionWeights {
@@ -32,12 +33,20 @@ export interface QuestionBankMeta {
   version: string;
   questionCount: number;
   estimatedMinutes: number;
+  mode: CityMatchTestMode;
 }
 
 // 题库
 export interface QuestionBank {
   meta: QuestionBankMeta;
   questions: CityMatchQuestion[];
+}
+
+export interface MultiModeQuestionBank {
+  meta: {
+    version: string;
+  };
+  modes: Record<CityMatchTestMode, Omit<QuestionBankMeta, "version" | "mode"> & { questions: CityMatchQuestion[] }>;
 }
 
 // 城市档案

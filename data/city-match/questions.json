@@ -1,129 +1,359 @@
 {
   "meta": {
-    "version": "1.0.0",
-    "questionCount": 12,
-    "estimatedMinutes": 5
+    "version": "2.0.0"
   },
-  "questions": [
-    {
-      "id": "q1",
-      "text": "周末你更喜欢如何度过？",
-      "options": [
-        { "value": "A", "label": "去博物馆、古迹或传统文化场所", "dimensionWeights": { "lifestyle": -10 } },
-        { "value": "B", "label": "逛购物中心、体验新潮娱乐", "dimensionWeights": { "lifestyle": 10 } },
-        { "value": "C", "label": "在家看书或做手工", "dimensionWeights": { "lifestyle": -5, "social": -10 } },
-        { "value": "D", "label": "参加聚会或社交活动", "dimensionWeights": { "social": 10 } }
+  "modes": {
+    "quick": {
+      "questionCount": 8,
+      "estimatedMinutes": 3,
+      "questions": [
+        {
+          "id": "q12",
+          "text": "对于生活中的变化和不确定性？",
+          "options": [
+            { "value": "A", "label": "充满兴奋，喜欢挑战和变化", "dimensionWeights": { "lifestyle": 15, "pace": 10 } },
+            { "value": "B", "label": "愿意接受适度的变化", "dimensionWeights": { "lifestyle": 5 } },
+            { "value": "C", "label": "更喜欢稳定可预期的生活", "dimensionWeights": { "lifestyle": -5, "pace": -5 } },
+            { "value": "D", "label": "需要很强的安全感，变化让人焦虑", "dimensionWeights": { "lifestyle": -15, "pace": -10 } }
+          ]
+        },
+        {
+          "id": "q3",
+          "text": "你的社交频率偏好？",
+          "options": [
+            { "value": "A", "label": "几乎每天都需要社交活动", "dimensionWeights": { "social": 15 } },
+            { "value": "B", "label": "每周几次，保持活跃社交圈", "dimensionWeights": { "social": 10 } },
+            { "value": "C", "label": "偶尔见面，更喜欢小圈子深交", "dimensionWeights": { "social": -5 } },
+            { "value": "D", "label": "大部分时间独处，社交是点缀", "dimensionWeights": { "social": -15 } }
+          ]
+        },
+        {
+          "id": "q4",
+          "text": "日常生活节奏偏好？",
+          "options": [
+            { "value": "A", "label": "快节奏，高效利用每一分钟", "dimensionWeights": { "pace": 15 } },
+            { "value": "B", "label": "忙中有序，保持工作和生活的平衡", "dimensionWeights": { "pace": 5 } },
+            { "value": "C", "label": "从容不迫，享受慢生活", "dimensionWeights": { "pace": -10 } },
+            { "value": "D", "label": "完全随性，没有固定日程", "dimensionWeights": { "pace": -15 } }
+          ]
+        },
+        {
+          "id": "q5",
+          "text": "你更喜欢哪种居住环境？",
+          "options": [
+            { "value": "A", "label": "市中心的高层公寓，享受便利", "dimensionWeights": { "environment": 15 } },
+            { "value": "B", "label": "城市近郊，有公园绿地的小区", "dimensionWeights": { "environment": 0 } },
+            { "value": "C", "label": "古镇或历史街区，有文化氛围", "dimensionWeights": { "environment": -5, "lifestyle": -10 } },
+            { "value": "D", "label": "靠近自然，能看到山或水的地方", "dimensionWeights": { "environment": -15 } }
+          ]
+        },
+        {
+          "id": "q10",
+          "text": "通勤方式的偏好？",
+          "options": [
+            { "value": "A", "label": "公共交通/地铁，高效便捷", "dimensionWeights": { "pace": 10, "environment": 10 } },
+            { "value": "B", "label": "开车，私密舒适", "dimensionWeights": { "pace": 5 } },
+            { "value": "C", "label": "步行或骑行，享受沿途风景", "dimensionWeights": { "pace": -10, "environment": -5 } },
+            { "value": "D", "label": "远程工作，不需要通勤", "dimensionWeights": { "pace": -15, "lifestyle": 5 } }
+          ]
+        },
+        {
+          "id": "q22",
+          "text": "如果可以远程工作，你会选择？",
+          "options": [
+            { "value": "A", "label": "仍住在大城市，方便社交和资源", "dimensionWeights": { "environment": 10, "social": 5 } },
+            { "value": "B", "label": "住在二线城市，平衡成本和便利", "dimensionWeights": { "lifestyle": 5, "pace": -5 } },
+            { "value": "C", "label": "住在风景城市，生活体验优先", "dimensionWeights": { "environment": -10, "pace": -10 } },
+            { "value": "D", "label": "城市不重要，常换地方体验", "dimensionWeights": { "lifestyle": 10, "pace": 5 } }
+          ]
+        },
+        {
+          "id": "q16",
+          "text": "你对生活成本的态度更接近？",
+          "options": [
+            { "value": "A", "label": "愿意为资源和机会承担高成本", "dimensionWeights": { "pace": 10, "environment": 10 } },
+            { "value": "B", "label": "能接受中等成本，追求性价比", "dimensionWeights": { "lifestyle": 5 } },
+            { "value": "C", "label": "更看重低成本和日常舒适", "dimensionWeights": { "pace": -10, "environment": -5 } },
+            { "value": "D", "label": "希望低开销且有更多自由时间", "dimensionWeights": { "pace": -15, "lifestyle": 10 } }
+          ]
+        },
+        {
+          "id": "q23",
+          "text": "遇到周末堵车和排队时，你会？",
+          "options": [
+            { "value": "A", "label": "习惯了，照常安排一天计划", "dimensionWeights": { "pace": 10, "environment": 10 } },
+            { "value": "B", "label": "提前规划错峰，尽量减少影响", "dimensionWeights": { "pace": 5, "lifestyle": 5 } },
+            { "value": "C", "label": "改去人少的地方，慢慢享受", "dimensionWeights": { "pace": -10, "environment": -10 } },
+            { "value": "D", "label": "直接取消外出，在家休息", "dimensionWeights": { "social": -10, "pace": -5 } }
+          ]
+        }
       ]
     },
-    {
-      "id": "q2",
-      "text": "理想的工作环境是？",
-      "options": [
-        { "value": "A", "label": "传统稳定的大公司或政府机构", "dimensionWeights": { "lifestyle": -10, "pace": -10 } },
-        { "value": "B", "label": "创新活力的创业公司或互联网企业", "dimensionWeights": { "lifestyle": 10, "pace": 10 } },
-        { "value": "C", "label": "自由职业或远程工作，灵活安排", "dimensionWeights": { "lifestyle": 5, "pace": -15 } },
-        { "value": "D", "label": "充满挑战和竞争的高压环境", "dimensionWeights": { "pace": 15 } }
-      ]
-    },
-    {
-      "id": "q3",
-      "text": "你的社交频率偏好？",
-      "options": [
-        { "value": "A", "label": "几乎每天都需要社交活动", "dimensionWeights": { "social": 15 } },
-        { "value": "B", "label": "每周几次，保持活跃社交圈", "dimensionWeights": { "social": 10 } },
-        { "value": "C", "label": "偶尔见面，更喜欢小圈子深交", "dimensionWeights": { "social": -5 } },
-        { "value": "D", "label": "大部分时间独处，社交是点缀", "dimensionWeights": { "social": -15 } }
-      ]
-    },
-    {
-      "id": "q4",
-      "text": "日常生活节奏偏好？",
-      "options": [
-        { "value": "A", "label": "快节奏，高效利用每一分钟", "dimensionWeights": { "pace": 15 } },
-        { "value": "B", "label": "忙中有序，保持工作和生活的平衡", "dimensionWeights": { "pace": 5 } },
-        { "value": "C", "label": "从容不迫，享受慢生活", "dimensionWeights": { "pace": -10 } },
-        { "value": "D", "label": "完全随性，没有固定日程", "dimensionWeights": { "pace": -15 } }
-      ]
-    },
-    {
-      "id": "q5",
-      "text": "你更喜欢哪种居住环境？",
-      "options": [
-        { "value": "A", "label": "市中心的高层公寓，享受便利", "dimensionWeights": { "environment": 15 } },
-        { "value": "B", "label": "城市近郊，有公园绿地的小区", "dimensionWeights": { "environment": 0 } },
-        { "value": "C", "label": "古镇或历史街区，有文化氛围", "dimensionWeights": { "environment": -5, "lifestyle": -10 } },
-        { "value": "D", "label": "靠近自然，能看到山或水的地方", "dimensionWeights": { "environment": -15 } }
-      ]
-    },
-    {
-      "id": "q6",
-      "text": "空闲时你更想做什么？",
-      "options": [
-        { "value": "A", "label": "去商场购物或看最新展览", "dimensionWeights": { "environment": 10, "lifestyle": 10 } },
-        { "value": "B", "label": "在咖啡厅工作或与朋友聊天", "dimensionWeights": { "social": 10, "pace": 5 } },
-        { "value": "C", "label": "去公园散步、骑行或登山", "dimensionWeights": { "environment": -10, "pace": -5 } },
-        { "value": "D", "label": "在家研究爱好或做手工", "dimensionWeights": { "social": -10, "environment": -5 } }
-      ]
-    },
-    {
-      "id": "q7",
-      "text": "对于传统文化的态度？",
-      "options": [
-        { "value": "A", "label": "非常珍视，喜欢传统生活方式", "dimensionWeights": { "lifestyle": -15 } },
-        { "value": "B", "label": "欣赏但选择性保留，愿意尝试新事物", "dimensionWeights": { "lifestyle": -5 } },
-        { "value": "C", "label": "适度尊重，更关注现代生活", "dimensionWeights": { "lifestyle": 5 } },
-        { "value": "D", "label": "拥抱变革，追求最前沿的生活方式", "dimensionWeights": { "lifestyle": 15 } }
-      ]
-    },
-    {
-      "id": "q8",
-      "text": "你的理想旅行方式是？",
-      "options": [
-        { "value": "A", "label": "深度探索大城市，体验都市繁华", "dimensionWeights": { "environment": 15 } },
-        { "value": "B", "label": "文化之旅，参观历史古迹和博物馆", "dimensionWeights": { "lifestyle": -10, "pace": -5 } },
-        { "value": "C", "label": "自然探险，徒步或去国家公园", "dimensionWeights": { "environment": -15 } },
-        { "value": "D", "label": "度假式休闲，找个地方放松", "dimensionWeights": { "pace": -15 } }
-      ]
-    },
-    {
-      "id": "q9",
-      "text": "面对陌生人，你通常？",
-      "options": [
-        { "value": "A", "label": "主动搭话，很容易交到新朋友", "dimensionWeights": { "social": 15 } },
-        { "value": "B", "label": "如果对方主动，会友好回应", "dimensionWeights": { "social": 5 } },
-        { "value": "C", "label": "保持礼貌距离，不轻易深交", "dimensionWeights": { "social": -5 } },
-        { "value": "D", "label": "尽量避免社交，独处更自在", "dimensionWeights": { "social": -15 } }
-      ]
-    },
-    {
-      "id": "q10",
-      "text": "通勤方式的偏好？",
-      "options": [
-        { "value": "A", "label": "公共交通/地铁，高效便捷", "dimensionWeights": { "pace": 10, "environment": 10 } },
-        { "value": "B", "label": "开车，私密舒适", "dimensionWeights": { "pace": 5 } },
-        { "value": "C", "label": "步行或骑行，享受沿途风景", "dimensionWeights": { "pace": -10, "environment": -5 } },
-        { "value": "D", "label": "远程工作，不需要通勤", "dimensionWeights": { "pace": -15, "lifestyle": 5 } }
-      ]
-    },
-    {
-      "id": "q11",
-      "text": "用餐时你更倾向？",
-      "options": [
-        { "value": "A", "label": "去网红餐厅体验新潮美食", "dimensionWeights": { "lifestyle": 10, "social": 10 } },
-        { "value": "B", "label": "传统老字号，经典味道", "dimensionWeights": { "lifestyle": -10 } },
-        { "value": "C", "label": "自己做饭，享受烹饪过程", "dimensionWeights": { "social": -10, "pace": -5 } },
-        { "value": "D", "label": "简单外卖，节省时间", "dimensionWeights": { "pace": 10 } }
-      ]
-    },
-    {
-      "id": "q12",
-      "text": "对于生活中的变化和不确定性？",
-      "options": [
-        { "value": "A", "label": "充满兴奋，喜欢挑战和变化", "dimensionWeights": { "lifestyle": 15, "pace": 10 } },
-        { "value": "B", "label": "愿意接受适度的变化", "dimensionWeights": { "lifestyle": 5 } },
-        { "value": "C", "label": "更喜欢稳定可预期的生活", "dimensionWeights": { "lifestyle": -5, "pace": -5 } },
-        { "value": "D", "label": "需要很强的安全感，变化让人焦虑", "dimensionWeights": { "lifestyle": -15, "pace": -10 } }
+    "full": {
+      "questionCount": 26,
+      "estimatedMinutes": 8,
+      "questions": [
+        {
+          "id": "q1",
+          "text": "周末你更喜欢如何度过？",
+          "options": [
+            { "value": "A", "label": "去博物馆、古迹或传统文化场所", "dimensionWeights": { "lifestyle": -10 } },
+            { "value": "B", "label": "逛购物中心、体验新潮娱乐", "dimensionWeights": { "lifestyle": 10 } },
+            { "value": "C", "label": "在家看书或做手工", "dimensionWeights": { "lifestyle": -5, "social": -10 } },
+            { "value": "D", "label": "参加聚会或社交活动", "dimensionWeights": { "social": 10 } }
+          ]
+        },
+        {
+          "id": "q2",
+          "text": "理想的工作环境是？",
+          "options": [
+            { "value": "A", "label": "传统稳定的大公司或政府机构", "dimensionWeights": { "lifestyle": -10, "pace": -10 } },
+            { "value": "B", "label": "创新活力的创业公司或互联网企业", "dimensionWeights": { "lifestyle": 10, "pace": 10 } },
+            { "value": "C", "label": "自由职业或远程工作，灵活安排", "dimensionWeights": { "lifestyle": 5, "pace": -15 } },
+            { "value": "D", "label": "充满挑战和竞争的高压环境", "dimensionWeights": { "pace": 15 } }
+          ]
+        },
+        {
+          "id": "q3",
+          "text": "你的社交频率偏好？",
+          "options": [
+            { "value": "A", "label": "几乎每天都需要社交活动", "dimensionWeights": { "social": 15 } },
+            { "value": "B", "label": "每周几次，保持活跃社交圈", "dimensionWeights": { "social": 10 } },
+            { "value": "C", "label": "偶尔见面，更喜欢小圈子深交", "dimensionWeights": { "social": -5 } },
+            { "value": "D", "label": "大部分时间独处，社交是点缀", "dimensionWeights": { "social": -15 } }
+          ]
+        },
+        {
+          "id": "q4",
+          "text": "日常生活节奏偏好？",
+          "options": [
+            { "value": "A", "label": "快节奏，高效利用每一分钟", "dimensionWeights": { "pace": 15 } },
+            { "value": "B", "label": "忙中有序，保持工作和生活的平衡", "dimensionWeights": { "pace": 5 } },
+            { "value": "C", "label": "从容不迫，享受慢生活", "dimensionWeights": { "pace": -10 } },
+            { "value": "D", "label": "完全随性，没有固定日程", "dimensionWeights": { "pace": -15 } }
+          ]
+        },
+        {
+          "id": "q5",
+          "text": "你更喜欢哪种居住环境？",
+          "options": [
+            { "value": "A", "label": "市中心的高层公寓，享受便利", "dimensionWeights": { "environment": 15 } },
+            { "value": "B", "label": "城市近郊，有公园绿地的小区", "dimensionWeights": { "environment": 0 } },
+            { "value": "C", "label": "古镇或历史街区，有文化氛围", "dimensionWeights": { "environment": -5, "lifestyle": -10 } },
+            { "value": "D", "label": "靠近自然，能看到山或水的地方", "dimensionWeights": { "environment": -15 } }
+          ]
+        },
+        {
+          "id": "q6",
+          "text": "空闲时你更想做什么？",
+          "options": [
+            { "value": "A", "label": "去商场购物或看最新展览", "dimensionWeights": { "environment": 10, "lifestyle": 10 } },
+            { "value": "B", "label": "在咖啡厅工作或与朋友聊天", "dimensionWeights": { "social": 10, "pace": 5 } },
+            { "value": "C", "label": "去公园散步、骑行或登山", "dimensionWeights": { "environment": -10, "pace": -5 } },
+            { "value": "D", "label": "在家研究爱好或做手工", "dimensionWeights": { "social": -10, "environment": -5 } }
+          ]
+        },
+        {
+          "id": "q7",
+          "text": "对于传统文化的态度？",
+          "options": [
+            { "value": "A", "label": "非常珍视，喜欢传统生活方式", "dimensionWeights": { "lifestyle": -15 } },
+            { "value": "B", "label": "欣赏但选择性保留，愿意尝试新事物", "dimensionWeights": { "lifestyle": -5 } },
+            { "value": "C", "label": "适度尊重，更关注现代生活", "dimensionWeights": { "lifestyle": 5 } },
+            { "value": "D", "label": "拥抱变革，追求最前沿的生活方式", "dimensionWeights": { "lifestyle": 15 } }
+          ]
+        },
+        {
+          "id": "q8",
+          "text": "你的理想旅行方式是？",
+          "options": [
+            { "value": "A", "label": "深度探索大城市，体验都市繁华", "dimensionWeights": { "environment": 15 } },
+            { "value": "B", "label": "文化之旅，参观历史古迹和博物馆", "dimensionWeights": { "lifestyle": -10, "pace": -5 } },
+            { "value": "C", "label": "自然探险，徒步或去国家公园", "dimensionWeights": { "environment": -15 } },
+            { "value": "D", "label": "度假式休闲，找个地方放松", "dimensionWeights": { "pace": -15 } }
+          ]
+        },
+        {
+          "id": "q9",
+          "text": "面对陌生人，你通常？",
+          "options": [
+            { "value": "A", "label": "主动搭话，很容易交到新朋友", "dimensionWeights": { "social": 15 } },
+            { "value": "B", "label": "如果对方主动，会友好回应", "dimensionWeights": { "social": 5 } },
+            { "value": "C", "label": "保持礼貌距离，不轻易深交", "dimensionWeights": { "social": -5 } },
+            { "value": "D", "label": "尽量避免社交，独处更自在", "dimensionWeights": { "social": -15 } }
+          ]
+        },
+        {
+          "id": "q10",
+          "text": "通勤方式的偏好？",
+          "options": [
+            { "value": "A", "label": "公共交通/地铁，高效便捷", "dimensionWeights": { "pace": 10, "environment": 10 } },
+            { "value": "B", "label": "开车，私密舒适", "dimensionWeights": { "pace": 5 } },
+            { "value": "C", "label": "步行或骑行，享受沿途风景", "dimensionWeights": { "pace": -10, "environment": -5 } },
+            { "value": "D", "label": "远程工作，不需要通勤", "dimensionWeights": { "pace": -15, "lifestyle": 5 } }
+          ]
+        },
+        {
+          "id": "q11",
+          "text": "用餐时你更倾向？",
+          "options": [
+            { "value": "A", "label": "去网红餐厅体验新潮美食", "dimensionWeights": { "lifestyle": 10, "social": 10 } },
+            { "value": "B", "label": "传统老字号，经典味道", "dimensionWeights": { "lifestyle": -10 } },
+            { "value": "C", "label": "自己做饭，享受烹饪过程", "dimensionWeights": { "social": -10, "pace": -5 } },
+            { "value": "D", "label": "简单外卖，节省时间", "dimensionWeights": { "pace": 10 } }
+          ]
+        },
+        {
+          "id": "q12",
+          "text": "对于生活中的变化和不确定性？",
+          "options": [
+            { "value": "A", "label": "充满兴奋，喜欢挑战和变化", "dimensionWeights": { "lifestyle": 15, "pace": 10 } },
+            { "value": "B", "label": "愿意接受适度的变化", "dimensionWeights": { "lifestyle": 5 } },
+            { "value": "C", "label": "更喜欢稳定可预期的生活", "dimensionWeights": { "lifestyle": -5, "pace": -5 } },
+            { "value": "D", "label": "需要很强的安全感，变化让人焦虑", "dimensionWeights": { "lifestyle": -15, "pace": -10 } }
+          ]
+        },
+        {
+          "id": "q13",
+          "text": "你希望家附近的配套更偏向？",
+          "options": [
+            { "value": "A", "label": "24小时便利店、商圈和夜生活", "dimensionWeights": { "environment": 15, "pace": 10 } },
+            { "value": "B", "label": "社区齐全，医院学校都方便", "dimensionWeights": { "environment": 5, "lifestyle": -5 } },
+            { "value": "C", "label": "公园和绿地优先", "dimensionWeights": { "environment": -10, "pace": -5 } },
+            { "value": "D", "label": "安静住宅区，配套适中即可", "dimensionWeights": { "environment": -5, "social": -5 } }
+          ]
+        },
+        {
+          "id": "q14",
+          "text": "你更偏好的气候类型是？",
+          "options": [
+            { "value": "A", "label": "四季分明、秋冬明显", "dimensionWeights": { "environment": 5 } },
+            { "value": "B", "label": "全年温暖湿润，冬天短", "dimensionWeights": { "environment": 10 } },
+            { "value": "C", "label": "凉爽干燥，空气清新", "dimensionWeights": { "environment": -10 } },
+            { "value": "D", "label": "只要舒服就行，适应力强", "dimensionWeights": { "lifestyle": 5 } }
+          ]
+        },
+        {
+          "id": "q15",
+          "text": "对城市夜生活的期待是？",
+          "options": [
+            { "value": "A", "label": "希望深夜也有丰富活动", "dimensionWeights": { "social": 10, "pace": 10, "environment": 10 } },
+            { "value": "B", "label": "偶尔出去，平时规律作息", "dimensionWeights": { "social": 5, "pace": 0 } },
+            { "value": "C", "label": "更喜欢安静夜晚和休息", "dimensionWeights": { "pace": -10, "environment": -5 } },
+            { "value": "D", "label": "夜晚属于自己，不想被打扰", "dimensionWeights": { "social": -10, "pace": -5 } }
+          ]
+        },
+        {
+          "id": "q16",
+          "text": "你对生活成本的态度更接近？",
+          "options": [
+            { "value": "A", "label": "愿意为资源和机会承担高成本", "dimensionWeights": { "pace": 10, "environment": 10 } },
+            { "value": "B", "label": "能接受中等成本，追求性价比", "dimensionWeights": { "lifestyle": 5 } },
+            { "value": "C", "label": "更看重低成本和日常舒适", "dimensionWeights": { "pace": -10, "environment": -5 } },
+            { "value": "D", "label": "希望低开销且有更多自由时间", "dimensionWeights": { "pace": -15, "lifestyle": -5 } }
+          ]
+        },
+        {
+          "id": "q17",
+          "text": "饮食偏好更像哪一种？",
+          "options": [
+            { "value": "A", "label": "喜欢尝试国际化和融合料理", "dimensionWeights": { "lifestyle": 10, "social": 5 } },
+            { "value": "B", "label": "偏好本地传统风味和烟火气", "dimensionWeights": { "lifestyle": -10, "social": 5 } },
+            { "value": "C", "label": "健康轻食，重视食材品质", "dimensionWeights": { "lifestyle": 5, "pace": -5 } },
+            { "value": "D", "label": "吃得简单快捷，效率第一", "dimensionWeights": { "pace": 10 } }
+          ]
+        },
+        {
+          "id": "q18",
+          "text": "假期你更愿意住在？",
+          "options": [
+            { "value": "A", "label": "城市中心精品酒店", "dimensionWeights": { "environment": 10, "lifestyle": 5 } },
+            { "value": "B", "label": "古城客栈或文化街区民宿", "dimensionWeights": { "lifestyle": -10, "environment": -5 } },
+            { "value": "C", "label": "海边或山野度假酒店", "dimensionWeights": { "environment": -15, "pace": -10 } },
+            { "value": "D", "label": "哪里都行，主要看同行的人", "dimensionWeights": { "social": 10 } }
+          ]
+        },
+        {
+          "id": "q19",
+          "text": "你希望居住空间更像？",
+          "options": [
+            { "value": "A", "label": "高层公寓，靠近地铁和商圈", "dimensionWeights": { "environment": 15, "pace": 5 } },
+            { "value": "B", "label": "有小区花园的中层住宅", "dimensionWeights": { "environment": 0 } },
+            { "value": "C", "label": "低密社区或小院子", "dimensionWeights": { "environment": -10, "pace": -5 } },
+            { "value": "D", "label": "能看山看海，空间大最重要", "dimensionWeights": { "environment": -15 } }
+          ]
+        },
+        {
+          "id": "q20",
+          "text": "你参加文化活动的频率是？",
+          "options": [
+            { "value": "A", "label": "每周都有展览、演出或活动", "dimensionWeights": { "lifestyle": 10, "social": 10, "environment": 5 } },
+            { "value": "B", "label": "每月几次，保持新鲜感", "dimensionWeights": { "lifestyle": 5, "social": 5 } },
+            { "value": "C", "label": "偶尔参与，随缘安排", "dimensionWeights": { "lifestyle": -5 } },
+            { "value": "D", "label": "基本不参加，偏好宅家", "dimensionWeights": { "social": -10, "lifestyle": -5 } }
+          ]
+        },
+        {
+          "id": "q21",
+          "text": "你理想中的社交圈子是？",
+          "options": [
+            { "value": "A", "label": "朋友多、活动多、信息流通快", "dimensionWeights": { "social": 15, "pace": 10 } },
+            { "value": "B", "label": "稳定同事和朋友圈，适度互动", "dimensionWeights": { "social": 5 } },
+            { "value": "C", "label": "少量深交，重视长期关系", "dimensionWeights": { "social": -10 } },
+            { "value": "D", "label": "社交越少越轻松", "dimensionWeights": { "social": -15, "pace": -5 } }
+          ]
+        },
+        {
+          "id": "q22",
+          "text": "如果可以远程工作，你会选择？",
+          "options": [
+            { "value": "A", "label": "仍住在大城市，方便社交和资源", "dimensionWeights": { "environment": 10, "social": 5 } },
+            { "value": "B", "label": "住在二线城市，平衡成本和便利", "dimensionWeights": { "lifestyle": 5, "pace": -5 } },
+            { "value": "C", "label": "住在风景城市，生活体验优先", "dimensionWeights": { "environment": -10, "pace": -10 } },
+            { "value": "D", "label": "城市不重要，常换地方体验", "dimensionWeights": { "lifestyle": 10, "pace": 5 } }
+          ]
+        },
+        {
+          "id": "q23",
+          "text": "遇到周末堵车和排队时，你会？",
+          "options": [
+            { "value": "A", "label": "习惯了，照常安排一天计划", "dimensionWeights": { "pace": 10, "environment": 10 } },
+            { "value": "B", "label": "提前规划错峰，尽量减少影响", "dimensionWeights": { "pace": 5, "lifestyle": 5 } },
+            { "value": "C", "label": "改去人少的地方，慢慢享受", "dimensionWeights": { "pace": -10, "environment": -10 } },
+            { "value": "D", "label": "直接取消外出，在家休息", "dimensionWeights": { "social": -10, "pace": -5 } }
+          ]
+        },
+        {
+          "id": "q24",
+          "text": "你希望城市给你的职业发展是？",
+          "options": [
+            { "value": "A", "label": "机会密集，竞争激烈，成长快", "dimensionWeights": { "pace": 15, "environment": 10 } },
+            { "value": "B", "label": "机会稳定，生活工作平衡", "dimensionWeights": { "pace": 5 } },
+            { "value": "C", "label": "压力适中，留有生活空间", "dimensionWeights": { "pace": -5, "lifestyle": -5 } },
+            { "value": "D", "label": "慢一点也没关系，优先幸福感", "dimensionWeights": { "pace": -15, "environment": -5 } }
+          ]
+        },
+        {
+          "id": "q25",
+          "text": "你更看重城市里的哪种景观？",
+          "options": [
+            { "value": "A", "label": "高楼天际线和现代建筑", "dimensionWeights": { "environment": 15, "lifestyle": 10 } },
+            { "value": "B", "label": "历史街区和老建筑", "dimensionWeights": { "lifestyle": -10, "environment": -5 } },
+            { "value": "C", "label": "江河湖海等自然景观", "dimensionWeights": { "environment": -15 } },
+            { "value": "D", "label": "社区公园和日常绿化", "dimensionWeights": { "environment": -5, "pace": -5 } }
+          ]
+        },
+        {
+          "id": "q26",
+          "text": "你理想中的一天结束方式是？",
+          "options": [
+            { "value": "A", "label": "参加活动后回家，充实又高效", "dimensionWeights": { "social": 10, "pace": 10 } },
+            { "value": "B", "label": "和朋友吃饭散步，轻松收尾", "dimensionWeights": { "social": 5, "pace": -5 } },
+            { "value": "C", "label": "在家阅读听音乐，慢慢放松", "dimensionWeights": { "social": -10, "pace": -10 } },
+            { "value": "D", "label": "去江边海边吹风，感受自然", "dimensionWeights": { "environment": -10, "pace": -10 } }
+          ]
+        }
       ]
     }
-  ]
+  }
 }

@@ -1,18 +1,22 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { Suspense, useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useCityMatchStore } from "@/stores/city-match-store";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 
-export default function CityMatchTestPage() {
+function CityMatchTestContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const requestedMode = searchParams.get("mode") === "full" ? "full" : "quick";
+
   const {
     questions,
     meta,
+    mode,
     currentIndex,
     answers,
     result,
@@ -20,6 +24,7 @@ export default function CityMatchTestPage() {
     isLoading,
     error,
     setQuestions,
+    setMode,
     setLoading,
     setError,
     answer,
@@ -34,11 +39,24 @@ export default function CityMatchTestPage() {
   const [loadKey, setLoadKey] = useState(0);
 
   useEffect(() => {
+    const state = useCityMatchStore.getState();
+    const hasInProgress = Object.keys(state.answers).length > 0 || state.currentIndex > 0;
+
+    if (state.mode !== requestedMode && hasInProgress) {
+      const ok = window.confirm("切换测试模式将清空当前进度，是否继续？");
+      if (!ok) {
+        router.replace(`/city-match/test?mode=${state.mode}`);
+        return;
+      }
+      reset();
+    }
+
+    setMode(requestedMode);
     setHydrated(false);
     setLoading(true);
     setError(null);
 
-    fetch("/api/city-match/questions")
+    fetch(`/api/city-match/questions?mode=${requestedMode}`)
       .then((r) => {
         if (!r.ok) throw new Error("加载题目失败");
         return r.json();
@@ -48,13 +66,14 @@ export default function CityMatchTestPage() {
           version: data.meta.version,
           questionCount: data.meta.questionCount,
           estimatedMinutes: data.meta.estimatedMinutes,
+          mode: data.meta.mode,
         });
         hydrate();
         setHydrated(true);
         setLoading(false);
 
-        const state = useCityMatchStore.getState();
-        if (state.isSubmitted && state.result) {
+        const currentState = useCityMatchStore.getState();
+        if (currentState.isSubmitted && currentState.result) {
           router.replace("/city-match/result");
         }
       })
@@ -62,7 +81,17 @@ export default function CityMatchTestPage() {
         setError(e instanceof Error ? e.message : "加载失败");
         setLoading(false);
       });
-  }, [loadKey]);
+  }, [
+    loadKey,
+    requestedMode,
+    reset,
+    router,
+    setError,
+    setLoading,
+    setMode,
+    setQuestions,
+    hydrate,
+  ]);
 
   useEffect(() => {
     if (isSubmitted && result) {
@@ -112,12 +141,14 @@ export default function CityMatchTestPage() {
   return (
     <main className="min-h-screen p-6 max-w-2xl mx-auto">
       <div className="mb-6">
+        <div className="mb-2 flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
+          <span>{mode === "full" ? "完整版" : "快速版"}</span>
+          <span>第 {currentIndex + 1} / {questions.length} 题</span>
+        </div>
         <ProgressBar current={answeredCount} total={questions.length} />
       </div>
+
       <Card>
-        <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
-          第 {currentIndex + 1} / {questions.length} 题
-        </p>
         <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">{current.text}</h2>
         <ul className="space-y-2">
           {current.options.map((opt) => (
@@ -136,6 +167,7 @@ export default function CityMatchTestPage() {
             </li>
           ))}
         </ul>
+
         <div className="mt-8 flex justify-between">
           <Button variant="ghost" onClick={prevQuestion} disabled={currentIndex === 0}>
             上一题
@@ -151,18 +183,46 @@ export default function CityMatchTestPage() {
           )}
         </div>
       </Card>
-      <div className="mt-4 text-center">
+
+      <div className="mt-4 flex items-center justify-center gap-4 text-sm">
+        <button
+          type="button"
+          onClick={() => {
+            const ok = window.confirm("确定要放弃当前测试并返回首页吗？");
+            if (!ok) return;
+            reset();
+            router.push("/city-match");
+          }}
+          className="text-red-500 hover:underline"
+        >
+          放弃测试
+        </button>
+        <span className="text-gray-300 dark:text-gray-600">|</span>
         <button
           type="button"
           onClick={() => {
             reset();
             setLoadKey((k) => k + 1);
           }}
-          className="text-sm text-gray-500 hover:underline"
+          className="text-gray-500 hover:underline"
         >
           重新开始
         </button>
       </div>
     </main>
+  );
+}
+
+export default function CityMatchTestPage() {
+  return (
+    <Suspense
+      fallback={
+        <main className="min-h-screen p-6 max-w-2xl mx-auto flex items-center justify-center">
+          <p className="text-gray-500">加载中…</p>
+        </main>
+      }
+    >
+      <CityMatchTestContent />
+    </Suspense>
   );
 }

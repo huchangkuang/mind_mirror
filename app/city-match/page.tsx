@@ -43,15 +43,24 @@ export default function CityMatchLandingPage() {
             通过分析你的性格特征和生活方式偏好，为你推荐最适合居住的城市
           </p>
 
-          {/* CTA Button */}
+          {/* CTA Buttons */}
           <div className="animate-fade-in-up">
-            <Link
-              href="/city-match/test"
-              className="group inline-flex items-center gap-3 px-8 py-4 bg-white text-teal-600 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95"
-            >
-              开始测试
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </Link>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Link
+                href="/city-match/test?mode=quick"
+                className="group inline-flex items-center gap-3 px-8 py-4 bg-white text-teal-600 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95"
+              >
+                快速版（8题 / 约3分钟）
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </Link>
+              <Link
+                href="/city-match/test?mode=full"
+                className="group inline-flex items-center gap-3 px-8 py-4 bg-teal-900/30 text-white border border-white/40 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95"
+              >
+                完整版（25+题 / 约8分钟）
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </div>
           </div>
         </div>
       </section>
@@ -72,8 +81,8 @@ export default function CityMatchLandingPage() {
             {[
               { icon: Building2, title: "多维度分析", desc: "从生活方式、社交、环境、节奏四个维度评估" },
               { icon: MapPin, title: "全球城市", desc: "涵盖国内外10+个特色城市，多元选择" },
-              { icon: Clock, title: "5分钟完成", desc: "12道精心设计的题目，快速获得结果" },
-              { icon: Sparkles, title: "智能匹配", desc: "基于算法推荐最匹配你性格的城市" },
+              { icon: Clock, title: "双模式测试", desc: "快速版3分钟，完整版8分钟，按你的时间自由选择" },
+              { icon: Sparkles, title: "城市更丰富", desc: "覆盖中国热门城市与国际知名城市，结果更细致" },
             ].map((feature, index) => (
               <div
                 key={index}
@@ -141,13 +150,22 @@ export default function CityMatchLandingPage() {
                 5分钟，开启一段寻找理想之城的旅程
               </p>
 
-              <Link
-                href="/city-match/test"
-                className="group inline-flex items-center gap-3 px-8 py-4 bg-white text-teal-600 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95"
-              >
-                立即开始测试
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </Link>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <Link
+                  href="/city-match/test?mode=quick"
+                  className="group inline-flex items-center gap-3 px-8 py-4 bg-white text-teal-600 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95"
+                >
+                  快速版（8题 / 约3分钟）
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </Link>
+                <Link
+                  href="/city-match/test?mode=full"
+                  className="group inline-flex items-center gap-3 px-8 py-4 bg-teal-900/30 text-white border border-white/40 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95"
+                >
+                  完整版（25+题 / 约8分钟）
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </div>
 
               <div className="flex flex-wrap justify-center gap-6 mt-8 text-white/70 text-sm">
                 <Link href="/" className="hover:text-white transition-colors flex items-center gap-1">

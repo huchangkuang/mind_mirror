@@ -248,7 +248,20 @@ function MbtiTestContent() {
           )}
         </div>
       </Card>
-      <div className="mt-4 text-center">
+      <div className="mt-4 flex items-center justify-center gap-4 text-sm">
+        <button
+          type="button"
+          onClick={() => {
+            const ok = window.confirm("确定要放弃当前测试并返回首页吗？");
+            if (!ok) return;
+            reset();
+            router.push("/mbti");
+          }}
+          className="text-red-500 hover:underline"
+        >
+          放弃测试
+        </button>
+        <span className="text-gray-300 dark:text-gray-600">|</span>
         <button
           type="button"
           onClick={() => {
