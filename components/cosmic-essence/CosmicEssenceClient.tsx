@@ -1,12 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { COSMIC_QUESTIONS } from "@/lib/cosmic-essence/questions";
 import { COSMIC_RESULTS } from "@/lib/cosmic-essence/results";
 import { resolveCosmicResult } from "@/lib/cosmic-essence/score";
 import type { CosmicDimension, CosmicResultId } from "@/lib/cosmic-essence/types";
+import { getDefaultShareUrlFromPageUrl } from "@/lib/shareQrcode";
 import { CosmicStarfield } from "./CosmicStarfield";
 
 type Phase = "intro" | "quiz" | "result";
@@ -14,9 +15,68 @@ type Phase = "intro" | "quiz" | "result";
 const PLACEHOLDER_NICK = "星际旅人";
 const TOTAL = COSMIC_QUESTIONS.length;
 
+/** 站点启用 HTTPS 并验证保存流程后改为 `true` */
+const COSMIC_POSTER_SAVE_ENABLED = false;
+
 function isIos(): boolean {
   if (typeof navigator === "undefined") return false;
   return /iPad|iPhone|iPod/i.test(navigator.userAgent);
+}
+
+/** 将链接绘入 canvas；widthPx 为输出边长（模块矩阵会按比例缩放）。 */
+async function paintPosterQrcodeCanvas(
+  canvas: HTMLCanvasElement,
+  pageUrl: string,
+  widthPx = 96,
+): Promise<void> {
+  const QRCode = (await import("qrcode")).default;
+  const target = getDefaultShareUrlFromPageUrl(pageUrl);
+  await new Promise<void>((resolve, reject) => {
+    QRCode.toCanvas(
+      canvas,
+      target,
+      {
+        width: widthPx,
+        margin: 1,
+        errorCorrectionLevel: "M",
+        color: { dark: "#000000", light: "#ffffff" },
+      },
+      (err) => {
+        if (err) reject(err);
+        else resolve();
+      },
+    );
+  });
+}
+
+/** html2canvas 常截不到离屏/负坐标下的子 canvas；导出后在位图上叠一张高清码。 */
+function compositeQrcodeOnPosterCanvas(
+  posterCanvas: HTMLCanvasElement,
+  posterEl: HTMLElement,
+  qrSlotEl: HTMLElement,
+  qrSource: HTMLCanvasElement,
+  scale: number,
+): void {
+  const ctx = posterCanvas.getContext("2d");
+  if (!ctx) return;
+  const pr = posterEl.getBoundingClientRect();
+  const sr = qrSlotEl.getBoundingClientRect();
+  if (sr.width < 2 || sr.height < 2) return;
+  const x = (sr.left - pr.left) * scale;
+  const y = (sr.top - pr.top) * scale;
+  const w = sr.width * scale;
+  const h = sr.height * scale;
+  const padCss = 6;
+  const p = padCss * scale;
+  ctx.save();
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(x, y, w, h);
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = "high";
+  const innerW = Math.max(1, w - 2 * p);
+  const innerH = Math.max(1, h - 2 * p);
+  ctx.drawImage(qrSource, x + p, y + p, innerW, innerH);
+  ctx.restore();
 }
 
 export function CosmicEssenceClient() {
@@ -29,8 +89,12 @@ export function CosmicEssenceClient() {
   const [saving, setSaving] = useState(false);
   const [saveHint, setSaveHint] = useState<string | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [posterQrReady, setPosterQrReady] = useState(false);
 
+  const posterHostRef = useRef<HTMLDivElement>(null);
   const posterRef = useRef<HTMLDivElement>(null);
+  const posterQrSlotRef = useRef<HTMLDivElement>(null);
+  const posterQrCanvasRef = useRef<HTMLCanvasElement>(null);
 
   const displayName = nickname.trim() || PLACEHOLDER_NICK;
   const result = resultId ? COSMIC_RESULTS[resultId] : null;
@@ -70,47 +134,108 @@ export function CosmicEssenceClient() {
     });
   };
 
-  const capturePoster = useCallback(async () => {
-    const el = posterRef.current;
-    if (!el) return null;
-    const html2canvas = (await import("html2canvas")).default;
-    const scale = Math.min(2, typeof window !== "undefined" ? window.devicePixelRatio || 2 : 2);
-    return html2canvas(el, {
-      scale,
-      useCORS: true,
-      backgroundColor: "#0b1020",
-      logging: false,
-      onclone(clonedDoc, clonedEl) {
-        const node =
-          clonedEl instanceof HTMLElement
-            ? clonedEl
-            : (clonedDoc.querySelector("[data-cosmic-poster]") as HTMLElement | null);
-        if (node) {
-          node.style.animation = "none";
-          node.querySelectorAll(".cosmic-poster-no-anim").forEach((child) => {
-            (child as HTMLElement).style.animation = "none";
-          });
-        }
-        clonedDoc.querySelectorAll("[data-cosmic-pill]").forEach((el) => {
-          const pill = el as HTMLElement;
-          pill.style.display = "inline-flex";
-          pill.style.alignItems = "center";
-          pill.style.justifyContent = "center";
-          pill.style.boxSizing = "border-box";
-          pill.style.minHeight = "36px";
-          pill.style.paddingTop = "8px";
-          pill.style.paddingBottom = "8px";
-          pill.style.paddingLeft = "16px";
-          pill.style.paddingRight = "16px";
-          pill.style.lineHeight = "16px";
-          pill.style.fontSize = "12px";
-        });
-      },
+  const buildPosterPngCanvas = useCallback(async (): Promise<HTMLCanvasElement | null> => {
+    const posterEl = posterRef.current;
+    const qrSlotEl = posterQrSlotRef.current;
+    const host = posterHostRef.current;
+    if (!posterEl || !qrSlotEl || typeof window === "undefined") return null;
+
+    const scale = Math.min(2, window.devicePixelRatio || 2);
+    const qrHi = document.createElement("canvas");
+    await paintPosterQrcodeCanvas(qrHi, window.location.href, 512);
+
+    if (host) {
+      host.style.left = "0px";
+      host.style.top = "100vh";
+      host.style.zIndex = "2147483646";
+    }
+    await new Promise<void>((resolve) => {
+      requestAnimationFrame(() => requestAnimationFrame(() => resolve()));
     });
+
+    try {
+      const html2canvas = (await import("html2canvas")).default;
+      const posterCanvas = await html2canvas(posterEl, {
+        scale,
+        useCORS: true,
+        backgroundColor: "#0b1020",
+        logging: false,
+        onclone(clonedDoc, clonedEl) {
+          const node =
+            clonedEl instanceof HTMLElement
+              ? clonedEl
+              : (clonedDoc.querySelector("[data-cosmic-poster]") as HTMLElement | null);
+          if (node) {
+            node.style.animation = "none";
+            node.querySelectorAll(".cosmic-poster-no-anim").forEach((child) => {
+              (child as HTMLElement).style.animation = "none";
+            });
+          }
+          clonedDoc.querySelectorAll("[data-cosmic-qr-loading]").forEach((overlay) => {
+            (overlay as HTMLElement).style.display = "none";
+          });
+          clonedDoc.querySelectorAll("[data-cosmic-pill]").forEach((pillEl) => {
+            const pill = pillEl as HTMLElement;
+            pill.style.display = "inline-table";
+            pill.style.height = "36px";
+            pill.style.boxSizing = "border-box";
+            pill.style.borderCollapse = "separate";
+            pill.style.borderSpacing = "0";
+            pill.style.overflow = "hidden";
+            pill.style.padding = "0";
+            const inner = pill.querySelector("span");
+            if (inner) {
+              const s = inner as HTMLElement;
+              s.style.display = "table-cell";
+              s.style.verticalAlign = "middle";
+              s.style.textAlign = "center";
+              s.style.padding = "0 16px";
+              s.style.fontSize = "12px";
+              s.style.lineHeight = "1.25";
+              s.style.whiteSpace = "nowrap";
+            }
+          });
+        },
+      });
+      compositeQrcodeOnPosterCanvas(posterCanvas, posterEl, qrSlotEl, qrHi, scale);
+      return posterCanvas;
+    } finally {
+      if (host) {
+        host.style.left = "";
+        host.style.top = "";
+        host.style.zIndex = "";
+      }
+    }
   }, []);
 
+  useEffect(() => {
+    if (!COSMIC_POSTER_SAVE_ENABLED) return;
+    if (!result || typeof window === "undefined") {
+      setPosterQrReady(false);
+      return;
+    }
+    let cancelled = false;
+    setPosterQrReady(false);
+    const raf = requestAnimationFrame(() => {
+      void (async () => {
+        const canvas = posterQrCanvasRef.current;
+        if (!canvas || cancelled) return;
+        try {
+          await paintPosterQrcodeCanvas(canvas, window.location.href);
+          if (!cancelled) setPosterQrReady(true);
+        } catch {
+          if (!cancelled) setPosterQrReady(false);
+        }
+      })();
+    });
+    return () => {
+      cancelled = true;
+      cancelAnimationFrame(raf);
+    };
+  }, [result]);
+
   const savePoster = async () => {
-    if (!result || saving) return;
+    if (!COSMIC_POSTER_SAVE_ENABLED || !result || saving) return;
     setSaving(true);
     setSaveHint(null);
     if (previewUrl?.startsWith("blob:")) {
@@ -118,7 +243,21 @@ export function CosmicEssenceClient() {
     }
     setPreviewUrl(null);
     try {
-      const canvas = await capturePoster();
+      const qrCanvas = posterQrCanvasRef.current;
+      if (qrCanvas && typeof window !== "undefined") {
+        try {
+          await paintPosterQrcodeCanvas(qrCanvas, window.location.href);
+          setPosterQrReady(true);
+        } catch {
+          /* 无码时仍尝试导出 */
+        }
+      }
+
+      await new Promise<void>((resolve) => {
+        requestAnimationFrame(() => requestAnimationFrame(() => resolve()));
+      });
+
+      const canvas = await buildPosterPngCanvas();
       if (!canvas) {
         setSaveHint("生成失败，请稍后重试。");
         return;
@@ -128,29 +267,9 @@ export function CosmicEssenceClient() {
         canvas.toBlob((b) => resolve(b), "image/png", 0.92),
       );
 
-      if (blob && typeof navigator.share === "function" && typeof navigator.canShare === "function") {
-        const file = new File([blob], `宇宙精神原色-${result.name}.png`, {
-          type: "image/png",
-        });
-        if (navigator.canShare({ files: [file] })) {
-          try {
-            await navigator.share({
-              files: [file],
-              title: "宇宙精神原色",
-              text: `${displayName} · ${result.name}`,
-            });
-            setSaveHint("已通过系统分享发出。");
-            return;
-          } catch (e) {
-            if ((e as Error).name === "AbortError") {
-              return;
-            }
-          }
-        }
-      }
-
       if (blob && isIos()) {
-        setPreviewUrl(URL.createObjectURL(blob));
+        // 避免 <img src="blob:http://..."> 在 HTTP 站点触发「insecure connection」类控制台提示；data: 不经过 blob 协议
+        setPreviewUrl(canvas.toDataURL("image/png"));
         setSaveHint("iOS：长按下方图片，选择「存储图像」保存到相册。");
         return;
       }
@@ -205,11 +324,12 @@ export function CosmicEssenceClient() {
                 宇宙精神原色测试
               </h1>
               <p className="text-sm leading-relaxed text-slate-300">
-                8 道情境单选题，为你的精神光谱匹配一种宇宙原色。结果可生成海报分享。
+                8 道情境单选题，为你的精神光谱匹配一种宇宙原色。
+                {COSMIC_POSTER_SAVE_ENABLED ? " 结果可生成海报分享。" : ""}
               </p>
               <div className="rounded-2xl border border-white/10 bg-slate-950/40 p-4 text-left backdrop-blur-md">
                 <label className="text-xs font-medium text-slate-400" htmlFor="cosmic-nick">
-                  昵称（用于海报，可留空）
+                  {COSMIC_POSTER_SAVE_ENABLED ? "昵称（用于海报，可留空）" : "昵称（可留空）"}
                 </label>
                 <input
                   id="cosmic-nick"
@@ -300,37 +420,43 @@ export function CosmicEssenceClient() {
                   <p className="text-sm text-sky-200/90">{posterKeywords}</p>
                   <p className="text-sm leading-relaxed text-slate-200">{result.soul}</p>
                   <div className="flex flex-wrap gap-3">
-                    <span className="inline-flex min-h-9 items-center justify-center rounded-full border border-white/10 bg-black/20 px-4 text-xs font-medium leading-none text-slate-200">
-                      {result.rarityLabel}
+                    <span className="inline-table h-9 rounded-full border border-white/10 bg-black/20 text-xs font-medium text-slate-200">
+                      <span className="table-cell h-9 max-h-9 align-middle px-4 leading-[1.25]">
+                        {result.rarityLabel}
+                      </span>
                     </span>
-                    <span className="inline-flex min-h-9 items-center justify-center rounded-full border border-white/10 bg-black/20 px-4 text-xs font-medium leading-none text-slate-200">
-                      契合：{result.affinityName}
+                    <span className="inline-table h-9 rounded-full border border-white/10 bg-black/20 text-xs font-medium text-slate-200">
+                      <span className="table-cell h-9 max-h-9 align-middle px-4 leading-[1.25]">
+                        契合：{result.affinityName}
+                      </span>
                     </span>
                   </div>
                 </div>
               </div>
 
               <div className="flex flex-col gap-3 sm:flex-row">
-                <button
-                  type="button"
-                  onClick={savePoster}
-                  disabled={saving}
-                  className="flex-1 rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-900 transition hover:bg-slate-100 disabled:opacity-60"
-                >
-                  {saving ? "生成中…" : "保存海报"}
-                </button>
+                {COSMIC_POSTER_SAVE_ENABLED && (
+                  <button
+                    type="button"
+                    onClick={savePoster}
+                    disabled={saving}
+                    className="flex-1 rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-900 transition hover:bg-slate-100 disabled:opacity-60"
+                  >
+                    {saving ? "生成中…" : "保存海报"}
+                  </button>
+                )}
                 <button
                   type="button"
                   onClick={startQuiz}
-                  className="flex-1 rounded-full border border-white/20 px-6 py-3 text-sm font-medium text-slate-100 hover:bg-white/5"
+                  className={`rounded-full border border-white/20 px-6 py-3 text-sm font-medium text-slate-100 hover:bg-white/5 ${COSMIC_POSTER_SAVE_ENABLED ? "flex-1" : "w-full"}`}
                 >
                   再测一次
                 </button>
               </div>
-              {saveHint && (
+              {COSMIC_POSTER_SAVE_ENABLED && saveHint && (
                 <p className="text-center text-xs leading-relaxed text-slate-400">{saveHint}</p>
               )}
-              {previewUrl && (
+              {COSMIC_POSTER_SAVE_ENABLED && previewUrl && (
                 <div className="rounded-2xl border border-white/10 bg-black/30 p-3">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
@@ -345,9 +471,10 @@ export function CosmicEssenceClient() {
         </main>
       </div>
 
-      {/* 离屏海报：供 html2canvas 渲染 */}
+      {COSMIC_POSTER_SAVE_ENABLED && (
       <div
-        className="pointer-events-none fixed left-[-10000px] top-0 z-[-1] h-[960px] w-[540px] overflow-hidden"
+        ref={posterHostRef}
+        className="pointer-events-none fixed left-0 top-[100vh] z-[-1] h-[960px] w-[540px] overflow-hidden"
         aria-hidden
       >
         {result && (
@@ -394,39 +521,35 @@ export function CosmicEssenceClient() {
               <div className="mt-2 flex flex-wrap gap-2">
                 <div
                   data-cosmic-pill
-                  className={`cosmic-poster-no-anim inline-flex items-center justify-center rounded-full leading-none ${posterIsLight ? "bg-[#3f3f46] text-white" : "bg-[#2d2d30] text-white"}`}
+                  className={`cosmic-poster-no-anim inline-table rounded-full leading-none ${posterIsLight ? "bg-[#3f3f46] text-white" : "bg-[#2d2d30] text-white"}`}
                   style={{
-                    minHeight: 36,
-                    paddingLeft: 16,
-                    paddingRight: 16,
-                    paddingTop: 8,
-                    paddingBottom: 8,
+                    height: 36,
+                    borderCollapse: "separate",
+                    borderSpacing: 0,
                     fontSize: 12,
-                    lineHeight: "16px",
                     fontFamily:
                       'system-ui, -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif',
                     boxSizing: "border-box",
+                    overflow: "hidden",
                   }}
                 >
-                  {result.rarityLabel}
+                  <span className="table-cell align-middle px-4">{result.rarityLabel}</span>
                 </div>
                 <div
                   data-cosmic-pill
-                  className={`cosmic-poster-no-anim inline-flex items-center justify-center rounded-full leading-none ${posterIsLight ? "bg-[#3f3f46] text-white" : "bg-[#2d2d30] text-white"}`}
+                  className={`cosmic-poster-no-anim inline-table rounded-full leading-none ${posterIsLight ? "bg-[#3f3f46] text-white" : "bg-[#2d2d30] text-white"}`}
                   style={{
-                    minHeight: 36,
-                    paddingLeft: 16,
-                    paddingRight: 16,
-                    paddingTop: 8,
-                    paddingBottom: 8,
+                    height: 36,
+                    borderCollapse: "separate",
+                    borderSpacing: 0,
                     fontSize: 12,
-                    lineHeight: "16px",
                     fontFamily:
                       'system-ui, -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif',
                     boxSizing: "border-box",
+                    overflow: "hidden",
                   }}
                 >
-                  契合：{result.affinityName}
+                  <span className="table-cell align-middle px-4">契合：{result.affinityName}</span>
                 </div>
               </div>
               <div
@@ -439,43 +562,32 @@ export function CosmicEssenceClient() {
                   <p className="text-xl font-semibold">{displayName}</p>
                 </div>
                 <div
-                  className={`flex h-24 w-24 shrink-0 items-center justify-center rounded-xl border-2 border-dashed ${posterIsLight ? "border-slate-300 bg-white text-slate-400" : "border-white/25 bg-white/5 text-slate-400"}`}
+                  ref={posterQrSlotRef}
+                  data-cosmic-qr-slot
+                  className={`relative flex h-24 w-24 shrink-0 items-center justify-center overflow-hidden rounded-xl border-2 bg-white p-1.5 ${posterIsLight ? "border-slate-200" : "border-white/20"}`}
                 >
-                  <svg viewBox="0 0 64 64" className="h-16 w-16" aria-hidden>
-                    <rect
-                      x={4}
-                      y={4}
-                      width={56}
-                      height={56}
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth={2}
-                      opacity={0.35}
-                    />
-                    <path
-                      d="M12 12h40v40H12z"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth={1}
-                      strokeDasharray="4 3"
-                      opacity={0.5}
-                    />
-                    <text
-                      x={32}
-                      y={36}
-                      textAnchor="middle"
-                      className="fill-current text-[7px]"
-                      style={{ fontSize: 7 }}
+                  <canvas
+                    ref={posterQrCanvasRef}
+                    width={96}
+                    height={96}
+                    className="block h-full w-full max-h-[84px] max-w-[84px]"
+                    aria-hidden
+                  />
+                  {!posterQrReady && (
+                    <span
+                      data-cosmic-qr-loading
+                      className="pointer-events-none absolute inset-0 flex items-center justify-center bg-white/90 text-[10px] font-medium text-slate-400"
                     >
-                      QR
-                    </text>
-                  </svg>
+                      加载码…
+                    </span>
+                  )}
                 </div>
               </div>
             </div>
           </div>
         )}
       </div>
+      )}
     </>
   );
 }
