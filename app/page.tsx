@@ -10,6 +10,7 @@ import {
   Clock,
   Heart,
   Loader2,
+  Palette,
 } from "lucide-react";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 
@@ -210,6 +211,42 @@ export default function Home() {
                 </Link>
               );
             })}
+
+            <Link
+              href="/cosmic-essence"
+              className="group relative bg-white dark:bg-slate-800 rounded-3xl p-8 shadow-sm hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 overflow-hidden"
+            >
+              <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-violet-600 to-cyan-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10 blur-sm" />
+              <div className="absolute inset-[2px] rounded-3xl bg-white dark:bg-slate-800 -z-10" />
+
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-violet-600 to-cyan-500 flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                <Palette className="w-8 h-8 text-white" />
+              </div>
+
+              <h3 className="font-outfit text-2xl font-bold text-slate-900 dark:text-white mb-3">
+                宇宙精神原色测试
+              </h3>
+              <p className="text-slate-600 dark:text-slate-300 mb-6 leading-relaxed">
+                8 道沉浸式宇宙情境题，为你的精神光谱匹配专属原色，并生成可分享海报。
+              </p>
+
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4 text-sm text-slate-500 dark:text-slate-400">
+                  <span className="flex items-center gap-1">
+                    <Clock className="w-4 h-4" />
+                    约 2 分钟
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <Heart className="w-4 h-4" />
+                    免费
+                  </span>
+                </div>
+                <span className="inline-flex items-center gap-1 text-blue-600 dark:text-blue-400 font-medium group-hover:gap-2 transition-all">
+                  开始测试
+                  <ArrowRight className="w-4 h-4" />
+                </span>
+              </div>
+            </Link>
           </div>
         </div>
       </section>

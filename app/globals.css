@@ -123,6 +123,18 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+@keyframes cosmic-star-twinkle {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.35);
+  }
+}
+
 .animate-float {
   animation: float 6s ease-in-out infinite;
 }
@@ -143,13 +155,21 @@ h1, h2, h3, h4, h5, h6 {
   animation: bounce-slow 2s ease-in-out infinite;
 }
 
+.cosmic-star-twinkle {
+  animation-name: cosmic-star-twinkle;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
   .animate-float,
   .animate-float-slow,
   .animate-pulse-glow,
   .animate-fade-in-up,
-  .animate-bounce-slow {
+  .animate-bounce-slow,
+  .cosmic-star-twinkle {
     animation: none;
+    opacity: 0.85;
   }
 }
