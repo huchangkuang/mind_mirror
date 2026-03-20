@@ -1,5 +1,7 @@
 "use client";
 
+import { Moon, Sun } from "lucide-react";
+
 interface SwitchProps {
   checked: boolean;
   onCheckedChange: (checked: boolean) => void;
@@ -43,7 +45,7 @@ export function Switch({
     : "focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-blue-400 dark:focus-visible:ring-offset-slate-900 focus-visible:outline-none";
 
   const thumbBase =
-    "pointer-events-none absolute left-[3px] top-1/2 h-5 w-5 -translate-y-1/2 rounded-full bg-white shadow-[0_1px_2px_rgba(15,23,42,0.12),0_0_0_1px_rgba(15,23,42,0.06)] transition-[transform,box-shadow] duration-200 ease-[cubic-bezier(0.34,1.3,0.64,1)] motion-reduce:duration-75 motion-reduce:ease-linear";
+    "pointer-events-none absolute left-[3px] top-1/2 flex h-5 w-5 -translate-y-1/2 items-center justify-center rounded-full bg-white shadow-[0_1px_2px_rgba(15,23,42,0.12),0_0_0_1px_rgba(15,23,42,0.06)] transition-[transform,box-shadow] duration-200 ease-[cubic-bezier(0.34,1.3,0.64,1)] motion-reduce:duration-75 motion-reduce:ease-linear";
   const thumbOn = checked
     ? "translate-x-4 shadow-[0_2px_4px_rgba(15,23,42,0.14),0_0_0_1px_rgba(255,255,255,0.35)]"
     : "translate-x-0";
@@ -78,7 +80,13 @@ export function Switch({
           .filter(Boolean)
           .join(" ")}
       >
-        <span className={[thumbBase, thumbOn].join(" ")} />
+        <span className={[thumbBase, thumbOn].join(" ")}>
+          {checked ? (
+            <Moon className="h-3.5 w-3.5 text-indigo-600" strokeWidth={2.25} aria-hidden />
+          ) : (
+            <Sun className="h-3.5 w-3.5 text-amber-500" strokeWidth={2.25} aria-hidden />
+          )}
+        </span>
       </span>
     </button>
   );
