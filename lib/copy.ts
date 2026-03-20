@@ -3,8 +3,8 @@
  */
 export const copy = {
   app: {
-    title: "Mind Mirror - MBTI 性格测试",
-    description: "简单有趣的 MBTI 性格测试",
+    title: "Mind Mirror - 趣味心理测试合集",
+    description: "多款轻量心理与趣味小测试一站体验，涵盖性格、生活方式等主题，轻松好玩，随时开测。",
   },
   home: {
     title: "探索你的性格类型",

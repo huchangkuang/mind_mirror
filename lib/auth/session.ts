@@ -11,6 +11,7 @@ const SESSION_TTL_DAYS = 30;
  * 生产环境默认 `Secure` Cookie（仅 HTTPS 有效）。
  * ECS/内网若用 HTTP 访问，浏览器会拒收或拒发 Cookie，表现为「刷新掉登录」。
  * 此时设置环境变量：`COOKIE_SECURE=false`
+ * todo 有证书后这个安全配置需要删掉
  */
 export function isSessionCookieSecure(): boolean {
   const v = process.env.COOKIE_SECURE?.toLowerCase();

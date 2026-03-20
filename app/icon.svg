@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Mind Mirror">
+  <defs>
+    <linearGradient id="mm-brand" x1="4" y1="4" x2="28" y2="28" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#2563EB" />
+      <stop offset="50%" stop-color="#7C3AED" />
+      <stop offset="100%" stop-color="#9333EA" />
+    </linearGradient>
+  </defs>
+  <rect width="32" height="32" rx="8" fill="url(#mm-brand)" />
+  <path
+    fill="#ffffff"
+    fill-opacity="0.96"
+    d="M7 24V8h3.4l4.6 7.2L19.6 8H23v16h-2.9v-9.2L15.3 22h-1.6L10.9 14.8V24H7z"
+  />
+</svg>
