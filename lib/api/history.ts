@@ -17,6 +17,7 @@ export interface HistoryRecord {
   id: number;
   test_id: string;
   title: string;
+  href: string | null;
   result: unknown;
   result_summary: string;
   created_at: string;
@@ -36,7 +37,7 @@ export async function fetchHistory(testId?: string): Promise<HistoryRecord[]> {
     ? `/api/history?test_id=${encodeURIComponent(testId)}`
     : "/api/history";
 
-  const response = await fetch(url);
+  const response = await fetch(url, { credentials: "include" });
 
   if (!response.ok) {
     const error = (await response.json().catch(() => ({}))) as { error?: string };
@@ -56,6 +57,7 @@ export async function saveHistory(data: CreateHistoryData): Promise<HistoryRecor
     headers: {
       "Content-Type": "application/json",
     },
+    credentials: "include",
     body: JSON.stringify(data),
   });
 
@@ -74,6 +76,7 @@ export async function saveHistory(data: CreateHistoryData): Promise<HistoryRecor
 export async function deleteHistoryItem(id: number): Promise<void> {
   const response = await fetch(`/api/history?id=${id}`, {
     method: "DELETE",
+    credentials: "include",
   });
 
   if (!response.ok) {
@@ -88,6 +91,7 @@ export async function deleteHistoryItem(id: number): Promise<void> {
 export async function clearAllHistory(): Promise<{ deletedCount: number }> {
   const response = await fetch("/api/history", {
     method: "DELETE",
+    credentials: "include",
   });
 
   if (!response.ok) {

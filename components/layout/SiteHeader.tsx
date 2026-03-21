@@ -126,24 +126,26 @@ export function SiteHeader({ returnTo = "/", variant = "bar" }: SiteHeaderProps)
 
           {status === "authenticated" && user && (
             <>
-              <span
+              <Link
+                href="/profile"
                 className={
                   isHero
-                    ? "hidden sm:inline max-w-[10rem] md:max-w-[14rem] truncate text-sm text-white bg-black/20 px-3 py-1.5 rounded-full"
-                    : "hidden sm:inline max-w-[10rem] md:max-w-[14rem] truncate text-sm text-slate-700 dark:text-slate-200 px-2"
+                    ? "hidden sm:inline max-w-[10rem] md:max-w-[14rem] truncate text-sm text-white bg-black/20 px-3 py-1.5 rounded-full hover:bg-black/30 transition-colors"
+                    : "hidden sm:inline max-w-[10rem] md:max-w-[14rem] truncate text-sm text-slate-700 dark:text-slate-200 px-2 py-1.5 rounded-lg hover:bg-white/50 dark:hover:bg-white/10 transition-colors"
                 }
               >
-                已登录：{user.username}
-              </span>
-              <span
+                已登录：{user.nickname}
+              </Link>
+              <Link
+                href="/profile"
                 className={
                   isHero
-                    ? "sm:hidden max-w-[6rem] truncate text-sm text-white bg-black/20 px-3 py-1.5 rounded-full"
+                    ? "sm:hidden max-w-[6rem] truncate text-sm text-white bg-black/20 px-3 py-1.5 rounded-full hover:bg-black/30 transition-colors"
                     : "hidden"
                 }
               >
-                {user.username}
-              </span>
+                {user.nickname}
+              </Link>
               <button
                 type="button"
                 onClick={() => logout().catch(() => {})}

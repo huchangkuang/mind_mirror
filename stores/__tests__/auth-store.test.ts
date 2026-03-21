@@ -6,6 +6,7 @@ jest.mock("@/lib/api/auth", () => ({
   loginAccount: jest.fn(),
   logoutAccount: jest.fn(),
   registerAccount: jest.fn(),
+  updateNickname: jest.fn(),
 }));
 
 const mockedFetchCurrentUser = fetchCurrentUser as jest.MockedFunction<typeof fetchCurrentUser>;
@@ -29,7 +30,7 @@ describe("auth-store bootstrap", () => {
   it("sets authenticated state when /me succeeds", async () => {
     mockedFetchCurrentUser.mockResolvedValue({
       authenticated: true,
-      user: { id: 1, username: "alice" },
+      user: { id: 1, username: "alice", nickname: "alice" },
       isFeedbackModerator: false,
     });
 
@@ -37,7 +38,7 @@ describe("auth-store bootstrap", () => {
 
     expect(useAuthStore.getState()).toMatchObject({
       status: "authenticated",
-      user: { id: 1, username: "alice" },
+      user: { id: 1, username: "alice", nickname: "alice" },
       bootstrapped: true,
     });
   });
@@ -57,7 +58,7 @@ describe("auth-store bootstrap", () => {
   it("keeps optimistic authenticated state when /me fails", async () => {
     useAuthStore.setState({
       status: "authenticated",
-      user: { id: 2, username: "bob" },
+      user: { id: 2, username: "bob", nickname: "bob" },
       isFeedbackModerator: true,
       bootstrapped: false,
       error: null,
@@ -68,7 +69,7 @@ describe("auth-store bootstrap", () => {
 
     expect(useAuthStore.getState()).toMatchObject({
       status: "authenticated",
-      user: { id: 2, username: "bob" },
+      user: { id: 2, username: "bob", nickname: "bob" },
       bootstrapped: true,
     });
   });
@@ -91,7 +92,7 @@ describe("auth-store bootstrap", () => {
       })
       .mockResolvedValueOnce({
         authenticated: true,
-        user: { id: 9, username: "carol" },
+        user: { id: 9, username: "carol", nickname: "carol" },
         isFeedbackModerator: false,
       });
 
@@ -102,7 +103,7 @@ describe("auth-store bootstrap", () => {
 
     expect(useAuthStore.getState()).toMatchObject({
       status: "authenticated",
-      user: { id: 9, username: "carol" },
+      user: { id: 9, username: "carol", nickname: "carol" },
       bootstrapped: true,
     });
 

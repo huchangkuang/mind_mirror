@@ -101,11 +101,16 @@ async function initializeDatabase() {
         id INT AUTO_INCREMENT PRIMARY KEY,
         username VARCHAR(100) NOT NULL UNIQUE,
         password_hash VARCHAR(255) NOT NULL,
+        nickname VARCHAR(100) NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
     `);
     console.log("[DB] Table 'users' ensured");
+    await tryAlter(
+      connection,
+      "ALTER TABLE users ADD COLUMN nickname VARCHAR(100) NULL AFTER password_hash"
+    );
 
     // Step 5: Create user_sessions table
     await connection.execute(`

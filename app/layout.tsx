@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import "./globals.css";
 import { AuthBootstrap } from "@/components/auth/AuthBootstrap";
+import { ProtectedRouteGuard } from "@/components/auth/ProtectedRouteGuard";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { copy } from "@/lib/copy";
 import { getAuthServerSnapshot } from "@/lib/auth/server-snapshot";
@@ -28,7 +29,10 @@ export default async function RootLayout({
           dangerouslySetInnerHTML={{ __html: THEME_BOOT_SCRIPT }}
         />
         <AuthBootstrap snapshot={snapshot} />
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <ProtectedRouteGuard />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

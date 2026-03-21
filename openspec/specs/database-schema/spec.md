@@ -69,3 +69,19 @@ The system SHALL use appropriate MySQL settings for the tables.
 - **THEN** they SHALL use InnoDB engine
 - **AND** they SHALL use utf8mb4 charset
 - **AND** they SHALL use utf8mb4_unicode_ci collation
+
+### Requirement: Users table optional nickname column
+
+系统 SHALL 在 `users` 表中提供可选的 `nickname` 列，用于存储用户自定义展示名称；该列允许为 NULL，且与现有 `username`、`password_hash` 等列共存。
+
+#### Scenario: 表结构包含 nickname
+
+- **WHEN** 数据库架构已应用对应迁移或初始化脚本
+- **THEN** `users` 表 SHALL 包含 `nickname` 列（可为 NULL 的字符串类型，长度足以覆盖产品规定的昵称上限）
+- **AND** 现有 `username` 唯一约束与其它列 SHALL 保持有效
+
+#### Scenario: 旧行兼容
+
+- **WHEN** 迁移前已存在的用户行尚未写入昵称
+- **THEN** 这些行的 `nickname` 字段 MAY 为 NULL
+- **AND** 应用层 SHALL 将 NULL 或空字符串视为「展示昵称等于 username」

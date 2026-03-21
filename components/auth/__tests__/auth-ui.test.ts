@@ -7,7 +7,7 @@ import { TestCompletionLoginPrompt } from "@/components/auth/TestCompletionLogin
 
 const mockAuthState = {
   status: "guest",
-  user: null as { id: number; username: string } | null,
+  user: null as { id: number; username: string; nickname: string } | null,
   logout: jest.fn(),
 };
 
@@ -46,9 +46,10 @@ describe("auth UI components", () => {
 
   it("AuthStatusPanel shows username for authenticated user", () => {
     mockAuthState.status = "authenticated";
-    mockAuthState.user = { id: 1, username: "alice" };
+    mockAuthState.user = { id: 1, username: "alice", nickname: "爱丽丝" };
     const html = renderToStaticMarkup(React.createElement(AuthStatusPanel));
-    expect(html).toContain("alice");
+    expect(html).toContain("爱丽丝");
+    expect(html).toContain("/profile");
     expect(html).toContain("退出");
   });
 

@@ -29,9 +29,12 @@ export function AuthStatusPanel() {
 
   return (
     <div className="flex items-center gap-2">
-      <span className="text-sm text-white bg-black/20 px-3 py-1.5 rounded-full">
-        已登录：{user.username}
-      </span>
+      <Link
+        href="/profile"
+        className="text-sm text-white bg-black/20 hover:bg-black/30 px-3 py-1.5 rounded-full transition-colors"
+      >
+        已登录：{user.nickname}
+      </Link>
       <button
         type="button"
         onClick={() => logout().catch(() => {})}

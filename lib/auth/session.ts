@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import type { NextResponse } from "next/server";
 import { execute, insert, queryOne } from "@/lib/db";
 import type { AuthUser } from "@/lib/auth/types";
+import { toAuthUser } from "@/lib/auth/nickname";
 
 export const SESSION_COOKIE_NAME = "mm_session";
 const SESSION_TTL_DAYS = 30;
@@ -23,6 +24,7 @@ export function isSessionCookieSecure(): boolean {
 interface UserSessionRow {
   user_id: number;
   username: string;
+  nickname: string | null;
   expires_at: string;
 }
 
@@ -46,7 +48,7 @@ export async function getAuthUserFromCookie(): Promise<AuthUser | null> {
   if (!token) return null;
 
   const row = await queryOne<UserSessionRow>(
-    `SELECT s.user_id, u.username, s.expires_at
+    `SELECT s.user_id, u.username, u.nickname, s.expires_at
      FROM user_sessions s
      JOIN users u ON u.id = s.user_id
      WHERE s.token = ?`,
@@ -59,7 +61,7 @@ export async function getAuthUserFromCookie(): Promise<AuthUser | null> {
     return null;
   }
 
-  return { id: row.user_id, username: row.username };
+  return toAuthUser(row.user_id, row.username, row.nickname);
 }
 
 export function setSessionCookie(response: NextResponse, token: string) {

@@ -4,6 +4,7 @@ import { hashPassword } from "@/lib/auth/password";
 import { createSession, setSessionCookie } from "@/lib/auth/session";
 import { normalizeUsername, validateCredentials } from "@/lib/auth/validation";
 import { isFeedbackModerator } from "@/lib/feedback/admin";
+import { toAuthUser } from "@/lib/auth/nickname";
 
 interface UserRow {
   id: number;
@@ -37,7 +38,7 @@ export async function POST(request: Request) {
     const token = await createSession(userId);
     const response = NextResponse.json(
       {
-        user: { id: userId, username },
+        user: toAuthUser(userId, username, null),
         isFeedbackModerator: isFeedbackModerator(username),
       },
       { status: 201 }

@@ -1,8 +1,15 @@
 "use client";
 
 import { create } from "zustand";
-import { fetchCurrentUser, loginAccount, logoutAccount, registerAccount } from "@/lib/api/auth";
+import {
+  fetchCurrentUser,
+  loginAccount,
+  logoutAccount,
+  registerAccount,
+  updateNickname as updateNicknameApi,
+} from "@/lib/api/auth";
 import type { AuthStatus, AuthUser } from "@/lib/auth/types";
+import { redirectToAuthIfProtectedPath } from "@/lib/auth/protected-routes";
 
 let bootstrapRequestId = 0;
 let bootstrapAbort: AbortController | null = null;
@@ -18,6 +25,8 @@ interface AuthState {
   register: (username: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   clearError: () => void;
+  refreshFromServer: () => Promise<void>;
+  updateNickname: (nickname: string) => Promise<void>;
 }
 
 export const useAuthStore = create<AuthState>((set, get) => ({
@@ -81,9 +90,30 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       bootstrapped: true,
       error: null,
     });
+    redirectToAuthIfProtectedPath();
   },
 
   clearError() {
     set({ error: null });
+  },
+
+  async refreshFromServer() {
+    try {
+      const response = await fetchCurrentUser();
+      set({
+        user: response.user,
+        isFeedbackModerator: response.isFeedbackModerator,
+        status: response.authenticated ? "authenticated" : "guest",
+        bootstrapped: true,
+      });
+    } catch {
+      /* keep current state */
+    }
+  },
+
+  async updateNickname(nickname) {
+    set({ error: null });
+    const user = await updateNicknameApi(nickname);
+    set({ user });
   },
 }));

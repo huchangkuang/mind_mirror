@@ -74,3 +74,30 @@ export async function logoutAccount(): Promise<void> {
     throw new Error(body.message || "登出失败");
   }
 }
+
+export async function updateNickname(nickname: string): Promise<AuthUser> {
+  const response = await fetch("/api/auth/profile", {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify({ nickname }),
+  });
+  const body = (await response.json()) as { message?: string; user?: AuthUser };
+  if (!response.ok || !body.user) {
+    throw new Error(body.message || "更新昵称失败");
+  }
+  return body.user;
+}
+
+export async function changePassword(currentPassword: string, newPassword: string): Promise<void> {
+  const response = await fetch("/api/auth/change-password", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify({ currentPassword, newPassword }),
+  });
+  const body = (await response.json().catch(() => ({}))) as { message?: string };
+  if (!response.ok) {
+    throw new Error(body.message || "修改密码失败");
+  }
+}

@@ -29,14 +29,60 @@
 - **WHEN** 已登录用户执行登出操作
 - **THEN** 系统 SHALL 失效当前会话并在后续请求中将用户识别为未登录
 
+### Requirement: 认证用户信息包含展示用昵称
+
+系统 MUST 在登录成功、注册成功及 `/api/auth/me` 响应中，为已认证用户返回 `nickname` 字段；该字段 SHALL 为展示用昵称：若用户未设置昵称，则其值 SHALL 等于 `username`。
+
+#### Scenario: 未设置昵称时 me 与登录响应
+
+- **WHEN** 用户数据库中昵称为空且用户已完成登录或调用 `/api/auth/me`
+- **THEN** 响应中的 `user.nickname` SHALL 等于 `user.username`
+
+#### Scenario: 已设置昵称时 me 响应
+
+- **WHEN** 用户已保存自定义昵称
+- **THEN** `/api/auth/me` 返回的 `user.nickname` SHALL 等于该自定义昵称
+- **AND** `user.username` SHALL 仍为登录账号
+
+### Requirement: 已登录用户可通过 API 更新昵称
+
+系统 MUST 提供需认证的接口，使已登录用户能够更新自己的展示昵称；更新成功后后续 `/api/auth/me` SHALL 反映新值。
+
+#### Scenario: 更新昵称成功
+
+- **WHEN** 已登录用户提交合法昵称
+- **THEN** 系统 SHALL 持久化并返回成功
+- **AND** 下一次 `/api/auth/me` SHALL 返回更新后的 `nickname`
+
+#### Scenario: 未认证不得更新
+
+- **WHEN** 未携带有效会话的请求尝试更新昵称
+- **THEN** 系统 SHALL 拒绝请求（如 HTTP 401）
+- **AND** 用户数据 SHALL 不被修改
+
+### Requirement: 已登录用户可通过 API 修改密码
+
+系统 MUST 提供需认证的接口，使用当前密码与新密码修改账户密码哈希；规则 SHALL 与注册密码校验一致或更严。
+
+#### Scenario: 修改密码成功
+
+- **WHEN** 已登录用户提供正确当前密码与合法新密码
+- **THEN** 系统 SHALL 更新 `password_hash`
+- **AND** 旧密码 SHALL 不再可用于登录
+
+#### Scenario: 当前密码错误
+
+- **WHEN** 当前密码不匹配
+- **THEN** 系统 SHALL 拒绝请求且不更新哈希
+
 ### Requirement: 整页刷新后会话驱动的客户端状态与服务器一致
 
-在用户使用浏览器整页刷新（含首次导航后硬刷新）时，系统 MUST 依据当前有效的服务端会话（与 Cookie 关联）恢复客户端所展示的登录状态；只要会话未过期且未被撤销，界面 SHALL 将用户识别为已登录并展示与 `/api/auth/me` 一致的用户信息。
+在用户使用浏览器整页刷新（含首次导航后硬刷新）时，系统 MUST 依据当前有效的服务端会话（与 Cookie 关联）恢复客户端所展示的登录状态；只要会话未过期且未被撤销，界面 SHALL 将用户识别为已登录并展示与 `/api/auth/me` 一致的用户信息（包含 `username` 与展示用 `nickname`）。
 
 #### Scenario: 有效会话下刷新后仍为已登录
 
 - **WHEN** 用户已登录且会话 Cookie 仍然有效
-- **THEN** 用户执行整页刷新后，客户端 SHALL 在完成会话校验后呈现已登录状态，且用户名等信息与服务器返回一致
+- **THEN** 用户执行整页刷新后，客户端 SHALL 在完成会话校验后呈现已登录状态，且用户名与昵称等信息与服务器返回一致
 
 #### Scenario: 无会话或会话失效时刷新后为未登录
 

@@ -15,6 +15,7 @@ export interface HistoryRecord {
   test_id: string;
   user_id: number | null;
   title: string;
+  href: string | null;
   result: unknown;
   result_summary: string;
   created_at: string;
@@ -50,6 +51,7 @@ export async function GET(request: Request) {
         h.test_id,
         h.user_id,
         t.title,
+        t.href,
         h.result,
         h.result_summary,
         h.created_at
@@ -129,6 +131,7 @@ export async function POST(request: Request) {
           h.test_id,
           h.user_id,
           t.title,
+          t.href,
           h.result,
           h.result_summary,
           h.created_at
