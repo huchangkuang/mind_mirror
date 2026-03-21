@@ -94,6 +94,27 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+/* 首页等与视频叠用时：位移更小、周期更长，减少与画面运动的竞争 */
+@keyframes float-gentle {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+@keyframes float-slow-gentle {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-4px) rotate(0.8deg);
+  }
+}
+
 @keyframes pulse-glow {
   0%, 100% {
     box-shadow: 0 0 20px rgba(37, 99, 235, 0.4);
@@ -143,6 +164,14 @@ h1, h2, h3, h4, h5, h6 {
   animation: float-slow 8s ease-in-out infinite;
 }
 
+.animate-float-gentle {
+  animation: float-gentle 11s ease-in-out infinite;
+}
+
+.animate-float-slow-gentle {
+  animation: float-slow-gentle 15s ease-in-out infinite;
+}
+
 .animate-pulse-glow {
   animation: pulse-glow 3s ease-in-out infinite;
 }
@@ -165,6 +194,8 @@ h1, h2, h3, h4, h5, h6 {
 @media (prefers-reduced-motion: reduce) {
   .animate-float,
   .animate-float-slow,
+  .animate-float-gentle,
+  .animate-float-slow-gentle,
   .animate-pulse-glow,
   .animate-fade-in-up,
   .animate-bounce-slow,

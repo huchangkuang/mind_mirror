@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import {
   Brain,
   Building2,
@@ -13,6 +13,11 @@ import {
   Palette,
 } from "lucide-react";
 import { SiteHeader } from "@/components/layout/SiteHeader";
+
+/** 桌面 Hero：视频态与纯渐变态切换间隔 */
+const HERO_DESKTOP_ROTATE_MS = 12_000;
+/** 交叉淡入淡出时长（与下方 Tailwind duration 一致） */
+const HERO_CROSSFADE_MS = 1500;
 
 // Icon mapping from string name to component
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -37,6 +42,11 @@ export default function Home() {
   const [tests, setTests] = useState<Test[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  /** 桌面端且在允许动效时：true = 视频+弱光斑，false = 纯渐变+原版光斑 */
+  const [heroDesktopVideoPhase, setHeroDesktopVideoPhase] = useState(true);
+  /** 视口 ≥ md 且未开启减少动态 → 才轮播 */
+  const [heroDesktopRotateAllowed, setHeroDesktopRotateAllowed] = useState(false);
+  const heroBgVideoRef = useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => {
     async function fetchTests() {
@@ -57,6 +67,49 @@ export default function Home() {
 
     fetchTests();
   }, []);
+
+  useLayoutEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px)");
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    const updateAllowed = () => {
+      setHeroDesktopRotateAllowed(mq.matches && !reduce.matches);
+    };
+    updateAllowed();
+    mq.addEventListener("change", updateAllowed);
+    reduce.addEventListener("change", updateAllowed);
+    return () => {
+      mq.removeEventListener("change", updateAllowed);
+      reduce.removeEventListener("change", updateAllowed);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!heroDesktopRotateAllowed) return;
+    const id = window.setInterval(() => {
+      setHeroDesktopVideoPhase((v) => !v);
+    }, HERO_DESKTOP_ROTATE_MS);
+    return () => window.clearInterval(id);
+  }, [heroDesktopRotateAllowed]);
+
+  useEffect(() => {
+    const el = heroBgVideoRef.current;
+    if (!el) return;
+    const shouldPlay = heroDesktopRotateAllowed && heroDesktopVideoPhase;
+    if (!shouldPlay) {
+      el.pause();
+      return;
+    }
+    const tryPlay = () => {
+      el.play().catch(() => {});
+    };
+    tryPlay();
+    // 首屏在 loading 结束后才挂载 video；若首帧尚未缓冲，等 canplay 再试一次
+    if (el.readyState < HTMLMediaElement.HAVE_FUTURE_DATA) {
+      el.addEventListener("canplay", tryPlay, { once: true });
+      return () => el.removeEventListener("canplay", tryPlay);
+    }
+  }, [heroDesktopRotateAllowed, heroDesktopVideoPhase, loading]);
 
   // Get icon component by name
   const getIcon = (iconName: string) => {
@@ -100,20 +153,90 @@ export default function Home() {
       </main>
     );
   }
+
+  const showHeroVideoLayer =
+    heroDesktopRotateAllowed && heroDesktopVideoPhase;
+  const showHeroClassicLayer =
+    !heroDesktopRotateAllowed || !heroDesktopVideoPhase;
+
   return (
     <main className="min-h-screen bg-slate-50 dark:bg-slate-900 overflow-x-hidden">
       <SiteHeader returnTo="/" variant="scroll-surface" />
 
       {/* Hero Section — 固定顶栏叠在渐变上，随滚动过渡到主题表面 */}
       <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden">
-        {/* Background Gradient */}
-        <div className="absolute inset-0 gradient-hero" />
+        {/*
+          移动端（<md）：仅原版渐变 + 原版光斑动画，无视频。
+          桌面端：视频+弱光斑 与 纯渐变+原版光斑 定时交叉淡入淡出；减少动态偏好下仅原版。
+        */}
+        {/* —— Mobile: classic only —— */}
+        <div
+          className="absolute inset-0 z-0 md:hidden overflow-hidden pointer-events-none"
+          aria-hidden
+        >
+          <div className="absolute inset-0 gradient-hero" />
+          <div className="absolute inset-0 overflow-hidden">
+            <div className="absolute top-20 left-10 w-64 h-64 bg-white/10 rounded-full blur-3xl animate-float" />
+            <div className="absolute top-40 right-20 w-96 h-96 bg-purple-400/20 rounded-full blur-3xl animate-float-slow" />
+            <div className="absolute bottom-20 left-1/3 w-80 h-80 bg-blue-400/20 rounded-full blur-3xl animate-float" />
+          </div>
+        </div>
 
-        {/* Floating Elements */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-20 left-10 w-64 h-64 bg-white/10 rounded-full blur-3xl animate-float" />
-          <div className="absolute top-40 right-20 w-96 h-96 bg-purple-400/20 rounded-full blur-3xl animate-float-slow" />
-          <div className="absolute bottom-20 left-1/3 w-80 h-80 bg-blue-400/20 rounded-full blur-3xl animate-float" />
+        {/* —— Desktop: crossfade —— */}
+        <div
+          className="absolute inset-0 z-0 hidden md:block overflow-hidden pointer-events-none"
+          aria-hidden
+        >
+          <div
+            className="absolute inset-0 overflow-hidden transition-opacity ease-in-out"
+            style={{
+              opacity: showHeroVideoLayer ? 1 : 0,
+              transitionDuration: `${HERO_CROSSFADE_MS}ms`,
+              zIndex: showHeroVideoLayer ? 2 : 1,
+            }}
+          >
+            <video
+              ref={heroBgVideoRef}
+              className="absolute inset-0 z-0 h-full w-full min-h-[60vh] object-cover"
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              aria-hidden
+            >
+              <source src="/video/mind_mirror_home_page.mp4" type="video/mp4" />
+            </video>
+            <div className="absolute inset-0 z-[1] gradient-hero opacity-[0.58]" />
+            <div className="absolute inset-0 z-[2] overflow-hidden">
+              <div className="absolute top-20 left-10 w-64 h-64 bg-white/10 rounded-full blur-3xl animate-float-gentle" />
+              <div className="absolute top-40 right-20 w-96 h-96 bg-purple-400/20 rounded-full blur-3xl animate-float-slow-gentle" />
+              <div className="absolute bottom-20 left-1/3 w-80 h-80 bg-blue-400/20 rounded-full blur-3xl animate-float-gentle" />
+              {/* 与 MBTI 落地页一致的几何装饰（动画与经典态相同，交叉淡入时不跳变） */}
+              <div className="absolute top-32 right-32 w-20 h-20 border-2 border-white/20 rotate-45 animate-float-slow" />
+              <div className="absolute bottom-40 left-20 w-16 h-16 bg-white/10 rounded-lg rotate-12 animate-float" />
+              <div className="absolute top-1/2 right-16 w-12 h-12 border-2 border-white/30 rounded-full animate-float" />
+            </div>
+          </div>
+          <div
+            className="absolute inset-0 overflow-hidden transition-opacity ease-in-out"
+            style={{
+              opacity: showHeroClassicLayer ? 1 : 0,
+              transitionDuration: `${HERO_CROSSFADE_MS}ms`,
+              zIndex: showHeroClassicLayer ? 2 : 1,
+            }}
+          >
+            <div className="absolute inset-0 gradient-hero" />
+            <div className="absolute inset-0 overflow-hidden">
+              <div className="absolute top-20 left-10 w-64 h-64 bg-white/10 rounded-full blur-3xl animate-float" />
+              <div className="absolute top-40 right-20 w-96 h-96 bg-purple-400/20 rounded-full blur-3xl animate-float-slow" />
+              <div className="absolute bottom-20 left-1/3 w-80 h-80 bg-blue-400/20 rounded-full blur-3xl animate-float" />
+              {/* 与 MBTI 落地页一致的几何装饰 */}
+              <div className="absolute top-32 right-32 w-20 h-20 border-2 border-white/20 rotate-45 animate-float-slow" />
+              <div className="absolute bottom-40 left-20 w-16 h-16 bg-white/10 rounded-lg rotate-12 animate-float" />
+              <div className="absolute top-1/2 right-16 w-12 h-12 border-2 border-white/30 rounded-full animate-float" />
+            </div>
+          </div>
         </div>
 
         {/* Hero Content */}
