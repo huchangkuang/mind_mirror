@@ -16,6 +16,12 @@ const DIMENSION_LABELS: Record<string, string> = {
   JP: "判断 J ← → P 知觉",
 };
 
+/** 各类型符号插画（透明/浅色底 PNG，置于 public/images/）；有文件再补映射 */
+const MBTI_TYPE_IMAGES: Partial<Record<string, string>> = {
+  INFP: "/images/infp.png",
+  INTJ: "/images/intj.png",
+};
+
 export default function MbtiResultPage() {
   const { result, mode, setQuestions, hydrate } = useMbtiStore();
   const [displayResult, setDisplayResult] = useState<MbtiResult | null>(result ?? null);
@@ -56,15 +62,42 @@ export default function MbtiResultPage() {
   }
 
   const desc = getTypeDescription(displayResult.type);
+  const typeKey = displayResult.type.toUpperCase();
+  const typeImageSrc = MBTI_TYPE_IMAGES[typeKey];
 
   return (
     <main className="min-h-screen p-6 max-w-2xl mx-auto">
-      <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">你的 MBTI 类型</h1>
-      <p className="text-4xl font-bold text-blue-600 dark:text-blue-400 mb-1">{displayResult.type}</p>
-      <p className="text-lg text-gray-600 dark:text-gray-400 mb-6">{desc.title}</p>
-      <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
-        测试模式：{mode === "deep" ? "深度版（5级量表）" : "快速版（2选1）"}
-      </p>
+      <div className="mb-6 flex flex-row justify-between items-start gap-3">
+        <div className="min-w-0 flex-1 pr-1">
+          <h1 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-2">
+            你的 MBTI 类型
+          </h1>
+          <p className="text-3xl sm:text-4xl font-bold text-blue-600 dark:text-blue-400 mb-1">
+            {displayResult.type}
+          </p>
+          <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400 mb-3">
+            {desc.title}
+          </p>
+          <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
+            测试模式：{mode === "deep" ? "深度版（5级量表）" : "快速版（2选1）"}
+          </p>
+        </div>
+        {typeImageSrc ? (
+          <div className="shrink-0">
+            <div className="rounded-xl bg-emerald-50/90 dark:bg-emerald-950/40 p-2 sm:p-3 shadow-sm ring-1 ring-emerald-200/60 dark:ring-emerald-800/50 w-[6.5rem] sm:w-32">
+              <img
+                src={typeImageSrc}
+                alt={`${typeKey} 类型符号图示`}
+                className="h-20 w-full object-contain sm:h-28"
+                width={128}
+                height={128}
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+          </div>
+        ) : null}
+      </div>
 
       <Card className="mb-6">
         <h2 className="text-lg font-semibold mb-4">维度分布</h2>
