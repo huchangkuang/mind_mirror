@@ -12,6 +12,7 @@ import {
   Loader2,
   Palette,
 } from "lucide-react";
+import { HomeFooter } from "@/components/home/HomeFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 
 /** 桌面 Hero：视频态与纯渐变态切换间隔 */
@@ -123,23 +124,24 @@ export default function Home() {
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-slate-50 dark:bg-slate-900">
-        <SiteHeader returnTo="/" />
-        <div className="flex items-center justify-center min-h-[50vh]">
+      <main className="min-h-screen bg-slate-50 dark:bg-slate-900 flex flex-col">
+        <SiteHeader returnTo="/" showFeedbackLink={false} />
+        <div className="flex flex-1 items-center justify-center min-h-[50vh]">
           <div className="text-center">
             <Loader2 className="w-10 h-10 animate-spin text-blue-500 mx-auto mb-4" />
             <p className="text-slate-600 dark:text-slate-400">加载中...</p>
           </div>
         </div>
+        <HomeFooter />
       </main>
     );
   }
 
   if (error) {
     return (
-      <main className="min-h-screen bg-slate-50 dark:bg-slate-900">
-        <SiteHeader returnTo="/" />
-        <div className="flex items-center justify-center min-h-[50vh] px-4">
+      <main className="min-h-screen bg-slate-50 dark:bg-slate-900 flex flex-col">
+        <SiteHeader returnTo="/" showFeedbackLink={false} />
+        <div className="flex flex-1 items-center justify-center min-h-[50vh] px-4">
           <div className="text-center max-w-md mx-auto">
             <p className="text-red-600 dark:text-red-400 mb-4">{error}</p>
             <button
@@ -150,6 +152,7 @@ export default function Home() {
             </button>
           </div>
         </div>
+        <HomeFooter />
       </main>
     );
   }
@@ -160,8 +163,8 @@ export default function Home() {
     !heroDesktopRotateAllowed || !heroDesktopVideoPhase;
 
   return (
-    <main className="min-h-screen bg-slate-50 dark:bg-slate-900 overflow-x-hidden">
-      <SiteHeader returnTo="/" variant="scroll-surface" />
+    <main className="min-h-screen bg-slate-50 dark:bg-slate-900 overflow-x-hidden flex flex-col">
+      <SiteHeader returnTo="/" variant="scroll-surface" showFeedbackLink={false} />
 
       {/* Hero Section — 固定顶栏叠在渐变上，随滚动过渡到主题表面 */}
       <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden">
@@ -448,17 +451,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="py-8 px-4 sm:px-6 lg:px-8 border-t border-slate-200 dark:border-slate-800">
-        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="font-outfit font-bold text-slate-900 dark:text-white text-xl">
-            Mind Mirror
-          </div>
-          <p className="text-slate-500 dark:text-slate-400 text-sm">
-            © 2025 Mind Mirror. 探索真实的自己。
-          </p>
-        </div>
-      </footer>
+      <HomeFooter />
     </main>
   );
 }

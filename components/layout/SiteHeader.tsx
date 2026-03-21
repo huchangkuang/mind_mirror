@@ -56,11 +56,14 @@ interface SiteHeaderProps {
    * `scroll-surface`：首屏透明叠在 Hero 上，随滚动过渡到与 `bar` 一致的亮/暗主题表面（`fixed` 顶栏）
    */
   variant?: "bar" | "hero-overlay" | "scroll-surface";
+  /** 为 `false` 时不展示反馈入口（例如首页改由页脚提供） */
+  showFeedbackLink?: boolean;
 }
 
 export function SiteHeader({
   returnTo = "/",
   variant = "bar",
+  showFeedbackLink = true,
 }: SiteHeaderProps) {
   const status = useAuthStore((s) => s.status);
   const user = useAuthStore((s) => s.user);
@@ -174,15 +177,19 @@ export function SiteHeader({
           <Link href="/" className={brandClass}>
             Mind Mirror
           </Link>
-          <Link href="/feedback" className={feedbackDesktopClass}>
-            反馈与建议
-          </Link>
+          {showFeedbackLink ? (
+            <Link href="/feedback" className={feedbackDesktopClass}>
+              反馈与建议
+            </Link>
+          ) : null}
         </div>
 
         <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-          <Link href="/feedback" className={feedbackMobileClass}>
-            反馈
-          </Link>
+          {showFeedbackLink ? (
+            <Link href="/feedback" className={feedbackMobileClass}>
+              反馈
+            </Link>
+          ) : null}
 
           <HeaderThemeSwitch isHero={isHero} />
 
