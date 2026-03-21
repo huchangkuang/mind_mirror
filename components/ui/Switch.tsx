@@ -61,7 +61,7 @@ export function Switch({
         if (!disabled) onCheckedChange(!checked);
       }}
       className={[
-        "group relative inline-flex min-h-11 min-w-[3.25rem] shrink-0 cursor-pointer items-center justify-center rounded-full touch-manipulation",
+        "group relative box-border inline-flex h-11 w-[3.25rem] shrink-0 cursor-pointer items-center justify-center rounded-full touch-manipulation",
         "motion-safe:active:scale-[0.96] motion-reduce:active:scale-100 transition-transform duration-150 ease-out",
         focusRing,
         disabled ? "cursor-not-allowed opacity-45" : "",
@@ -73,7 +73,7 @@ export function Switch({
       <span
         aria-hidden
         className={[
-          "relative h-7 w-[2.75rem] shrink-0 rounded-full border p-[3px] transition-[border-color,background-color,box-shadow] duration-200 ease-out",
+          "relative box-border h-7 w-[2.75rem] shrink-0 rounded-full border border-solid p-[3px] transition-[border-color,background-color,box-shadow] duration-200 ease-out",
           isHero ? [trackHero, trackHeroHover, trackHeroHoverOn].filter(Boolean).join(" ") : "",
           !isHero ? [trackBar, trackBarHover, trackBarHoverOn].filter(Boolean).join(" ") : "",
         ]

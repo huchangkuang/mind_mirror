@@ -14,6 +14,7 @@ import {
   HelpCircle,
   Lightbulb,
 } from "lucide-react";
+import { SiteHeader } from "@/components/layout/SiteHeader";
 
 // MBTI 维度数据
 const dimensions = [
@@ -77,6 +78,8 @@ const features = [
 export default function MbtiLandingPage() {
   return (
     <main className="min-h-screen bg-slate-50 dark:bg-slate-900 overflow-x-hidden">
+      <SiteHeader returnTo="/mbti" variant="scroll-surface" />
+
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         {/* Background Gradient */}
@@ -94,7 +97,7 @@ export default function MbtiLandingPage() {
         </div>
 
         {/* Hero Content */}
-        <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
+        <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto pt-16 sm:pt-20">
           {/* Brand Badge */}
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-8 animate-fade-in-up">
             <Sparkles className="w-5 h-5 text-yellow-300" />

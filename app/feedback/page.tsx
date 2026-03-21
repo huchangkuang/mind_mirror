@@ -145,7 +145,9 @@ export default function FeedbackPage() {
 
   return (
     <main className="min-h-screen bg-slate-50 dark:bg-slate-950">
-      {/* 品牌顶区：顶栏透明叠在渐变上（与首页 hero-overlay 一致，无滚动切换） */}
+      <SiteHeader returnTo={FEEDBACK_PATH} variant="scroll-surface" />
+
+      {/* 品牌顶区：固定顶栏叠在渐变上，随滚动过渡到主题表面 */}
       <section className="relative overflow-hidden border-b border-white/10">
         <div className="absolute inset-0 gradient-hero" aria-hidden />
         <div
@@ -155,8 +157,6 @@ export default function FeedbackPage() {
           <div className="absolute -top-10 -right-10 w-56 h-56 rounded-full bg-white/20 blur-3xl" />
           <div className="absolute top-1/2 -left-16 w-48 h-48 rounded-full bg-violet-300/30 blur-3xl" />
         </div>
-
-        <SiteHeader returnTo={FEEDBACK_PATH} variant="hero-overlay" />
 
         <div className="relative z-10 max-w-3xl mx-auto px-4 pt-16 sm:pt-20 pb-14 sm:pb-16">
           <div className="inline-flex items-center gap-2 rounded-full glass px-3 py-1.5 mb-4">

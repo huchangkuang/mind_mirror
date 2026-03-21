@@ -102,7 +102,9 @@ export default function Home() {
   }
   return (
     <main className="min-h-screen bg-slate-50 dark:bg-slate-900 overflow-x-hidden">
-      {/* Hero Section — 顶栏透明叠在渐变上 */}
+      <SiteHeader returnTo="/" variant="scroll-surface" />
+
+      {/* Hero Section — 固定顶栏叠在渐变上，随滚动过渡到主题表面 */}
       <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden">
         {/* Background Gradient */}
         <div className="absolute inset-0 gradient-hero" />
@@ -113,8 +115,6 @@ export default function Home() {
           <div className="absolute top-40 right-20 w-96 h-96 bg-purple-400/20 rounded-full blur-3xl animate-float-slow" />
           <div className="absolute bottom-20 left-1/3 w-80 h-80 bg-blue-400/20 rounded-full blur-3xl animate-float" />
         </div>
-
-        <SiteHeader returnTo="/" variant="hero-overlay" />
 
         {/* Hero Content */}
         <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto pt-16 sm:pt-20">

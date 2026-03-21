@@ -234,9 +234,9 @@ export function CosmicEssenceClient() {
     <>
       <CosmicStarfield />
       <div className="relative z-10 min-h-screen text-slate-100">
-        <SiteHeader returnTo="/cosmic-essence" variant="bar" />
+        <SiteHeader returnTo="/cosmic-essence" variant="scroll-surface" />
 
-        <main className="mx-auto flex max-w-lg flex-col gap-8 px-4 pb-16 pt-8 sm:px-6 sm:pt-12">
+        <main className="mx-auto flex max-w-lg flex-col gap-8 px-4 pb-16 pt-24 sm:px-6 sm:pt-28">
           {phase === "intro" && (
             <section className="space-y-6 text-center">
               <p className="text-xs font-medium uppercase tracking-[0.35em] text-sky-300/80">
