@@ -13,7 +13,7 @@ import { TestCompletionLoginPrompt } from "@/components/auth/TestCompletionLogin
 const DIMENSION_KEYS: Array<keyof DimensionScores> = ["lifestyle", "social", "environment", "pace"];
 
 export default function CityMatchResultPage() {
-  const { result, setQuestions, hydrate } = useCityMatchStore();
+  const { result, mode, setQuestions, hydrate } = useCityMatchStore();
   const [displayResult, setDisplayResult] = useState<CityMatchResult | null>(result ?? null);
 
   useEffect(() => {
@@ -170,7 +170,7 @@ export default function CityMatchResultPage() {
         <Link href="/city-match">
           <Button variant="primary">返回首页</Button>
         </Link>
-        <Link href="/city-match/test?mode=quick">
+        <Link href={`/city-match/test?mode=${mode}&restart=1`}>
           <Button variant="secondary">重新测试</Button>
         </Link>
         <Link href="/city-match/history">

@@ -151,7 +151,7 @@ export default function CityMatchHistoryPage() {
         <Link href="/city-match">
           <Button variant="secondary">返回首页</Button>
         </Link>
-        <Link href="/city-match/test">
+        <Link href="/city-match/test?mode=quick&restart=1">
           <Button variant="primary">重新测试</Button>
         </Link>
       </div>

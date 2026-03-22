@@ -39,6 +39,16 @@ function CityMatchTestContent() {
   const [loadKey, setLoadKey] = useState(0);
 
   useEffect(() => {
+    const restart = searchParams.get("restart");
+    if (restart === "1" || restart === "true") {
+      reset();
+      const next = new URLSearchParams(searchParams.toString());
+      next.delete("restart");
+      const q = next.toString();
+      router.replace(`/city-match/test${q ? `?${q}` : ""}`);
+      return;
+    }
+
     const state = useCityMatchStore.getState();
     const hasInProgress = Object.keys(state.answers).length > 0 || state.currentIndex > 0;
 
@@ -86,6 +96,7 @@ function CityMatchTestContent() {
     requestedMode,
     reset,
     router,
+    searchParams,
     setError,
     setLoading,
     setMode,
@@ -94,7 +105,9 @@ function CityMatchTestContent() {
   ]);
 
   useEffect(() => {
-    if (isSubmitted && result) {
+    // reset() 与本轮 effect 同 commit 时，订阅值尚未更新，需读 getState() 避免误跳结果页
+    const { isSubmitted: submitted, result: res } = useCityMatchStore.getState();
+    if (submitted && res) {
       router.replace("/city-match/result");
     }
   }, [isSubmitted, result, router]);

@@ -45,6 +45,16 @@ function MbtiTestContent() {
   const [loadKey, setLoadKey] = useState(0);
 
   useEffect(() => {
+    const restart = searchParams.get("restart");
+    if (restart === "1" || restart === "true") {
+      reset();
+      const next = new URLSearchParams(searchParams.toString());
+      next.delete("restart");
+      const q = next.toString();
+      router.replace(`/mbti/test${q ? `?${q}` : ""}`);
+      return;
+    }
+
     const state = useMbtiStore.getState();
     const hasInProgress = Object.keys(state.answers).length > 0 || state.currentIndex > 0;
     if (state.mode !== requestedMode && hasInProgress) {
@@ -82,10 +92,22 @@ function MbtiTestContent() {
         setError(e instanceof Error ? e.message : "加载失败");
         setLoading(false);
       });
-  }, [loadKey, requestedMode, reset, router, setError, setLoading, setMode, setQuestions, hydrate]);
+  }, [
+    loadKey,
+    requestedMode,
+    reset,
+    router,
+    searchParams,
+    setError,
+    setLoading,
+    setMode,
+    setQuestions,
+    hydrate,
+  ]);
 
   useEffect(() => {
-    if (isSubmitted && result) router.replace("/mbti/result");
+    const { isSubmitted: submitted, result: res } = useMbtiStore.getState();
+    if (submitted && res) router.replace("/mbti/result");
   }, [isSubmitted, result, router]);
 
   const current = questions[currentIndex];

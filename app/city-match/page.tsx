@@ -359,7 +359,7 @@ export default function CityMatchLandingPage() {
             Mind Mirror
           </div>
           <p className="text-slate-500 dark:text-slate-400 text-sm">
-            © 2025 Mind Mirror. 探索真实的自己。
+            © 2026 Mind Mirror. 探索真实的自己。
           </p>
         </div>
       </footer>

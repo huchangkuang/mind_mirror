@@ -135,7 +135,7 @@ export default function MbtiResultPage() {
         <Link href="/mbti">
           <Button variant="primary">返回首页</Button>
         </Link>
-        <Link href="/mbti/test">
+        <Link href={`/mbti/test?mode=${mode}&restart=1`}>
           <Button variant="secondary">再测一次</Button>
         </Link>
         <Link href="/mbti/history">
