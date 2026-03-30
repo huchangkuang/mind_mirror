@@ -15,6 +15,7 @@ import {
   Users,
   Zap,
 } from "lucide-react";
+import { SiteFilingLinks } from "@/components/legal/SiteFilingLinks";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 
 const dimensions = [
@@ -354,13 +355,16 @@ export default function CityMatchLandingPage() {
 
       {/* Footer */}
       <footer className="py-8 px-4 sm:px-6 lg:px-8 border-t border-slate-200 dark:border-slate-800">
-        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="font-outfit font-bold text-slate-900 dark:text-white text-xl">
-            Mind Mirror
+        <div className="max-w-6xl mx-auto flex flex-col gap-4">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="font-outfit font-bold text-slate-900 dark:text-white text-xl">
+              Mind Mirror
+            </div>
+            <p className="text-slate-500 dark:text-slate-400 text-sm">
+              © 2026 Mind Mirror. 探索真实的自己。
+            </p>
           </div>
-          <p className="text-slate-500 dark:text-slate-400 text-sm">
-            © 2026 Mind Mirror. 探索真实的自己。
-          </p>
+          <SiteFilingLinks />
         </div>
       </footer>
     </main>

@@ -1,5 +1,6 @@
 "use client";
 
+import { SiteFilingLinks } from "@/components/legal/SiteFilingLinks";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -114,25 +115,28 @@ export function HomeFooter() {
   return (
     <>
       <footer className="py-8 px-4 sm:px-6 lg:px-8 border-t border-slate-200 dark:border-slate-800">
-        <div className="max-w-6xl mx-auto flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <nav
-            className="flex flex-wrap items-center justify-start gap-x-6 gap-y-1 text-left"
-            aria-label="页脚"
-          >
-            <Link href="/feedback" className={footerNavLinkClass}>
-              反馈与建议
-            </Link>
-            <button
-              type="button"
-              className={`${footerNavLinkClass} cursor-pointer bg-transparent border-0 p-0 font-[inherit]`}
-              onClick={() => setAboutOpen(true)}
+        <div className="max-w-6xl mx-auto flex flex-col gap-4">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <nav
+              className="flex flex-wrap items-center justify-start gap-x-6 gap-y-1 text-left"
+              aria-label="页脚"
             >
-              关于我们
-            </button>
-          </nav>
-          <p className="text-slate-500 dark:text-slate-400 text-sm text-left sm:text-right shrink-0">
-            © 2026 Mind Mirror. 探索真实的自己。
-          </p>
+              <Link href="/feedback" className={footerNavLinkClass}>
+                反馈与建议
+              </Link>
+              <button
+                type="button"
+                className={`${footerNavLinkClass} cursor-pointer bg-transparent border-0 p-0 font-[inherit]`}
+                onClick={() => setAboutOpen(true)}
+              >
+                关于我们
+              </button>
+            </nav>
+            <p className="text-slate-500 dark:text-slate-400 text-sm text-left sm:text-right shrink-0">
+              © 2026 Mind Mirror. 探索真实的自己。
+            </p>
+          </div>
+          <SiteFilingLinks />
         </div>
       </footer>
       <AboutUsVideoModal
