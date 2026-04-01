@@ -44,6 +44,7 @@ function recordSummary(record: HistoryRecord): string {
 }
 
 function historyDetailHref(record: HistoryRecord): string | null {
+  if (!["mbti", "city-match"].includes(record.test_id)) return null;
   if (record.href?.startsWith("/")) {
     return `${record.href.replace(/\/$/, "")}/history`;
   }

@@ -8,6 +8,7 @@ import { COSMIC_QUESTIONS } from "@/lib/cosmic-essence/questions";
 import { COSMIC_RESULTS } from "@/lib/cosmic-essence/results";
 import { resolveCosmicResult } from "@/lib/cosmic-essence/score";
 import type { CosmicDimension, CosmicResultId } from "@/lib/cosmic-essence/types";
+import { ApiRequestError, saveHistory } from "@/lib/api/history";
 import { generatePosterShareQrcodeDataUrl } from "@/lib/shareQrcode";
 import { CosmicStarfield } from "./CosmicStarfield";
 
@@ -56,7 +57,30 @@ export function CosmicEssenceClient() {
 
   const currentQuestion = COSMIC_QUESTIONS[questionIndex];
 
+  const persistResult = useCallback(async (id: CosmicResultId) => {
+    const r = COSMIC_RESULTS[id];
+    if (!r) return;
+    try {
+      await saveHistory({
+        test_id: "cosmic-essence",
+        result: {
+          id: r.id,
+          name: r.name,
+          keywords: r.keywords,
+          affinityName: r.affinityName,
+          rarityLabel: r.rarityLabel,
+        },
+        result_summary: r.name,
+      });
+    } catch (error) {
+      // 未登录时允许静默失败，不阻断结果展示
+      if (error instanceof ApiRequestError && error.status === 401) return;
+    }
+  }, []);
+
   const pickOption = (dimension: CosmicDimension) => {
+    const active = typeof document !== "undefined" ? document.activeElement : null;
+    if (active instanceof HTMLElement) active.blur();
     const nextAnswers = [...answers, dimension];
     if (questionIndex >= TOTAL - 1) {
       const id = resolveCosmicResult(nextAnswers);
@@ -65,6 +89,7 @@ export function CosmicEssenceClient() {
         setResultId(id);
         setPhase("result");
       });
+      void persistResult(id);
       return;
     }
     runFade(() => {
@@ -302,7 +327,7 @@ export function CosmicEssenceClient() {
               </h2>
               <ul className="flex flex-col gap-3">
                 {currentQuestion.options.map((opt) => (
-                  <li key={opt.letter}>
+                  <li key={`${questionIndex}-${opt.letter}`}>
                     <button
                       type="button"
                       onClick={() => pickOption(opt.dimension)}

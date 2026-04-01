@@ -63,7 +63,8 @@ CREATE TABLE IF NOT EXISTS test_history (
 INSERT INTO tests (test_id, title, description, icon_name, duration, featured, href, color_from, color_to)
 VALUES
   ('mbti', 'MBTI 人格测试', '探索你的性格类型，了解自己的行为模式和独特优势', 'Brain', '5分钟', TRUE, '/mbti', 'from-blue-500', 'to-purple-600'),
-  ('city-match', '性格匹配城市测试', '发现最适合你性格的理想居住城市，开启全新生活篇章', 'Building2', '5分钟', FALSE, '/city-match', 'from-emerald-500', 'to-teal-600')
+  ('city-match', '性格匹配城市测试', '发现最适合你性格的理想居住城市，开启全新生活篇章', 'Building2', '5分钟', FALSE, '/city-match', 'from-emerald-500', 'to-teal-600'),
+  ('cosmic-essence', '宇宙精神原色测试', '8 道宇宙情境单选题，匹配你的精神原色并生成分享海报', 'Sparkles', '3分钟', FALSE, '/cosmic-essence', 'from-sky-500', 'to-violet-500')
 ON DUPLICATE KEY UPDATE
   title = VALUES(title),
   description = VALUES(description),

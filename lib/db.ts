@@ -239,47 +239,61 @@ async function tryAlter(connection: mysql.Connection, sql: string) {
  * Seed initial test data
  */
 async function seedInitialData(connection: mysql.Connection) {
-  // Check if tests table has data
-  const [rows] = await connection.execute("SELECT COUNT(*) as count FROM tests");
-  const count = (rows as { count: number }[])[0].count;
+  const tests: Array<
+    [string, string, string, string, string, boolean, string, string, string]
+  > = [
+    [
+      "mbti",
+      "MBTI 人格测试",
+      "探索你的性格类型，了解自己的行为模式和独特优势",
+      "Brain",
+      "5分钟",
+      true,
+      "/mbti",
+      "from-blue-500",
+      "to-purple-600",
+    ],
+    [
+      "city-match",
+      "性格匹配城市测试",
+      "发现最适合你性格的理想居住城市，开启全新生活篇章",
+      "Building2",
+      "5分钟",
+      false,
+      "/city-match",
+      "from-emerald-500",
+      "to-teal-600",
+    ],
+    [
+      "cosmic-essence",
+      "宇宙精神原色测试",
+      "8 道宇宙情境单选题，匹配你的精神原色并生成分享海报",
+      "Sparkles",
+      "3分钟",
+      false,
+      "/cosmic-essence",
+      "from-sky-500",
+      "to-violet-500",
+    ],
+  ];
 
-  if (count === 0) {
-    // Insert MBTI test
+  for (const test of tests) {
     await connection.execute(
-      `INSERT INTO tests (test_id, title, description, icon_name, duration, featured, href, color_from, color_to) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-      [
-        "mbti",
-        "MBTI 人格测试",
-        "探索你的性格类型，了解自己的行为模式和独特优势",
-        "Brain",
-        "5分钟",
-        true,
-        "/mbti",
-        "from-blue-500",
-        "to-purple-600",
-      ]
+      `INSERT INTO tests (test_id, title, description, icon_name, duration, featured, href, color_from, color_to)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+       ON DUPLICATE KEY UPDATE
+         title = VALUES(title),
+         description = VALUES(description),
+         icon_name = VALUES(icon_name),
+         duration = VALUES(duration),
+         featured = VALUES(featured),
+         href = VALUES(href),
+         color_from = VALUES(color_from),
+         color_to = VALUES(color_to)`,
+      test
     );
-    console.log("[DB] Seeded MBTI test data");
-
-    // Insert City Match test
-    await connection.execute(
-      `INSERT INTO tests (test_id, title, description, icon_name, duration, featured, href, color_from, color_to) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-      [
-        "city-match",
-        "性格匹配城市测试",
-        "发现最适合你性格的理想居住城市，开启全新生活篇章",
-        "Building2",
-        "5分钟",
-        false,
-        "/city-match",
-        "from-emerald-500",
-        "to-teal-600",
-      ]
-    );
-    console.log("[DB] Seeded City Match test data");
-  } else {
-    console.log("[DB] Test data already exists, skipping seed");
   }
+  console.log("[DB] Test data seeded/updated");
 }
 
 /**
