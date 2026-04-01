@@ -1,4 +1,14 @@
 import type { AuthUser } from "@/lib/auth/types";
+import {
+  ApiRequestError,
+  apiFetch,
+  apiFetchJson,
+  getApiErrorMessage,
+  readJsonBody,
+  stopAuthRefreshSchedule,
+  syncAuthRefreshSchedule,
+} from "@/lib/api/client";
+import { clearAuthTokens, getAccessToken, getRefreshToken, writeAuthTokens } from "@/lib/api/token-store";
 
 interface AuthResponse {
   authenticated: boolean;
@@ -12,15 +22,20 @@ interface AuthActionResponse {
 }
 
 export async function fetchCurrentUser(signal?: AbortSignal): Promise<AuthResponse> {
-  const response = await fetch("/api/auth/me", { credentials: "include", signal });
-  if (!response.ok) {
-    throw new Error("Failed to fetch auth state");
+  // 未登录（本地无 access/refresh）时，不请求受保护接口，直接返回 guest。
+  if (!getAccessToken() && !getRefreshToken()) {
+    return {
+      authenticated: false,
+      user: null,
+      isFeedbackModerator: false,
+    };
   }
-  const data = (await response.json()) as {
+
+  const data = await apiFetchJson<{
     authenticated?: boolean;
     user?: AuthUser | null;
     isFeedbackModerator?: boolean;
-  };
+  }>("/api/auth/me", { signal, fallbackErrorMessage: "Failed to fetch auth state" });
   return {
     authenticated: Boolean(data.authenticated),
     user: data.user ?? null,
@@ -29,75 +44,97 @@ export async function fetchCurrentUser(signal?: AbortSignal): Promise<AuthRespon
 }
 
 export async function registerAccount(username: string, password: string): Promise<AuthActionResponse> {
-  const response = await fetch("/api/auth/register", {
+  const body = await apiFetchJson<{
+    accessToken?: string;
+    refreshToken?: string;
+  }>("/api/auth/register", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    credentials: "include",
     body: JSON.stringify({ username, password }),
   });
-  const body = (await response.json()) as {
-    message?: string;
-    user?: AuthUser;
-    isFeedbackModerator?: boolean;
-  };
-  if (!response.ok || !body.user) {
-    throw new Error(body.message || "注册失败");
+  if (!body.accessToken || !body.refreshToken) {
+    throw new Error("注册失败");
   }
-  return { user: body.user, isFeedbackModerator: Boolean(body.isFeedbackModerator) };
+  writeAuthTokens({
+    accessToken: body.accessToken,
+    refreshToken: body.refreshToken,
+  });
+  syncAuthRefreshSchedule();
+  const me = await fetchCurrentUser();
+  if (!me.user) {
+    throw new Error("注册后用户信息获取失败");
+  }
+  return { user: me.user, isFeedbackModerator: Boolean(me.isFeedbackModerator) };
 }
 
 export async function loginAccount(username: string, password: string): Promise<AuthActionResponse> {
-  const response = await fetch("/api/auth/login", {
+  const body = await apiFetchJson<{
+    accessToken?: string;
+    refreshToken?: string;
+  }>("/api/auth/login", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    credentials: "include",
     body: JSON.stringify({ username, password }),
   });
-  const body = (await response.json()) as {
-    message?: string;
-    user?: AuthUser;
-    isFeedbackModerator?: boolean;
-  };
-  if (!response.ok || !body.user) {
-    throw new Error(body.message || "登录失败");
+  if (!body.accessToken || !body.refreshToken) {
+    throw new Error("登录失败");
   }
-  return { user: body.user, isFeedbackModerator: Boolean(body.isFeedbackModerator) };
+  writeAuthTokens({
+    accessToken: body.accessToken,
+    refreshToken: body.refreshToken,
+  });
+  syncAuthRefreshSchedule();
+  const me = await fetchCurrentUser();
+  if (!me.user) {
+    throw new Error("登录后用户信息获取失败");
+  }
+  return { user: me.user, isFeedbackModerator: Boolean(me.isFeedbackModerator) };
 }
 
 export async function logoutAccount(): Promise<void> {
-  const response = await fetch("/api/auth/logout", {
+  const refreshToken = getRefreshToken();
+  if (!refreshToken) {
+    clearAuthTokens();
+    stopAuthRefreshSchedule();
+    return;
+  }
+  const response = await apiFetch("/api/auth/logout", {
     method: "POST",
-    credentials: "include",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ refreshToken }),
+    skipAuthRetry: true,
   });
   if (!response.ok) {
-    const body = (await response.json().catch(() => ({}))) as { message?: string };
-    throw new Error(body.message || "登出失败");
+    const body = await readJsonBody(response);
+    throw new Error(getApiErrorMessage(body, "登出失败"));
   }
+  clearAuthTokens();
+  stopAuthRefreshSchedule();
 }
 
 export async function updateNickname(nickname: string): Promise<AuthUser> {
-  const response = await fetch("/api/auth/profile", {
+  const body = await apiFetchJson<{ user?: AuthUser }>("/api/auth/profile", {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
-    credentials: "include",
     body: JSON.stringify({ nickname }),
   });
-  const body = (await response.json()) as { message?: string; user?: AuthUser };
-  if (!response.ok || !body.user) {
-    throw new Error(body.message || "更新昵称失败");
+  if (!body.user) {
+    throw new Error("更新昵称失败");
   }
   return body.user;
 }
 
 export async function changePassword(currentPassword: string, newPassword: string): Promise<void> {
-  const response = await fetch("/api/auth/change-password", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    credentials: "include",
-    body: JSON.stringify({ currentPassword, newPassword }),
-  });
-  const body = (await response.json().catch(() => ({}))) as { message?: string };
-  if (!response.ok) {
-    throw new Error(body.message || "修改密码失败");
+  try {
+    await apiFetchJson("/api/auth/change-password", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ currentPassword, newPassword }),
+    });
+  } catch (error) {
+    if (error instanceof ApiRequestError) {
+      throw new Error(error.message || "修改密码失败");
+    }
+    throw error;
   }
 }

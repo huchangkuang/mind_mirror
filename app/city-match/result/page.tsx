@@ -6,9 +6,10 @@ import { useCityMatchStore } from "@/stores/city-match-store";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { MapPin, Building2, ArrowRight } from "lucide-react";
-import type { CityMatchResult, DimensionScores } from "@/lib/city-match/types";
+import type { CityMatchQuestion, CityMatchResult, DimensionScores } from "@/lib/city-match/types";
 import { getDimensionLabel, scoreToPercentage } from "@/lib/city-match/scoring";
 import { TestCompletionLoginPrompt } from "@/components/auth/TestCompletionLoginPrompt";
+import { apiFetchJson } from "@/lib/api/client";
 
 const DIMENSION_KEYS: Array<keyof DimensionScores> = ["lifestyle", "social", "environment", "pace"];
 
@@ -24,8 +25,15 @@ export default function CityMatchResultPage() {
     }
 
     const currentMode = state.mode ?? "quick";
-    fetch(`/api/city-match/questions?mode=${currentMode}`)
-      .then((r) => (r.ok ? r.json() : null))
+    apiFetchJson<{
+      questions: CityMatchQuestion[];
+      meta: {
+        version: string;
+        questionCount: number;
+        estimatedMinutes: number;
+        mode: "quick" | "full";
+      };
+    }>(`/api/city-match/questions?mode=${currentMode}`)
       .then((data) => {
         if (!data?.questions?.length) return;
         setQuestions(data.questions, {

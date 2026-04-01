@@ -53,3 +53,21 @@ The system SHALL provide an API endpoint to clear all history records.
 - **WHEN** a DELETE request is made to `/api/history` without id parameter
 - **THEN** the system SHALL delete all records from test_history table
 - **AND** return HTTP 200 with message "All history cleared" and count of deleted records
+
+### Requirement: 历史记录接口 MUST 迁移到外部 API 并保持行为一致
+前端历史记录查询、保存、删除与清空能力 MUST 通过外部 Node API 调用，且保留原有请求参数与响应语义。
+
+#### Scenario: 查询历史记录
+- **WHEN** 前端调用外部 API `GET /api/history`（可选 `test_id`）
+- **THEN** 系统 SHALL 返回按创建时间倒序的记录列表
+- **THEN** 返回结构 SHALL 继续满足前端历史页渲染需求
+
+#### Scenario: 保存历史记录
+- **WHEN** 前端调用外部 API `POST /api/history` 并提交测试结果
+- **THEN** 系统 SHALL 返回创建成功响应与新记录标识
+- **THEN** 前端 SHALL 能立即将新记录纳入展示或后续查询
+
+#### Scenario: 删除或清空历史记录
+- **WHEN** 前端调用外部 API `DELETE /api/history?id=<id>` 或 `DELETE /api/history`
+- **THEN** 系统 SHALL 保持原有删除成功与异常场景语义
+- **THEN** 前端历史界面 SHALL 与迁移前交互一致

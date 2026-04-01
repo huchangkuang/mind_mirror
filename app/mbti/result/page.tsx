@@ -7,7 +7,9 @@ import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { getTypeDescription } from "@/lib/mbti/type-descriptions";
 import type { MbtiResult } from "@/lib/mbti/scoring";
+import type { MbtiQuestion } from "@/lib/mbti/types";
 import { TestCompletionLoginPrompt } from "@/components/auth/TestCompletionLoginPrompt";
+import { apiFetchJson } from "@/lib/api/client";
 
 const DIMENSION_LABELS: Record<string, string> = {
   EI: "外向 E ← → I 内向",
@@ -32,8 +34,14 @@ export default function MbtiResultPage() {
       setDisplayResult(state.result);
       return;
     }
-    fetch(`/api/mbti/questions?mode=${state.mode}`)
-      .then((r) => r.ok ? r.json() : null)
+    apiFetchJson<{
+      questions: MbtiQuestion[];
+      version: string;
+      questionCount: number;
+      estimatedMinutes: number;
+      mode: "quick" | "deep";
+      questionType: "binary" | "likert5";
+    }>(`/api/mbti/questions?mode=${state.mode}`)
       .then((data) => {
         if (!data?.questions?.length) return;
         setQuestions(data.questions, {

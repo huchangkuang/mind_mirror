@@ -6,6 +6,8 @@ import Link from "next/link";
 import { useMbtiStore } from "@/stores/mbti-store";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
+import type { MbtiQuestion, MbtiQuestionType, MbtiTestMode } from "@/lib/mbti/types";
+import { apiFetchJson } from "@/lib/api/client";
 
 const DEEP_SCALE_LEGEND = ["非常同意", "比较同意", "不确定", "比较不同意", "非常不同意"];
 
@@ -69,11 +71,16 @@ function MbtiTestContent() {
     setHydrated(false);
     setLoading(true);
     setError(null);
-    fetch(`/api/mbti/questions?mode=${requestedMode}`)
-      .then((r) => {
-        if (!r.ok) throw new Error("加载题目失败");
-        return r.json();
-      })
+    apiFetchJson<{
+      questions: MbtiQuestion[];
+      version: string;
+      questionCount: number;
+      estimatedMinutes: number;
+      mode: MbtiTestMode;
+      questionType: MbtiQuestionType;
+    }>(`/api/mbti/questions?mode=${requestedMode}`, {
+      fallbackErrorMessage: "加载题目失败",
+    })
       .then((data) => {
         setQuestions(data.questions, {
           version: data.version,

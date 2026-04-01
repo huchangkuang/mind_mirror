@@ -2,6 +2,7 @@
 
 import { FormEvent, useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { Card } from "@/components/ui/Card";
@@ -52,17 +53,19 @@ function historyDetailHref(record: HistoryRecord): string | null {
 }
 
 interface ProfilePageClientProps {
-  initialUser: AuthUser;
+  initialUser: AuthUser | null;
 }
 
 export function ProfilePageClient({ initialUser }: ProfilePageClientProps) {
+  const router = useRouter();
   const updateNickname = useAuthStore((s) => s.updateNickname);
   const user = useAuthStore((s) => s.user);
+  const status = useAuthStore((s) => s.status);
+  const bootstrapped = useAuthStore((s) => s.bootstrapped);
   const syncUser = useAuthStore((s) => s.refreshFromServer);
 
   const effective = user ?? initialUser;
-
-  const [nickDraft, setNickDraft] = useState(initialUser.nickname);
+  const [nickDraft, setNickDraft] = useState(initialUser?.nickname ?? "");
   const [nickMsg, setNickMsg] = useState<string | null>(null);
   const [nickPending, setNickPending] = useState(false);
 
@@ -79,6 +82,13 @@ export function ProfilePageClient({ initialUser }: ProfilePageClientProps) {
   useEffect(() => {
     if (user?.nickname) setNickDraft(user.nickname);
   }, [user?.nickname]);
+
+  useEffect(() => {
+    if (!bootstrapped) return;
+    if (status === "guest") {
+      router.replace(`/auth?next=${encodeURIComponent(PROFILE_PATH)}&mode=login`);
+    }
+  }, [bootstrapped, router, status]);
 
   const loadHistory = useCallback(async () => {
     setHistoryLoading(true);
@@ -98,8 +108,15 @@ export function ProfilePageClient({ initialUser }: ProfilePageClientProps) {
   }, []);
 
   useEffect(() => {
+    if (!bootstrapped) return;
+    if (status !== "authenticated") {
+      setHistoryLoading(false);
+      setHistoryError(null);
+      setHistoryRows([]);
+      return;
+    }
     void loadHistory();
-  }, [loadHistory]);
+  }, [bootstrapped, loadHistory, status]);
 
   const grouped = useMemo(() => {
     const map = new Map<string, HistoryRecord[]>();
@@ -153,6 +170,15 @@ export function ProfilePageClient({ initialUser }: ProfilePageClientProps) {
     } finally {
       setPwdPending(false);
     }
+  }
+
+  if (!effective) {
+    return (
+      <div className="min-h-dvh flex items-center justify-center text-slate-600 dark:text-slate-300">
+        <Loader2 className="w-5 h-5 animate-spin mr-2" />
+        正在检查登录状态…
+      </div>
+    );
   }
 
   return (

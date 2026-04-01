@@ -10,16 +10,17 @@
 - **Zustand**（状态管理）
 - **MySQL**（数据持久化）
 - **mysql2**（数据库驱动）
-- **Next.js API Routes**（RESTful API）
+- **外部 Node API 服务**（RESTful API，默认 `http://localhost:3001`）
 
 ## 项目结构
 
 ```
 ├── app/
-│   ├── api/mbti/          # API：题库、提交答案
+│   ├── api/               # 兼容层（逐步弃用，详见 app/api/README.md）
 │   ├── mbti/               # MBTI 页面：介绍、测试、结果、历史
 │   ├── layout.tsx
 │   └── page.tsx
+├── lib/api/client.ts       # 统一 API 客户端（base URL、超时、错误语义）
 ├── components/ui/          # 通用 UI：Button、Card、ProgressBar
 ├── lib/mbti/               # 题库类型、加载、打分、历史存储、类型说明
 ├── stores/                 # Zustand：mbti-store
@@ -35,15 +36,18 @@
 ### 本地开发环境
 
 1. 确保本地 MySQL 已安装并运行
-2. 复制 `.env.local` 并配置数据库连接信息：
+2. 复制 `.env.local` 并配置数据库连接信息与 API 地址：
    ```
+   NEXT_PUBLIC_API_BASE_URL=http://localhost:3001
+   NEXT_PUBLIC_API_TIMEOUT_MS=10000
    DATABASE_HOST=localhost
    DATABASE_PORT=3306
    DATABASE_USER=root
    DATABASE_PASSWORD=your-password
    DATABASE_NAME=mind_mirror
    ```
-3. 启动应用时会自动创建数据库、表和初始数据
+3. 确保同级目录 `mind_mirror_api` 已启动（默认 3001 端口）
+4. 启动应用时会自动创建数据库、表和初始数据
 
 ### 生产环境 (ECS)
 
@@ -68,6 +72,13 @@ npm start
 ```
 
 开发环境下访问 [http://localhost:3000](http://localhost:3000)，首页可进入 MBTI 测试或城市匹配测试。
+
+## 前后端联调与迁移说明
+
+- 前端所有运行时业务请求统一通过 `lib/api/client.ts` 访问外部后端。
+- 若未配置 `NEXT_PUBLIC_API_BASE_URL`，默认回退到 `http://localhost:3001`。
+- `app/api/*` 仅保留兼容用途，不再作为新增能力入口。
+- 迁移清单、字段映射与回滚检查见 `docs/external-api-migration.md`。
 
 ## 反馈与建议
 

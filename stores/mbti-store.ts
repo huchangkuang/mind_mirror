@@ -4,6 +4,7 @@ import { create } from "zustand";
 import type { MbtiQuestion, MbtiQuestionType, MbtiTestMode } from "@/lib/mbti/types";
 import type { MbtiResult } from "@/lib/mbti/scoring";
 import { saveRecord } from "@/lib/mbti/history-storage";
+import { apiFetch, getApiErrorMessage, readJsonBody } from "@/lib/api/client";
 
 const STORAGE_KEY = "mbti-test-session";
 
@@ -103,7 +104,7 @@ export const useMbtiStore = create<MbtiState>((set, get) => ({
             Object.entries(answers).map(([key, value]) => [key, Number(value)])
           )
         : answers;
-    const res = await fetch("/api/mbti/submit", {
+    const res = await apiFetch("/api/mbti/submit", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -113,10 +114,13 @@ export const useMbtiStore = create<MbtiState>((set, get) => ({
       }),
     });
     if (!res.ok) {
-      const body = (await res.json().catch(() => null)) as { message?: string } | null;
-      throw new Error(body?.message || "提交失败");
+      const body = await readJsonBody<{ message?: string }>(res);
+      throw new Error(getApiErrorMessage(body, "提交失败"));
     }
-    const result = (await res.json()) as MbtiResult;
+    const result = (await readJsonBody<MbtiResult>(res)) as MbtiResult | null;
+    if (!result) {
+      throw new Error("提交失败");
+    }
     set({ result, isSubmitted: true, error: null });
     get().persist();
     await saveRecord({

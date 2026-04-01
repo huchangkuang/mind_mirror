@@ -7,6 +7,8 @@ import { useCityMatchStore } from "@/stores/city-match-store";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { ProgressBar } from "@/components/ui/ProgressBar";
+import type { CityMatchQuestion, CityMatchTestMode } from "@/lib/city-match/types";
+import { apiFetchJson } from "@/lib/api/client";
 
 function CityMatchTestContent() {
   const router = useRouter();
@@ -66,11 +68,17 @@ function CityMatchTestContent() {
     setLoading(true);
     setError(null);
 
-    fetch(`/api/city-match/questions?mode=${requestedMode}`)
-      .then((r) => {
-        if (!r.ok) throw new Error("加载题目失败");
-        return r.json();
-      })
+    apiFetchJson<{
+      questions: CityMatchQuestion[];
+      meta: {
+        version: string;
+        questionCount: number;
+        estimatedMinutes: number;
+        mode: CityMatchTestMode;
+      };
+    }>(`/api/city-match/questions?mode=${requestedMode}`, {
+      fallbackErrorMessage: "加载题目失败",
+    })
       .then((data) => {
         setQuestions(data.questions, {
           version: data.meta.version,

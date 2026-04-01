@@ -119,17 +119,17 @@ export default function CityMatchLandingPage() {
           </p>
 
           {/* CTA Buttons */}
-          <div className="animate-fade-in-up flex flex-col sm:flex-row items-center justify-center gap-3">
+          <div className="animate-fade-in-up flex w-full max-w-md mx-auto flex-col sm:flex-row items-center justify-center gap-3">
             <Link
               href="/city-match/test?mode=quick"
-              className="group inline-flex items-center gap-3 px-8 py-4 bg-white text-teal-600 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95"
+              className="group inline-flex w-full sm:w-auto shrink-0 whitespace-nowrap justify-center items-center gap-3 px-8 py-4 bg-white text-teal-600 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95"
             >
               快速版（8题 / 约3分钟）
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Link>
             <Link
               href="/city-match/test?mode=full"
-              className="group inline-flex items-center gap-3 px-8 py-4 bg-teal-600 text-white rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95"
+              className="group inline-flex w-full sm:w-auto shrink-0 whitespace-nowrap justify-center items-center gap-3 px-8 py-4 bg-teal-600 text-white rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95"
             >
               完整版（25+题 / 约8分钟）
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -323,17 +323,17 @@ export default function CityMatchLandingPage() {
                 只需几分钟，找到与你性格最契合的城市，开启理想生活的新篇章
               </p>
 
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+              <div className="flex w-full max-w-md mx-auto flex-col sm:flex-row items-center justify-center gap-3">
                 <Link
                   href="/city-match/test?mode=quick"
-                  className="group inline-flex items-center gap-3 px-8 py-4 bg-white text-teal-600 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95"
+                  className="group inline-flex w-full sm:w-auto shrink-0 whitespace-nowrap justify-center items-center gap-3 px-8 py-4 bg-white text-teal-600 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95"
                 >
                   快速版（8题 / 约3分钟）
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
                 <Link
                   href="/city-match/test?mode=full"
-                  className="group inline-flex items-center gap-3 px-8 py-4 bg-teal-600 text-white rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95"
+                  className="group inline-flex w-full sm:w-auto shrink-0 whitespace-nowrap justify-center items-center gap-3 px-8 py-4 bg-teal-600 text-white rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95"
                 >
                   完整版（25+题 / 约8分钟）
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />

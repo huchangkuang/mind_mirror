@@ -1,3 +1,5 @@
+import { apiFetch, getApiErrorMessage, readJsonBody } from "@/lib/api/client";
+
 export type FeedbackSort = "hot" | "recent";
 
 export interface FeedbackComment {
@@ -13,14 +15,14 @@ export async function fetchFeedbackComments(sort: FeedbackSort): Promise<{
   comments: FeedbackComment[];
   sort: FeedbackSort;
 }> {
-  const res = await fetch(`/api/feedback/comments?sort=${sort}`, { credentials: "include" });
-  const data = (await res.json().catch(() => ({}))) as {
+  const res = await apiFetch(`/api/feedback/comments?sort=${sort}`);
+  const data = (await readJsonBody<{
     message?: string;
     comments?: FeedbackComment[];
     sort?: FeedbackSort;
-  };
+  }>(res)) ?? {};
   if (!res.ok) {
-    throw new Error(data.message || "加载评论失败");
+    throw new Error(getApiErrorMessage(data, "加载评论失败"));
   }
   return {
     comments: data.comments ?? [],
@@ -29,34 +31,32 @@ export async function fetchFeedbackComments(sort: FeedbackSort): Promise<{
 }
 
 export async function postFeedbackComment(body: string): Promise<FeedbackComment> {
-  const res = await fetch("/api/feedback/comments", {
+  const res = await apiFetch("/api/feedback/comments", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    credentials: "include",
     body: JSON.stringify({ body }),
   });
-  const data = (await res.json().catch(() => ({}))) as {
+  const data = (await readJsonBody<{
     message?: string;
     comment?: FeedbackComment;
-  };
+  }>(res)) ?? {};
   if (!res.ok || !data.comment) {
-    throw new Error(data.message || "发布失败");
+    throw new Error(getApiErrorMessage(data, "发布失败"));
   }
   return data.comment;
 }
 
 export async function toggleFeedbackLike(commentId: number): Promise<{ liked: boolean; likeCount: number }> {
-  const res = await fetch(`/api/feedback/comments/${commentId}/like`, {
+  const res = await apiFetch(`/api/feedback/comments/${commentId}/like`, {
     method: "POST",
-    credentials: "include",
   });
-  const data = (await res.json().catch(() => ({}))) as {
+  const data = (await readJsonBody<{
     message?: string;
     liked?: boolean;
     likeCount?: number;
-  };
+  }>(res)) ?? {};
   if (!res.ok) {
-    throw new Error(data.message || "点赞失败");
+    throw new Error(getApiErrorMessage(data, "点赞失败"));
   }
   return {
     liked: Boolean(data.liked),
@@ -65,12 +65,11 @@ export async function toggleFeedbackLike(commentId: number): Promise<{ liked: bo
 }
 
 export async function deleteFeedbackComment(commentId: number): Promise<void> {
-  const res = await fetch(`/api/feedback/comments/${commentId}`, {
+  const res = await apiFetch(`/api/feedback/comments/${commentId}`, {
     method: "DELETE",
-    credentials: "include",
   });
-  const data = (await res.json().catch(() => ({}))) as { message?: string };
+  const data = (await readJsonBody<{ message?: string }>(res)) ?? {};
   if (!res.ok) {
-    throw new Error(data.message || "删除失败");
+    throw new Error(getApiErrorMessage(data, "删除失败"));
   }
 }

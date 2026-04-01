@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { HomeFooter } from "@/components/home/HomeFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
+import { apiFetchJson } from "@/lib/api/client";
 
 /** 桌面 Hero：视频态与纯渐变态切换间隔 */
 const HERO_DESKTOP_ROTATE_MS = 12_000;
@@ -21,8 +22,11 @@ const HERO_CROSSFADE_MS = 1500;
 
 // Icon mapping from string name to component
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
-  Brain,
-  Building2,
+  brain: Brain,
+  building2: Building2,
+  building: Building2,
+  city: Building2,
+  "building-2": Building2,
 };
 
 interface Test {
@@ -38,6 +42,42 @@ interface Test {
   color_to: string;
 }
 
+interface RawTest {
+  id?: number;
+  test_id?: string;
+  testId?: string;
+  title?: string;
+  description?: string | null;
+  icon_name?: string | null;
+  iconName?: string | null;
+  duration?: string | null;
+  featured?: boolean | null;
+  href?: string | null;
+  color_from?: string | null;
+  colorFrom?: string | null;
+  color_to?: string | null;
+  colorTo?: string | null;
+}
+
+function normalizeIconName(iconName: string): string {
+  return iconName.trim().toLowerCase().replace(/[_\s]+/g, "-");
+}
+
+function normalizeTest(raw: RawTest, index: number): Test {
+  return {
+    id: typeof raw.id === "number" ? raw.id : index + 1,
+    test_id: raw.test_id || raw.testId || `test-${index + 1}`,
+    title: raw.title || `测试 ${index + 1}`,
+    description: raw.description || "",
+    icon_name: raw.icon_name || raw.iconName || "brain",
+    duration: raw.duration || "",
+    featured: Boolean(raw.featured),
+    href: raw.href || "",
+    color_from: raw.color_from || raw.colorFrom || "from-blue-500",
+    color_to: raw.color_to || raw.colorTo || "to-purple-600",
+  };
+}
+
 export default function Home() {
   const [tests, setTests] = useState<Test[]>([]);
   const [loading, setLoading] = useState(true);
@@ -51,12 +91,11 @@ export default function Home() {
   useEffect(() => {
     async function fetchTests() {
       try {
-        const response = await fetch("/api/tests");
-        if (!response.ok) {
-          throw new Error("Failed to fetch tests");
-        }
-        const data = await response.json();
-        setTests(data.tests || []);
+        const data = await apiFetchJson<{ tests?: RawTest[] }>("/api/tests", {
+          fallbackErrorMessage: "Failed to fetch tests",
+        });
+        const normalized = (data.tests || []).map((item, index) => normalizeTest(item, index));
+        setTests(normalized);
       } catch (err) {
         console.error("Error fetching tests:", err);
         setError("无法加载测试数据，请稍后重试");
@@ -113,7 +152,7 @@ export default function Home() {
 
   // Get icon component by name
   const getIcon = (iconName: string) => {
-    return iconMap[iconName] || Brain;
+    return iconMap[normalizeIconName(iconName)] || Brain;
   };
 
   // Build gradient color string
@@ -279,16 +318,17 @@ export default function Home() {
           </div>
 
           <div className="grid sm:grid-cols-2 gap-6 lg:gap-8 max-w-4xl mx-auto">
-            {tests.map((test) => {
+            {tests.map((test, index) => {
               const IconComponent = getIcon(test.icon_name);
               const colorGradient = getColor(test.color_from, test.color_to);
+              const testHref =
+                typeof test.href === "string" && test.href.startsWith("/") ? test.href : null;
+              const testKey = `${test.test_id || "test"}-${test.id || "row"}-${index}`;
+              const cardClassName =
+                "group relative bg-white dark:bg-slate-800 rounded-3xl p-8 shadow-sm hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 overflow-hidden";
 
-              return (
-                <Link
-                  key={test.test_id}
-                  href={test.href}
-                  className="group relative bg-white dark:bg-slate-800 rounded-3xl p-8 shadow-sm hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 overflow-hidden"
-                >
+              const cardContent = (
+                <>
                   {/* Gradient Border on Hover */}
                   <div className={`absolute inset-0 rounded-3xl bg-gradient-to-r ${colorGradient} opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10 blur-sm`} />
                   <div className="absolute inset-[2px] rounded-3xl bg-white dark:bg-slate-800 -z-10" />
@@ -329,10 +369,24 @@ export default function Home() {
                       </span>
                     </div>
                     <span className="inline-flex items-center gap-1 text-blue-600 dark:text-blue-400 font-medium group-hover:gap-2 transition-all">
-                      开始测试
+                      {testHref ? "开始测试" : "即将上线"}
                       <ArrowRight className="w-4 h-4" />
                     </span>
                   </div>
+                </>
+              );
+
+              if (!testHref) {
+                return (
+                  <div key={testKey} className={cardClassName}>
+                    {cardContent}
+                  </div>
+                );
+              }
+
+              return (
+                <Link key={testKey} href={testHref} className={cardClassName}>
+                  {cardContent}
                 </Link>
               );
             })}

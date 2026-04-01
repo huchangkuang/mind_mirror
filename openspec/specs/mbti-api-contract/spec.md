@@ -50,3 +50,27 @@
 - **WHEN** 客户端未提供模式参数请求题目
 - **THEN** 系统 SHALL 按约定默认模式返回（建议 quick）
 - **THEN** 响应体 SHALL 明确返回实际使用的模式，避免前端歧义
+
+### Requirement: MBTI 接口调用来源 MUST 可切换为独立后端服务
+在保持 `mbti-api-contract` 既有请求/响应契约不变的前提下，前端 MUST 支持通过外部 Node API 服务地址调用 MBTI 题目与提交流程接口。
+
+#### Scenario: 获取题目仍符合原契约
+- **WHEN** 前端通过外部 API 地址请求 `GET /api/mbti/questions`
+- **THEN** 响应体 SHALL 继续满足既有题库结构与模式字段约束
+- **THEN** 前端题目渲染与流程控制 SHALL 与迁移前一致
+
+#### Scenario: 提交答案仍符合原契约
+- **WHEN** 前端通过外部 API 地址请求 `POST /api/mbti/submit`
+- **THEN** 请求体与响应体 SHALL 保持原有字段语义与校验规则
+- **THEN** 结果页解析逻辑 SHALL 无需业务语义变更
+
+### Requirement: MBTI 接口迁移 MUST 保证模式参数语义不回归
+前端在迁移到外部 API 后 MUST 继续传递并校验 `mode` 相关字段，确保 quick/deep 两种模式的调用语义一致。
+
+#### Scenario: quick 模式迁移后可用
+- **WHEN** 用户以 quick 模式发起题目获取与提交
+- **THEN** 系统 SHALL 继续按 quick 模式契约处理答案值域与结果返回
+
+#### Scenario: deep 模式迁移后可用
+- **WHEN** 用户以 deep 模式发起题目获取与提交
+- **THEN** 系统 SHALL 继续按 deep 模式契约处理评分与结果结构

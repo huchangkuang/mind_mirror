@@ -117,3 +117,20 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     set({ user });
   },
 }));
+
+if (typeof window !== "undefined") {
+  const flagKey = "__mindmirror_auth_expired_listener_bound__";
+  const globalWindow = window as Window & { [flagKey]?: boolean };
+  if (!globalWindow[flagKey]) {
+    globalWindow[flagKey] = true;
+    window.addEventListener("mindmirror:auth-expired", () => {
+      useAuthStore.setState({
+        user: null,
+        isFeedbackModerator: false,
+        status: "guest",
+        bootstrapped: true,
+        error: null,
+      });
+    });
+  }
+}

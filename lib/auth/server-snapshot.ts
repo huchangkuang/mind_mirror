@@ -1,5 +1,3 @@
-import { getAuthUserFromCookie } from "@/lib/auth/session";
-import { isFeedbackModerator } from "@/lib/feedback/admin";
 import type { AuthUser } from "@/lib/auth/types";
 
 export interface AuthServerSnapshot {
@@ -9,10 +7,12 @@ export interface AuthServerSnapshot {
 }
 
 export async function getAuthServerSnapshot(): Promise<AuthServerSnapshot> {
-  const user = await getAuthUserFromCookie();
+  // Frontend auth has migrated to external API + client token store.
+  // Keep server snapshot as guest to avoid touching local DB runtime.
+  const user: AuthUser | null = null;
   return {
-    authenticated: Boolean(user),
+    authenticated: false,
     user,
-    isFeedbackModerator: user ? isFeedbackModerator(user.username) : false,
+    isFeedbackModerator: false,
   };
 }
