@@ -10,7 +10,7 @@
 - **Zustand**（状态管理）
 - **MySQL**（数据持久化）
 - **mysql2**（数据库驱动）
-- **外部 Node API 服务**（RESTful API，默认 `http://localhost:3001`）
+- **外部 Node API 服务**（RESTful API，生产默认同源；开发环境回退 `http://localhost:3001`）
 
 ## 项目结构
 
@@ -76,7 +76,7 @@ npm start
 ## 前后端联调与迁移说明
 
 - 前端所有运行时业务请求统一通过 `lib/api/client.ts` 访问外部后端。
-- 若未配置 `NEXT_PUBLIC_API_BASE_URL`，默认回退到 `http://localhost:3001`。
+- 若未配置 `NEXT_PUBLIC_API_BASE_URL`，生产默认同源（`/api/...`）；开发环境回退到 `http://localhost:3001`。
 - `app/api/*` 仅保留兼容用途，不再作为新增能力入口。
 - 迁移清单、字段映射与回滚检查见 `docs/external-api-migration.md`。
 

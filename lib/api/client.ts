@@ -6,7 +6,7 @@ import {
 } from "@/lib/api/token-store";
 import { redirectToAuthIfProtectedPath } from "@/lib/auth/protected-routes";
 
-const DEFAULT_API_BASE_URL = "http://localhost:3001";
+const LOCAL_DEV_API_BASE_URL = "http://localhost:3001";
 const DEFAULT_TIMEOUT_MS = 10000;
 const API_VERSION_PREFIX = "/api/v1";
 const DEFAULT_REFRESH_SKEW_MS = 120_000;
@@ -34,8 +34,16 @@ let proactiveRefreshTimer: ReturnType<typeof setTimeout> | null = null;
 
 function getApiBaseUrl(): string {
   const envBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL?.trim();
-  const rawBaseUrl = envBaseUrl || DEFAULT_API_BASE_URL;
-  return rawBaseUrl.endsWith("/") ? rawBaseUrl.slice(0, -1) : rawBaseUrl;
+  if (envBaseUrl) {
+    return envBaseUrl.endsWith("/") ? envBaseUrl.slice(0, -1) : envBaseUrl;
+  }
+
+  // 开发环境默认回退到本地 API；生产环境默认同源，避免构建意外带入 localhost。
+  if (process.env.NODE_ENV !== "production") {
+    return LOCAL_DEV_API_BASE_URL;
+  }
+
+  return "";
 }
 
 function getTimeoutMs(input?: number): number {
@@ -63,7 +71,8 @@ export function buildApiUrl(path: string): string {
   }
   const normalizedPath = path.startsWith("/") ? path : `/${path}`;
   const resolvedPath = resolveApiPath(normalizedPath);
-  return `${getApiBaseUrl()}${resolvedPath}`;
+  const baseUrl = getApiBaseUrl();
+  return baseUrl ? `${baseUrl}${resolvedPath}` : resolvedPath;
 }
 
 export function getApiErrorMessage(payload: unknown, fallback: string): string {
