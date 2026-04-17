@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import {
@@ -14,6 +15,10 @@ import {
 import { HomeFooter } from "@/components/home/HomeFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { apiFetchJson } from "@/lib/api/client";
+import {
+  ANDROID_APK_URL,
+  ANDROID_DOWNLOAD_QR_IMAGE_PATH,
+} from "@/lib/constants/download";
 
 /** 桌面 Hero：视频态与纯渐变态切换间隔 */
 const HERO_DESKTOP_ROTATE_MS = 12_000;
@@ -78,6 +83,10 @@ function normalizeTest(raw: RawTest, index: number): Test {
   };
 }
 
+function isMobileUserAgent(ua: string): boolean {
+  return /Android|iPhone|iPad|iPod|Mobile/i.test(ua);
+}
+
 export default function Home() {
   const [tests, setTests] = useState<Test[]>([]);
   const [loading, setLoading] = useState(true);
@@ -86,6 +95,7 @@ export default function Home() {
   const [heroDesktopVideoPhase, setHeroDesktopVideoPhase] = useState(true);
   /** 视口 ≥ md 且未开启减少动态 → 才轮播 */
   const [heroDesktopRotateAllowed, setHeroDesktopRotateAllowed] = useState(false);
+  const [isMobileClient, setIsMobileClient] = useState(false);
   const heroBgVideoRef = useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => {
@@ -130,6 +140,17 @@ export default function Home() {
     }, HERO_DESKTOP_ROTATE_MS);
     return () => window.clearInterval(id);
   }, [heroDesktopRotateAllowed]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const media = window.matchMedia("(max-width: 767px)");
+    const updateClientType = () => {
+      setIsMobileClient(media.matches || isMobileUserAgent(window.navigator.userAgent));
+    };
+    updateClientType();
+    media.addEventListener("change", updateClientType);
+    return () => media.removeEventListener("change", updateClientType);
+  }, []);
 
   useEffect(() => {
     const el = heroBgVideoRef.current;
@@ -428,6 +449,59 @@ export default function Home() {
                 </p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Android Download Section */}
+      <section className="py-12 sm:py-24 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-5xl mx-auto">
+          <div className="overflow-hidden rounded-3xl border border-slate-200/80 dark:border-slate-700 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-slate-800 dark:to-slate-900 shadow-sm">
+            <div className="grid gap-8 px-6 py-8 sm:px-10 sm:py-10 md:grid-cols-[1.2fr_0.8fr] md:items-center">
+              <div className={isMobileClient ? "order-2 md:order-1" : "order-1"}>
+                <p className="text-sm font-medium text-blue-700 dark:text-blue-300 mb-2">
+                  Android APP 下载
+                </p>
+                <h2 className="font-outfit text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mb-3">
+                  手机点击可直接下载安装包
+                </h2>
+                <p className="text-slate-600 dark:text-slate-300 leading-relaxed mb-6">
+                  支持移动端直接下载 APK，桌面端可扫码下载。若浏览器提示安全风险，请确认来源后继续安装。
+                </p>
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+                  <a
+                    href={ANDROID_APK_URL}
+                    className={`inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 font-semibold transition-all duration-300 active:scale-95 ${
+                      isMobileClient
+                        ? "bg-blue-600 text-white shadow-lg shadow-blue-600/25 hover:bg-blue-700"
+                        : "bg-slate-900 text-white hover:bg-slate-800 dark:bg-blue-600 dark:hover:bg-blue-700"
+                    }`}
+                    aria-label="下载 Android 安装包"
+                  >
+                    下载 Android 版
+                  </a>
+                  <span className="text-xs text-slate-500 dark:text-slate-400">
+                    仅支持 Android 安装，下载链接：{ANDROID_APK_URL}
+                  </span>
+                </div>
+              </div>
+
+              <div className={isMobileClient ? "order-1 md:order-2" : "order-2"}>
+                <div className="mx-auto w-fit rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-4 shadow-sm">
+                  <Image
+                    src={ANDROID_DOWNLOAD_QR_IMAGE_PATH}
+                    alt="Android App 下载二维码（扫码下载安装）"
+                    width={192}
+                    height={192}
+                    className="h-40 w-40 sm:h-48 sm:w-48 rounded-lg"
+                    priority={false}
+                  />
+                </div>
+                <p className="mt-3 text-center text-xs text-slate-500 dark:text-slate-400">
+                  桌面端可使用手机扫码下载
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>

@@ -52,3 +52,16 @@
 - **THEN** 页面 SHALL 调整为单列布局
 - **AND** 触控目标 SHALL ≥ 44px
 - **AND** 文字 SHALL 保持可读性
+
+### Requirement: 首页提供 Android APP 下载模块
+首页 SHALL 新增 Android APP 下载模块，并在浅色与深色主题、桌面与移动端下保持可读且可操作；模块 MUST 包含用于直接下载 APK 的可点击入口。
+
+#### Scenario: 首页展示下载模块
+- **WHEN** 用户访问首页
+- **THEN** 系统 SHALL 在首页渲染 Android 下载模块
+- **AND** 模块包含“下载 Android 版”或等价语义按钮
+
+#### Scenario: 移动端下载按钮可触达
+- **WHEN** 用户在移动端查看首页下载模块
+- **THEN** 下载按钮 SHALL 保持可见且可点击
+- **AND** 按钮点击后 SHALL 导航到 APK 下载地址
