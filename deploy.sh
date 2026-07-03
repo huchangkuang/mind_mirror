@@ -94,6 +94,18 @@ EOF
   exit 1
 }
 
+ensure_pm2_app() {
+  local name="$1"
+  shift
+  if pm2 describe "$name" >/dev/null 2>&1; then
+    echo "[deploy] pm2 restart $name"
+    pm2 restart "$name" --update-env
+  else
+    echo "[deploy] pm2 start $name (first time)"
+    pm2 start "$@" --name "$name" --update-env
+  fi
+}
+
 echo "[deploy] repo: $ROOT"
 git pull
 
@@ -115,10 +127,8 @@ pnpm --filter @mind-mirror/api prisma:generate
 pnpm --filter @mind-mirror/api prisma:migrate:deploy
 pnpm build
 
-pm2 restart "$WEB_APP" "$API_APP" || {
-  echo "[deploy] pm2 apps missing, start manually:"
-  echo "  pm2 start pnpm --name $WEB_APP --cwd $ROOT/apps/web -- start:prod"
-  echo "  pm2 start apps/api/dist/main.js --name $API_APP --cwd $ROOT/apps/api"
-}
+ensure_pm2_app "$WEB_APP" pnpm --cwd "$ROOT/apps/web" -- start:prod
+ensure_pm2_app "$API_APP" "$ROOT/apps/api/dist/main.js" --cwd "$ROOT/apps/api"
+pm2 save
 
 echo "[deploy] done"
