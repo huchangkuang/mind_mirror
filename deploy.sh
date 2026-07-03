@@ -12,8 +12,8 @@ API_APP="${API_APP:-mind-mirror-api}"
 echo "[deploy] repo: $ROOT"
 git pull
 
-# 确保 pnpm 版本与 lockfile 兼容（lockfileVersion: 6.0 → pnpm 8.x）
-REQUIRED_PNPM="8.15.6"
+# 与 package.json 中 packageManager 字段保持一致
+REQUIRED_PNPM="10.6.5"
 if ! command -v pnpm >/dev/null 2>&1 || [ "$(pnpm --version)" != "$REQUIRED_PNPM" ]; then
   echo "[deploy] installing pnpm@$REQUIRED_PNPM via corepack..."
   corepack enable
@@ -22,6 +22,7 @@ fi
 
 # 限制 Node 内存避免 OOM，小内存服务器安装大型 monorepo 时容易被 kill
 export NODE_OPTIONS="${NODE_OPTIONS:---max-old-space-size=512}"
+echo "[deploy] pnpm install..."
 pnpm install --frozen-lockfile
 pnpm --filter @mind-mirror/api prisma:generate
 pnpm --filter @mind-mirror/api prisma:migrate:deploy
