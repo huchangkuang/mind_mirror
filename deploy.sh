@@ -1,14 +1,32 @@
 #!/usr/bin/env bash
-# 在 ECS 服务器上于项目根目录执行。
-# 顺序：git pull → npm install → npm run build → pm2 restart mind-mirror
+# 在 ECS 服务器上于 monorepo 根目录执行。
+# 顺序：git pull → pnpm install → prisma migrate → build → pm2 restart
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$ROOT"
 
+WEB_APP="${WEB_APP:-mind-mirror-web}"
+API_APP="${API_APP:-mind-mirror-api}"
+
 echo "[deploy] repo: $ROOT"
 git pull
-npm install
-npm run build
-pm2 restart mind-mirror
+
+if ! command -v pnpm >/dev/null 2>&1; then
+  echo "[deploy] pnpm not found, installing via corepack..."
+  corepack enable
+  corepack prepare pnpm@10.6.5 --activate
+fi
+
+pnpm install
+pnpm --filter @mind-mirror/api prisma:generate
+pnpm --filter @mind-mirror/api prisma:migrate:deploy
+pnpm build
+
+pm2 restart "$WEB_APP" "$API_APP" || {
+  echo "[deploy] pm2 apps missing, start manually:"
+  echo "  pm2 start pnpm --name $WEB_APP --cwd $ROOT/apps/web -- start:prod"
+  echo "  pm2 start apps/api/dist/main.js --name $API_APP --cwd $ROOT/apps/api"
+}
+
 echo "[deploy] done"

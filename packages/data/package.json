@@ -1,0 +1,10 @@
+{
+  "name": "@mind-mirror/data",
+  "version": "0.1.0",
+  "private": true,
+  "exports": {
+    "./mbti/questions.json": "./mbti/questions.json",
+    "./city-match/questions.json": "./city-match/questions.json",
+    "./package.json": "./package.json"
+  }
+}

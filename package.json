@@ -1,39 +1,17 @@
 {
-  "name": "mind-mirror",
+  "name": "mind-mirror-monorepo",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "test": "jest",
-    "start:prod": "HOSTNAME=0.0.0.0 next start"
-  },
-  "dependencies": {
-    "html2canvas": "^1.4.1",
-    "lucide-react": "^0.577.0",
-    "mysql2": "^3.20.0",
-    "next": "^15.0.0",
-    "qrcode": "^1.5.4",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "zustand": "^5.0.0"
+    "dev": "concurrently -n web,api -c blue,green \"pnpm --filter @mind-mirror/web dev\" \"pnpm --filter @mind-mirror/api start:dev\"",
+    "build": "pnpm --filter @mind-mirror/shared build && pnpm --filter @mind-mirror/web sync:data && pnpm -r --filter @mind-mirror/web --filter @mind-mirror/api build",
+    "start": "concurrently -n web,api -c blue,green \"pnpm --filter @mind-mirror/web start:prod\" \"pnpm --filter @mind-mirror/api start\"",
+    "lint": "pnpm -r lint",
+    "test": "pnpm -r test",
+    "sync:data": "pnpm --filter @mind-mirror/web sync:data"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3.0.0",
-    "@types/node": "^22.0.0",
-    "@types/qrcode": "^1.5.6",
-    "@types/react": "^19.0.0",
-    "@types/react-dom": "^19.0.0",
-    "autoprefixer": "^10.4.20",
-    "eslint": "^9.0.0",
-    "eslint-config-next": "^15.0.0",
-    "jest": "^29.7.0",
-    "jest-environment-jsdom": "^29.7.0",
-    "lighthouse": "^13.0.3",
-    "postcss": "^8.4.49",
-    "tailwindcss": "^3.4.15",
-    "typescript": "^5.6.0"
-  }
+    "concurrently": "^9.1.2"
+  },
+  "packageManager": "pnpm@10.6.5"
 }
